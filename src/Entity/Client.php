@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,23 @@ class Client
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $DNI;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Vehicle::class, mappedBy="client")
+     */
+    private $vehicles;
+
+    public function __construct()
+    {
+        $this->vehicles = new ArrayCollection();
+    }
+
+    
 
     public function getId(): ?int
     {
@@ -106,4 +125,48 @@ class Client
 
         return $this;
     }
+
+    public function getDNI(): ?string
+    {
+        return $this->DNI;
+    }
+
+    public function setDNI(string $DNI): self
+    {
+        $this->DNI = $DNI;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vehicle[]
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): self
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles[] = $vehicle;
+            $vehicle->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): self
+    {
+        if ($this->vehicles->removeElement($vehicle)) {
+            // set the owning side to null (unless already changed)
+            if ($vehicle->getClient() === $this) {
+                $vehicle->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

@@ -8,12 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Client;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/client",name="create_client")
+     * @Route("/client/add",name="create_client")
      */
 
      public function createClient(ValidatorInterface $validator):Response
@@ -37,6 +38,34 @@ class ClientController extends AbstractController
 
          return new Response('Guardat client amb id '.$client->getId());
      }
+
+     /**
+      * @Route("clients", name="llistar_clients")
+      */
+      public function llistarClients():Response
+      { 
+        $clients = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->findAll();
+
+        if(!$clients){
+            throw new \Doctrine\ORM\NoResultException; 
+        }
+
+
+        /*$serializer = $this->container->get('serializer');
+        $clientsJSON = $serializer->serialize($clients, 'json');
+        
+        return new Response($clientsJSON);*/
+        return $this->render('client/index.html.twig', [
+            'controller_name' => 'ClientController',
+            'clients' => $clients,
+        ]);
+
+       
+
+
+      }
 
      /**
       * @Route("client/{id}", name="client_show")

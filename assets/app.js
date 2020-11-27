@@ -19,6 +19,6 @@ import greet from './greet';
 
 require('bootstrap');
 
-$(document).ready(function() {
+/*$(document).ready(function() {
      $('body').prepend('<h1>'+greet('jill')+'</h1>');
-});
+});*/
