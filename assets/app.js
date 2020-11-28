@@ -5,16 +5,19 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
+import $ from 'jquery';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
+import "../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js";
 
+//import 'cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
 console.log('Hello Webpack Encore! Edit me in assets/app.js');
 
 // loads the jquery package from node_modules
-import $ from 'jquery';
+
 import greet from './greet';
 
 require('bootstrap');

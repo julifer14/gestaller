@@ -7,7 +7,7 @@
         {% block stylesheets %}
             {# 'app' must match the first argument to addEntry() in webpack.config.js #}
             {{ encore_entry_link_tags('app') }}
-
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
             <!-- Renders a link tag (if your module requires any CSS)
                  <link rel="stylesheet" href="/build/app.css"> -->
         {% endblock %}
@@ -41,6 +41,7 @@
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+        
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
 
@@ -48,5 +49,6 @@
                 <script src="/build/runtime.js"></script>
                 <script src="/build/app.js"></script> -->
         {% endblock %}
+        
     </body>
 </html>

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fitxa Client{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+		<h1>Client</h1>	 	
+			
+			<div class="card">
+				<div class="card-header">
+					<span>Codi client: </span>{{ client.id }} 
+				</div>
+				<div class="card-body">
+					<p class="card-text">
+						<span>{{ client.nom }} {{ client.cognoms }}</span>
+					</p>
+					<p class="card-text">
+						<span>{{ client.adreca}} </span><span>{{ client.CP}} </span> <span>{{ client.ciutat}} </span>
+					</p>
+					<p class="card-text">
+						<span>{{ client.pais}}</span>
+					</p>
+					
+					<p class="card-text">
+						<span>Telefon: </span><span>{{ client.telefon}}</span>
+					</p>
+					<p class="card-text">
+						<span>Email: </span><span>{{ client.email}}</span>
+					</p>
+					<p class="card-text">
+						<span>DNI: </span><span>{{ client.dni}}</span>
+					</p>
+				</div>
+				<div class="card-footer">
+				<a href="/clients/modificar/{{ client.id }}" class="btn btn-secondary">Modificar Client</a>
+					<a href="/clients/esborrar/{{ client.id }}" class="btn btn-danger">Esborrar Client</a>
+				</div>
+			</div>
+			
+
+	</div>
+{% endblock %}
+

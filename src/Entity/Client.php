@@ -54,6 +54,21 @@ class Client
      */
     private $vehicles;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $CP;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ciutat;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pais;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -164,6 +179,42 @@ class Client
                 $vehicle->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCP(): ?int
+    {
+        return $this->CP;
+    }
+
+    public function setCP(int $CP): self
+    {
+        $this->CP = $CP;
+
+        return $this;
+    }
+
+    public function getCiutat(): ?string
+    {
+        return $this->ciutat;
+    }
+
+    public function setCiutat(string $ciutat): self
+    {
+        $this->ciutat = $ciutat;
+
+        return $this;
+    }
+
+    public function getPais(): ?string
+    {
+        return $this->pais;
+    }
+
+    public function setPais(string $pais): self
+    {
+        $this->pais = $pais;
 
         return $this;
     }

@@ -1,32 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ClientController!{% endblock %}
+{% block title %}Clients{% endblock %}
+
+
 
 {% block body %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Cognoms</th>
-                <th>Adreça</th>
-                <th>Telefon</th>
-                <th>Email</th>
-                <th>DNI</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <th scope="row">{{ client.id }}</th>
-                <td>{{ client.nom }}</td>
-                <td>{{ client.cognoms }}</td>
-                <td>{{ client.adreca }}</td>
-                <td>{{ client.telefon }}</td>
-                <td>{{ client.email }}</td>
-                <td>{{ client.dni }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="row">
+    <a href="/clients/afegir"  class="btn btn-primary m-3" role="button">Afegir client</a>
+</div>
+    
+    <div class="table-responsive">
+		<div id="clients">Loading...</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
+
+	<script>
+		$(function() {
+		    var dt = $('#clients').initDataTables({{ datatable_settings(datatable) }}, {
+		    	searching: true
+		    });
+		});
+	</script>
 {% endblock %}

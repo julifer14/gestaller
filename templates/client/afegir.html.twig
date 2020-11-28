@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Afegir Client{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+		<h1>Client</h1>	 	
+		<div class="pt-2">
+			
+
+			{{ form_start(form) }}
+				{{ form_row(form.nom) }}
+				{{ form_row(form.cognoms) }}
+				{{ form_row(form.adreca) }}
+				{{ form_row(form.telefon) }}
+				{{ form_row(form.email) }}
+                {{ form_row(form.DNI) }}
+				{{ form_rest(form) }}
+
+
+             
+				<div class="w-100 text-center">
+					<button type="submit" class="btn btn-outline-primary"><i class="fa fa-paper-plane"></i> Enviar</button>
+				</div>
+
+			{{ form_end(form) }}
+		</div>
+
+	</div>
+{% endblock %}
