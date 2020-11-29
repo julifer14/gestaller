@@ -23,7 +23,6 @@ class ClientController extends BaseController
     /**
      * @Route("/clients/afegir",name="afegir_client")
      */
-
      public function createClient(Request $request,ValidatorInterface $validator):Response
      {
          $entityManager = $this->obManager();
@@ -103,10 +102,6 @@ class ClientController extends BaseController
 
         return $this->render('client/index.html.twig', ['datatable' => $table]);
 
-        /*return $this->render('client/index.html.twig', [
-            'controller_name' => 'ClientController',
-            'clients' => $clients,
-        ]);*/
       }
 
       /**

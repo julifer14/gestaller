@@ -19,6 +19,19 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
+    public function totsId():array{
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'Select *
+            FROM \App\Entity\Client c'
+        );
+        //c.id, c.nom
+        return $query->getArrayResult();
+        /*return $this->createQueryBuilder('client','client.id')
+            ->getQuery()
+            ->getArrayResult();*/
+    }
+
     // /**
     //  * @return Client[] Returns an array of Client objects
     //  */
