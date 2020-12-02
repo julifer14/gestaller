@@ -91,4 +91,17 @@ class VehicleController extends BaseController
        return $this->render('vehicle/afegir.html.twig', ['form' => $form->createView() ]);
        
     }
+
+    /**
+     * @Route("/vehicles/esborrar/{id}", name="esborrar_vehicle")
+     */
+    public function esborrar_vehicle(Vehicle $vehicle):Response
+    {
+        $resultat = $this->esborrar($vehicle);
+
+        if(!$resultat){
+            // fflash
+        }
+        return $this->redirectToRoute('llistar_vehicles');
+    }
 }
