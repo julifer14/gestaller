@@ -36,6 +36,17 @@
 					<a href="/clients/esborrar/{{ client.id }}" class="btn btn-danger">Esborrar Client</a>
 				</div>
 			</div>
+			<div class="card">
+			<div class="card-header">
+					<span>Vehicles</span>
+				</div>
+				<div class="card-body">
+					{% for vehicle in client.vehicles %}
+						<p>{{ vehicle.id }} {{ vehicle.matricula }}</p>
+					{% endfor %}
+				</div>
+				
+			</div>
 			
 
 	</div>
