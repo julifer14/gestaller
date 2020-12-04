@@ -6,10 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\{Article,Categoria};
-use App\Form\ArticleType;
+use App\Entity\{Categoria};
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
+use App\Form\CategoriaType;
 
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
@@ -17,25 +16,21 @@ use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 
-class ArticleController extends BaseController
+class CategoriaController extends BaseController
 {
-    /**
-     * @Route("/articles", name="llistar_articles")
+   /**
+     * @Route("/categories", name="llistar_categories")
      */
-    public function llistar_articles(Request $request, DataTableFactory $dataTableFactory): Response
+    public function llistar_categories(Request $request, DataTableFactory $dataTableFactory): Response
     {
         
-        $articles = $this->getDoctrine()
-            ->getRepository(Article::class)
+        $categories = $this->getDoctrine()
+            ->getRepository(Categoria::class)
             ->findAll();
 
         $table = $dataTableFactory->create()
-        ->add('categoria', TextColumn::class, ['label' => 'Categoria','field'=>'categoria.nom'])
-        ->add('nom', TextColumn::class, ['label' => 'Nom','searchable'=> True])
-        //->add('descripcio', TextColumn::class, ['label' => 'Descripció'])
-        ->add('preu', TextColumn::class, ['label' => 'Preu'])
-        //->add('iva', TextColumn::class, ['label' => 'IVA'])
-        ->add('stock', TextColumn::class, ['label' => 'Stock'])
+        ->add('nom', TextColumn::class, ['label' => 'Nom'])
+        
         
         /*->add('id', TextColumn::class, ['label' => 'id', 'render' => function($value, $context) {
                                         
@@ -50,7 +45,7 @@ class ArticleController extends BaseController
             return $action;                   
         }])*/
         ->createAdapter(ORMAdapter::class, [
-            'entity' => Article::class,
+            'entity' => Categoria::class,
         ])
         ->handleRequest($request);
 
@@ -58,40 +53,38 @@ class ArticleController extends BaseController
             return $table->getResponse();
         }
 
-        return $this->render('article/index.html.twig', ['datatable' => $table]);
+        return $this->render('categoria/index.html.twig', ['datatable' => $table]);
 
     }
-    
+
+
     /**
-     * @Route("/articles/afegir",name="afegir_article")
+     * @Route("/categories/afegir",name="afegir_categoria")
      */
-    public function createArticle(Request $request,ValidatorInterface $validator):Response
+    public function createCategoria(Request $request,ValidatorInterface $validator):Response
     {
         $entityManager = $this->obManager();
 
-        $article = new Article();
+        $categoria = new Categoria();
        
-        $categories = $this->getDoctrine()
-            ->getRepository(Categoria::class)
-            ->findAll();
+        
 
         
-        $form = $this->createForm(ArticleType::class, $article, array('categories' => $categories) );
+        $form = $this->createForm(CategoriaType::class, $categoria);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
            
-           $entityManager->persist($article);
+           $entityManager->persist($categoria);
 
            $entityManager->flush();
            
-           return $this->redirectToRoute('llistar_articles');
+           return $this->redirectToRoute('llistar_categories');
        }
 
-       return $this->render('article/afegir.html.twig', ['form' => $form->createView() ]);
+       return $this->render('categoria/afegir.html.twig', ['form' => $form->createView() ]);
        
     }
 
 
-    
 }
