@@ -104,4 +104,18 @@ class VehicleController extends BaseController
         }
         return $this->redirectToRoute('llistar_vehicles');
     }
+
+    /**
+     * @Route("/vehicles/{id}",name="fitxa_vehicle")
+     */
+    public function show(Vehicle $vehicle):Response
+     {
+        return $this->render('vehicle/fitxa_vehicle.html.twig', [
+            'controller_name' => 'VehicleController',
+            'vehicle' => $vehicle,
+        ]);
+
+       
+     }
+
 }

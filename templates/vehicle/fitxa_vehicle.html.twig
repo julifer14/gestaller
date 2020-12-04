@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fitxa Vehicle{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+		<h1>Vehicle</h1>	 	
+			
+			<div class="card">
+				<div class="card-header">
+					<span>Codi vehicle: </span>{{ vehicle.id }} 
+				</div>
+				<div class="card-body">
+					<p class="card-text">
+						<span>{{ vehicle.matricula }}</span>
+					</p>
+					<p class="card-text">
+						<span>{{ vehicle.marca}} </span><span>{{ vehicle.model}} </span> 
+					</p>
+					<p class="card-text">
+						<span>{{ vehicle.kilometres}}</span>
+					</p>
+					
+					
+				</div>
+				<div class="card-footer">
+				<a href="/vehicles/modificar/{{ vehicle.id }}" class="btn btn-secondary">Modificar vehicle</a>
+					<a href="/vehicle/esborrar/{{ vehicle.id }}" class="btn btn-danger">Esborrar vehicle</a>
+				</div>
+			</div>
+			
+			
+
+	</div>
+{% endblock %}
+
