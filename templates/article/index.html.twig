@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArticleController!{% endblock %}
+
+{% block body %}
+<div class="row">
+    <a href="/articles/afegir"  class="btn btn-primary m-3" role="button">Afegir Article</a>
+</div>
+    
+    <div class="table-responsive">
+		<div id="articles">Loading...</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
+
+	<script>
+		$(function() {
+		    var dt = $('#articles').initDataTables({{ datatable_settings(datatable) }}, {
+		    	searching: true
+		    });
+		});
+	</script>
+{% endblock %}
