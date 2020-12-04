@@ -118,4 +118,38 @@ class VehicleController extends BaseController
        
      }
 
+
+
+     /**
+       * @Route("vehicles/modificar/{id}", name="modificar_vehicle")
+       */
+      public function modificarVehicle(Request $request,Vehicle $vehicle):Response
+      {
+        $entityManager = $this->obManager();
+
+         
+         $form = $this->createForm(VehicleType::class, $vehicle);
+         $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($vehicle);
+
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('llistar_vehicles');
+        }
+
+        return $this->render('vehicle/modificar_vehicle.html.twig', ['form' => $form->createView(),'vehicle'=>$vehicle ]);
+
+
+
+
+
+        /*return $this->render('client/modificar_client.html.twig', [
+            'controller_name' => 'ClientController',
+            'client' => $client,
+        ]);*/
+      }
+
 }
