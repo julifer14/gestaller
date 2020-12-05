@@ -129,8 +129,27 @@ class ArticleController extends BaseController
       }
 
 
+      /**
+       * @Route("articles/modificar/{id}", name="modificar_article")
+       */
+      public function modificarArticle(Request $request,Article $article):Response
+      {
+        $entityManager = $this->obManager();
 
+         
+         $form = $this->createForm(ArticleType::class, $article);
+         $form->handleRequest($request);
 
+         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($article);
 
-    
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('llistar_articles');
+        }
+
+        return $this->render('article/modificar_article.html.twig', ['form' => $form->createView(),'article'=>$article ]);
+
+    }
 }

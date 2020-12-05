@@ -32,18 +32,19 @@ class CategoriaController extends BaseController
         ->add('nom', TextColumn::class, ['label' => 'Nom'])
         
         
-        /*->add('id', TextColumn::class, ['label' => 'id', 'render' => function($value, $context) {
+        ->add('id', TextColumn::class, ['label' => 'Id  Accions', 'render' => function($value, $context) {
                                         
            $action = "";
            $action = '
+           <td>'.$value.'</td>
                         <div class="btn-group">
-                            <a href="/vehicles/'.$value.'" class="badge badge-info p-1 m-2">Fitxa vehicle</a>
-                            <a href="/vehicles/modificar/'.$value.'" class="badge badge-secondary p-1 m-2">Modificar vehicle</a>
-                            <a href="/vehicles/esborrar/'.$value.'" class="badge badge-danger p-1 m-2">Esborrar vehicle</a> 
+                            <a role="button" href="/categories/'.$value.'" class="disabled btn btn-info p-1 m-2">Fitxa categoria</a>
+                            <a role="button" href="/categories/modificar/'.$value.'" class="btn btn-secondary p-1 m-2">Modificar categoria</a>
+                            <a role="button" href="/categories/esborrar/'.$value.'" class="disabled btn btn-danger p-1 m-2">Esborrar categoria</a> 
                         </div>';
            
             return $action;                   
-        }])*/
+        }])
         ->createAdapter(ORMAdapter::class, [
             'entity' => Categoria::class,
         ])
@@ -54,6 +55,30 @@ class CategoriaController extends BaseController
         }
 
         return $this->render('categoria/index.html.twig', ['datatable' => $table]);
+
+    }
+
+    /**
+       * @Route("categories/modificar/{id}", name="modificar_categoria")
+       */
+      public function modificarCategoria(Request $request,Categoria $categoria):Response
+      {
+        $entityManager = $this->obManager();
+
+         
+         $form = $this->createForm(CategoriaType::class, $categoria);
+         $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($categoria);
+
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('llistar_cagegories');
+        }
+
+        return $this->render('categoria/modificar_categoria.html.twig', ['form' => $form->createView(),'categoria'=>$categoria ]);
 
     }
 
