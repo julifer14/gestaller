@@ -13,6 +13,24 @@
         {% endblock %}
     </head>
     <body>
+    {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{# read and display several types of flash messages #}
+{% for label, messages in app.flashes(['success', 'warning']) %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+{# read and display all flash messages #}
+
+
         {% block navbar %} 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand" href="/">Home</a>
@@ -47,6 +65,15 @@
         <div class="container">
             {% block body %}{% endblock %}
         </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

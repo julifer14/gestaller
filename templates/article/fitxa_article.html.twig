@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fitxa Article{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+		<h1>Article</h1>	 	
+			
+			<div class="card">
+				<div class="card-header">
+					<span>Codi article: </span>{{ article.id }} 
+				</div>
+				<div class="card-body">
+					<b>Nom:</b>
+					<p class="card-text">
+						<span>{{ article.nom }}</span>
+					</p>
+					<b>Descripció: </b>
+					<p class="card-text">
+						<span>{{ article.descripcio}} </span>
+					</p>
+					<p class="card-text">
+						<b>Preu:</b> <span>{{ article.preu}}</span>
+					</p>
+					
+					<p class="card-text">
+						<b>IVA: </b><span>{{ article.IVA}}</span>
+					</p>
+					<p class="card-text">
+						<b>Stock: </b><span>{{ article.stock}}</span>
+					</p>
+					
+				</div>
+				<div class="card-footer">
+				<a href="/articles/modificar/{{ article.id }}" class="btn btn-secondary">Modificar Article</a>
+					<a href="/articles/esborrar/{{ article.id }}" class="btn btn-danger">Esborrar Article</a>
+				</div>
+			</div>
+			
+			
+
+	</div>
+{% endblock %}
+

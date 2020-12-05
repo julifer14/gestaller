@@ -37,18 +37,18 @@ class ArticleController extends BaseController
         //->add('iva', TextColumn::class, ['label' => 'IVA'])
         ->add('stock', TextColumn::class, ['label' => 'Stock'])
         
-        /*->add('id', TextColumn::class, ['label' => 'id', 'render' => function($value, $context) {
+        ->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
                                         
            $action = "";
            $action = '
                         <div class="btn-group">
-                            <a href="/vehicles/'.$value.'" class="badge badge-info p-1 m-2">Fitxa vehicle</a>
-                            <a href="/vehicles/modificar/'.$value.'" class="badge badge-secondary p-1 m-2">Modificar vehicle</a>
-                            <a href="/vehicles/esborrar/'.$value.'" class="badge badge-danger p-1 m-2">Esborrar vehicle</a> 
+                            <a href="/articles/'.$value.'" class="badge badge-info p-2 m-1">Fitxa article</a>
+                            <a href="/articles/modificar/'.$value.'" class="badge badge-secondary p-2 m-1">Modificar article</a>
+                            <a href="/articles/esborrar/'.$value.'" class="badge badge-danger p-2 m-1">Esborrar article</a> 
                         </div>';
            
             return $action;                   
-        }])*/
+        }])
         ->createAdapter(ORMAdapter::class, [
             'entity' => Article::class,
         ])
@@ -91,6 +91,45 @@ class ArticleController extends BaseController
        return $this->render('article/afegir.html.twig', ['form' => $form->createView() ]);
        
     }
+
+     /**
+     * @Route("/articles/esborrar/{id}", name="esborrar_article")
+     */
+    public function esborrarArticle(Article $article):Response
+    {
+
+
+       $resultat = $this->esborrar($article);
+
+       if(!$resultat){
+           $this->addFlash(
+               'error',
+               'Error al esborrar article'
+           );
+           return $this->redirectToRoute('llistar_articles');
+       }
+       $this->addFlash(
+        'notice',
+        'Article esborrat'
+        );
+       return $this->redirectToRoute('llistar_articles');
+    }
+
+    /**
+      * @Route("articles/{id}", name="fitxa_article")
+      */
+      public function show(Article $article):Response
+      {
+         return $this->render('article/fitxa_article.html.twig', [
+             'controller_name' => 'ArticleController',
+             'article' => $article,
+         ]);
+ 
+        
+      }
+
+
+
 
 
     
