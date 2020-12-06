@@ -31,8 +31,8 @@ class VehicleController extends BaseController
 
         $table = $dataTableFactory->create()
         ->add('Matricula', TextColumn::class, ['label' => 'Matricula','searchable'=> True])
-        ->add('Marca', TextColumn::class, ['label' => 'Marca'])
-        ->add('Model', TextColumn::class, ['label' => 'Model'])
+        ->add('Marca', TextColumn::class, ['label' => 'Marca','field'=>'Model.Marca.nom'])
+        ->add('Model', TextColumn::class, ['label' => 'Model','field'=>'Model.nom'])
         ->add('Kilometres', TextColumn::class, ['label' => 'Quilòmetres'])
         ->add('client', TextColumn::class, ['label' => 'Client ID','field'=>'client.id'])
         ->add('id', TextColumn::class, ['label' => 'id', 'render' => function($value, $context) {

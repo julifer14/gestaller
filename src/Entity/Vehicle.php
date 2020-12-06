@@ -24,15 +24,8 @@ class Vehicle
      */
     private $Matricula;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Marca;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Model;
+   
+   
 
     /**
      * @ORM\Column(type="float")
@@ -43,6 +36,13 @@ class Vehicle
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="vehicles")
      */
     private $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Model::class, inversedBy="vehicles")
+     */
+    private $Model;
+
+   
 
     
 
@@ -63,29 +63,10 @@ class Vehicle
         return $this;
     }
 
-    public function getMarca(): ?string
-    {
-        return $this->Marca;
-    }
+   
 
-    public function setMarca(string $Marca): self
-    {
-        $this->Marca = $Marca;
-
-        return $this;
-    }
-
-    public function getModel(): ?string
-    {
-        return $this->Model;
-    }
-
-    public function setModel(string $Model): self
-    {
-        $this->Model = $Model;
-
-        return $this;
-    }
+   
+   
 
     public function getKilometres(): ?float
     {
@@ -110,6 +91,21 @@ class Vehicle
 
         return $this;
     }
+
+    public function getModel(): ?Model
+    {
+        return $this->Model;
+    }
+
+    public function setModel(?Model $Model): self
+    {
+        $this->Model = $Model;
+
+        return $this;
+    }
+
+    
+   
 
     
 }
