@@ -48,6 +48,11 @@ class Article
      */
     private $categoria;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=LiniaPressupost::class, inversedBy="article")
+     */
+    private $liniaPressupost;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +126,18 @@ class Article
     public function setCategoria(?Categoria $categoria): self
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    public function getLiniaPressupost(): ?LiniaPressupost
+    {
+        return $this->liniaPressupost;
+    }
+
+    public function setLiniaPressupost(?LiniaPressupost $liniaPressupost): self
+    {
+        $this->liniaPressupost = $liniaPressupost;
 
         return $this;
     }

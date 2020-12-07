@@ -42,6 +42,16 @@ class Vehicle
      */
     private $Model;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Pressupost::class, mappedBy="vehicle")
+     */
+    private $pressuposts;
+
+    public function __construct()
+    {
+        $this->pressuposts = new ArrayCollection();
+    }
+
    
 
     
@@ -100,6 +110,36 @@ class Vehicle
     public function setModel(?Model $Model): self
     {
         $this->Model = $Model;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pressupost[]
+     */
+    public function getPressuposts(): Collection
+    {
+        return $this->pressuposts;
+    }
+
+    public function addPressupost(Pressupost $pressupost): self
+    {
+        if (!$this->pressuposts->contains($pressupost)) {
+            $this->pressuposts[] = $pressupost;
+            $pressupost->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removePressupost(Pressupost $pressupost): self
+    {
+        if ($this->pressuposts->removeElement($pressupost)) {
+            // set the owning side to null (unless already changed)
+            if ($pressupost->getVehicle() === $this) {
+                $pressupost->setVehicle(null);
+            }
+        }
 
         return $this;
     }
