@@ -20,7 +20,7 @@ class Vehicle
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=15,unique=true)
      */
     private $Matricula;
 

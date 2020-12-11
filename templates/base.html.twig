@@ -48,14 +48,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/vehicles">Vehicles</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/articles">Articles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/categories">Categories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                       
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Gestió
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/articles">Gestió articles</a>
+                                <a class="dropdown-item" href="/categories">Gestió categories article</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/marques">Marques</a>
+                                <a class="dropdown-item" href="/models">Models</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -74,9 +79,9 @@
             {% endfor %}
         {% endfor %}
 
-        
+        {{ encore_entry_script_tags('app') }}
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            
 
             <!-- Renders app.js & a webpack runtime.js file
                 <script src="/build/runtime.js"></script>
