@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\{Vehicle,Client};
+use App\Entity\{Vehicle,Client, Model};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Form\VehicleType;
@@ -73,10 +73,13 @@ class VehicleController extends BaseController
         $clients = $this->getDoctrine()
             ->getRepository(Client::class)
             ->findAll();
+        $models = $this->getDoctrine()
+        ->getRepository(Model::class)
+        ->findAll();
 
        //print_r($clients);
         
-        $form = $this->createForm(VehicleType::class, $vehicle, array('clients' => $clients) );
+        $form = $this->createForm(VehicleType::class, $vehicle, array('clients' => $clients, 'models' => $models) );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
