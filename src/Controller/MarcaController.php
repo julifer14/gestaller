@@ -54,7 +54,7 @@ class MarcaController extends BaseController
 
 
 
-/**
+    /**
      * @Route("/marques/afegir",name="afegir_marca")
      */
     public function createMarca(Request $request,ValidatorInterface $validator):Response

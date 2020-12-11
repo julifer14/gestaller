@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\{Marca,Model};
 use App\Form\ModelType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
@@ -77,7 +79,32 @@ class ModelController extends BaseController
 
     }
 
-    
+    /**
+     * @Route("/models/afegir",name="afegir_model")
+     */
+    public function createModel(Request $request,ValidatorInterface $validator):Response
+    {
+        $entityManager = $this->obManager();
+
+        $model = new Model();
+       
+        
+        
+        $form = $this->createForm(ModelType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+           $entityManager->persist($model);
+
+           $entityManager->flush();
+           
+           return $this->redirectToRoute('llistar_models');
+       }
+
+       return $this->render('model/afegir.html.twig', ['form' => $form->createView() ]);
+       
+    }
 
 
 }
