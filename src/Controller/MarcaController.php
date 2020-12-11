@@ -35,7 +35,7 @@ class MarcaController extends BaseController
                $action = '
                             <div class="btn-group">
                                 <a href="/marques/modificar/'.$value.'" class="badge badge-secondary p-2 m-1">Modificar marca</a>
-                                <a href="/marques/esborrar/'.$value.'" class="badge badge-danger p-2 m-1">Esborrar marca</a> 
+                               <!-- <a href="/marques/esborrar/'.$value.'" class="badge badge-danger p-2 m-1">Esborrar marca</a> -->
                             </div>';
                
                 return $action;                   
@@ -79,6 +79,31 @@ class MarcaController extends BaseController
 
        return $this->render('marca/afegir.html.twig', ['form' => $form->createView() ]);
        
+    }
+
+
+    /**
+       * @Route("marques/modificar/{id}", name="modificar_marca")
+       */
+      public function modificarMarca(Request $request,Marca $marca):Response
+      {
+        $entityManager = $this->obManager();
+
+         
+         $form = $this->createForm(MarcaType::class, $marca);
+         $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($marca);
+
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('llistar_marques');
+        }
+
+        return $this->render('marca/modificar_marca.html.twig', ['form' => $form->createView(),'marca'=>$marca ]);
+
     }
 
 }

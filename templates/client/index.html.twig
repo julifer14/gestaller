@@ -21,7 +21,8 @@
 	<script>
 		$(function() {
 		    var dt = $('#clients').initDataTables({{ datatable_settings(datatable) }}, {
-		    	searching: true
+		    	searching: true,
+                dom: 'Bfrtip'
 		    });
 		});
 	</script>

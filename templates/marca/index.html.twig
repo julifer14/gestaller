@@ -19,7 +19,8 @@
 	<script>
 		$(function() {
 		    var dt = $('#marques').initDataTables({{ datatable_settings(datatable) }}, {
-		    	searching: true
+		    	searching: true,
+                dom: 'Bfrtip'
 		    });
 		});
 	</script>
