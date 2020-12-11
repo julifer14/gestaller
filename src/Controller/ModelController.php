@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\{Marca,Model};
+use App\Form\ModelType;
 use Symfony\Component\HttpFoundation\Request;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
@@ -49,5 +50,34 @@ class ModelController extends BaseController
     
             return $this->render('model/index.html.twig', ['datatable' => $table]);
     }
+
+    /**
+       * @Route("models/modificar/{id}", name="modificar_model")
+       */
+      public function modificarModel(Request $request,Model $model):Response
+      {
+        $entityManager = $this->obManager();
+        $marques = $this->getDoctrine()
+            ->getRepository(Marca::class)
+            ->findAll();
+         
+         $form = $this->createForm(ModelType::class, $model, array('marques' => $marques));
+         $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($model);
+
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('llistar_models');
+        }
+
+        return $this->render('model/modificar_model.html.twig', ['form' => $form->createView(),'model'=>$model ]);
+
+    }
+
+    
+
 
 }
