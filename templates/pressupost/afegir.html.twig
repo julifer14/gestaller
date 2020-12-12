@@ -1,18 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modificar Vehicle{% endblock %}
+{% block title %}Nou pressupost{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
-		<h1>Modificar vehicle</h1>	 	
+		<h1>Nou pressupost</h1>	 	
 		<div class="pt-2">
 			
 
 			{{ form_start(form) }}
-				{{ form_row(form.matricula) }}
-				{{ form_row(form.model) }}
-				{{ form_row(form.kilometres) }}
-				{{ form_row(form.client) }}
+				
 				{{ form_rest(form) }}
 
 

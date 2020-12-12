@@ -50,6 +50,11 @@ class Pressupost
      */
     private $liniaPressuposts;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $estat;
+
     public function __construct()
     {
         $this->liniaPressuposts = new ArrayCollection();
@@ -146,6 +151,18 @@ class Pressupost
                 $liniaPressupost->setPressupost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEstat(): ?bool
+    {
+        return $this->estat;
+    }
+
+    public function setEstat(bool $estat): self
+    {
+        $this->estat = $estat;
 
         return $this;
     }
