@@ -24,4 +24,9 @@ class BaseController extends AbstractController
     public function obManager(){
         return $this->getDoctrine()->getManager();
     }
+
+    public function save($entity){
+    	$this->obManager()->persist($entity);
+    	$this->obManager()->flush();
+    }
 }

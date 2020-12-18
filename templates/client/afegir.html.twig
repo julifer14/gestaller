@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Afegir Client{% endblock %}
+{% block title %}{{ "client.add"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
-		<h1>Client</h1>	 	
+		<h1>{{ "client.add"|trans }}</h1>	 	
 		<div class="pt-2">
 			
 
@@ -20,7 +20,7 @@
 
              
 				<div class="w-100 text-center">
-					<button type="submit" class="btn btn-outline-primary"><i class="fa fa-paper-plane"></i> Enviar</button>
+					<button type="submit" class="btn btn-outline-primary"><i class="fa fa-paper-plane"></i> {{ "actions.send"|trans }}</button>
 				</div>
 
 			{{ form_end(form) }}

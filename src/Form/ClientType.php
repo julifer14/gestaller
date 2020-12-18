@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\{TextType,  EmailType, TelType,NumberType};
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 
 class ClientType extends AbstractType
 {
@@ -18,7 +19,8 @@ class ClientType extends AbstractType
             ->add('adreca',TextType::class, ['label' => 'Adreça '])
             ->add('cp',NumberType::class, ['label' => 'Codi Postal '])
             ->add('ciutat',TextType::class, ['label' => 'Ciutat '])
-            ->add('pais',TextType::class, ['label' => 'Pais '])
+            ->add('pais',CountryType::class, [  'label' => 'Pais ',   
+                                                'preferred_choices' => ['ES'] ])
 
             ->add('telefon',TelType::class, ['label' => 'Telefon '])
             ->add('email', EmailType::class)

@@ -15,7 +15,7 @@ use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
-
+use Doctrine\ORM\QueryBuilder;
 
 class VehicleController extends BaseController
 {
@@ -31,10 +31,17 @@ class VehicleController extends BaseController
 
         $table = $dataTableFactory->create()
         ->add('Matricula', TextColumn::class, ['label' => 'Matricula','searchable'=> True])
-        ->add('Marca', TextColumn::class, ['label' => 'Marca','field'=>'Model.Marca.nom'])
-        ->add('Model', TextColumn::class, ['label' => 'Model','field'=>'Model.nom'])
-        ->add('Kilometres', TextColumn::class, ['label' => 'Quilòmetres'])
-        ->add('client', TextColumn::class, ['label' => 'Client ID','field'=>'client.id'])
+        ->add('Marca', TextColumn::class, ['label' => 'Marca','field'=>'marca.nom'])
+        ->add('Model', TextColumn::class, ['label' => 'Model','field'=>'model.nom'])
+        ->add('Kilometres', TextColumn::class, ['label' => 'Quilòmetres', 'render' => function($value, $context) {
+            return $value. " kms";
+        }])
+
+        ->add('client', TextColumn::class, ['label' => 'Client', 'field'=>'client.cognoms', 'render' => function($value, $context) {
+            if(empty($context->getClient())) return '';
+            return $context->getClient()->__toString();
+        }])
+
         ->add('id', TextColumn::class, ['label' => 'id', 'render' => function($value, $context) {
                                         
            $action = "";
@@ -49,6 +56,16 @@ class VehicleController extends BaseController
         }])
         ->createAdapter(ORMAdapter::class, [
             'entity' => Vehicle::class,
+            'query' => function (QueryBuilder $builder){
+                $builder
+                    ->select('vehicle', 'marca', 'model','client')
+                    ->from(Vehicle::class, 'vehicle')
+                    ->leftJoin('vehicle.Model','model')
+                    ->leftJoin('model.Marca', 'marca')
+                    ->leftJoin('vehicle.client', 'client')
+                    ->orderBy('vehicle.Matricula')
+                ;
+            }
         ])
         ->handleRequest($request);
 

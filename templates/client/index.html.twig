@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients{% endblock %}
-
+{% block title %}{{"client.list"|trans}}{% endblock %}
+{% block title_block %}{{"client.list"|trans}}{% endblock %}
 
 
 {% block body %}
 <div class="row">
-    <a href="/clients/afegir"  class="btn btn-primary m-3" role="button">Afegir client</a>
+    <a href="/clients/afegir"  class="btn btn-primary m-3" role="button">{{"client.add"|trans}}</a>
 </div>
     
     <div class="table-responsive">
@@ -14,7 +14,6 @@
 	</div>
 {% endblock %}
 {% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
 

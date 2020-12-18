@@ -3,32 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block stylesheets %}
             {# 'app' must match the first argument to addEntry() in webpack.config.js #}
             {{ encore_entry_link_tags('app') }}
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css"/>
+
             <!-- Renders a link tag (if your module requires any CSS)
                  <link rel="stylesheet" href="/build/app.css"> -->
         {% endblock %}
     </head>
     <body>
-    {% for message in app.flashes('notice') %}
-    <div class="flash-notice">
-        {{ message }}
-    </div>
-{% endfor %}
-
-{# read and display several types of flash messages #}
-{% for label, messages in app.flashes(['success', 'warning']) %}
-    {% for message in messages %}
-        <div class="flash-{{ label }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endfor %}
-
-{# read and display all flash messages #}
 
 
         {% block navbar %} 
@@ -71,16 +56,11 @@
         {% endblock %}
 
         <div class="container-fluid">
+            <h1 class="mt-2 mb-2">{% block title_block %}{% endblock %}</h1>
+            {% include ('_partials/messages_flashes.html.twig') %}
             {% block body %}{% endblock %}
         </div>
 
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="flash-{{ label }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
 
         {{ encore_entry_script_tags('app') }}
         {% block javascripts %}

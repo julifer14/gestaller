@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fitxa Client{% endblock %}
+{% block title %}{{"client.fitxa"|trans}}{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
-		<h1>Client</h1>	 	
+		<h1>{{ client.nom }} {{ client.cognoms }}</h1>	 	
 			
 			<div class="card">
 				<div class="card-header">
@@ -22,23 +22,23 @@
 					</p>
 					
 					<p class="card-text">
-						<span>Telefon: </span><span>{{ client.telefon}}</span>
+						<span>{{ "client.info.tel"|trans }}: </span><span>{{ client.telefon}}</span>
 					</p>
 					<p class="card-text">
-						<span>Email: </span><span>{{ client.email}}</span>
+						<span>{{ "client.info.mail"|trans }}: </span><span>{{ client.email}}</span>
 					</p>
 					<p class="card-text">
-						<span>DNI: </span><span>{{ client.dni}}</span>
+						<span>{{ "client.info.dni"|trans }}: </span><span>{{ client.dni}}</span>
 					</p>
 				</div>
 				<div class="card-footer">
-				<a href="/clients/modificar/{{ client.id }}" class="btn btn-secondary">Modificar Client</a>
-					<a href="/clients/esborrar/{{ client.id }}" class="btn btn-danger">Esborrar Client</a>
+				<a href="/clients/modificar/{{ client.id }}" class="btn btn-secondary">{{ "client.edit"|trans }}</a>
+					<a href="/clients/esborrar/{{ client.id }}" class="btn btn-danger">{{ "client.del"|trans }}</a>
 				</div>
 			</div>
 			<div class="card">
-			<div class="card-header">
-					<span>Vehicles</span>
+				<div class="card-header">
+					<span>{{ "client.vehicle.list"|trans }}</span>
 				</div>
 				<div class="card-body">
 					{% for vehicle in client.vehicles %}

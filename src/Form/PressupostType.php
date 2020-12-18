@@ -18,7 +18,12 @@ class PressupostType extends AbstractType
             ->add('any',NumberType::class, ['label' => 'Any ','disabled'=>True])
             ->add('tasca',TextareaType::class, ['label' => 'Tasca a realitzar '])
             ->add('data',DateType::class, ['label' => 'Data ',    'format' => 'dd MM yyyy',])
-            ->add('iva',NumberType::class, ['label' => 'IVA '])
+           // ->add('iva',NumberType::class, ['label' => 'IVA '])
+            ->add('iva',ChoiceType::class, [
+                'choices' => [
+                    '21%' => 0.21,
+                    '0%' => 0
+                ],])
             ->add('estat',ChoiceType::class, [
                 'choices' => [
                     'Acceptar' => True,

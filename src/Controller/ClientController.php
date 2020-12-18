@@ -12,11 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
+use Doctrine\ORM\QueryBuilder;
 
 class ClientController extends BaseController
 {
@@ -25,8 +27,6 @@ class ClientController extends BaseController
      */
      public function createClient(Request $request,ValidatorInterface $validator):Response
      {
-         $entityManager = $this->obManager();
-
          $client = new Client();
 
          $form = $this->createForm(ClientType::class, $client);
@@ -34,10 +34,8 @@ class ClientController extends BaseController
 
          if ($form->isSubmitted() && $form->isValid()) {
             
-            $entityManager->persist($client);
-
-            $entityManager->flush();
-            
+            $this->save($client);
+            $this->addFlash('success', 'client.success-add');
             return $this->redirectToRoute('llistar_clients');
         }
 
@@ -51,22 +49,21 @@ class ClientController extends BaseController
      public function esborrarClient(Client $client):Response
      {
 
-
         $resultat = $this->esborrar($client);
 
         if(!$resultat){
-            // fflash
+            $this->addFlash('danger', 'client.error-del');
         }
         return $this->redirectToRoute('llistar_clients');
-
 
      }
 
      /**
       * @Route("/clients", name="llistar_clients")
       */
-      public function llistarClients(Request $request, DataTableFactory $dataTableFactory):Response
+      public function llistarClients(Request $request, DataTableFactory $dataTableFactory, TranslatorInterface $translator):Response
       { 
+        $this->translator = $translator;
 
         
         $clients = $this->getDoctrine()
@@ -84,15 +81,22 @@ class ClientController extends BaseController
            $action = "";
            $action = '
                         <div class="btn-group">
-                            <a href="/clients/'.$value.'" class="badge badge-info p-1 m-2">Fitxa client</a>
-                            <a href="/clients/modificar/'.$value.'" class="badge badge-secondary p-1 m-2">Modificar client</a>
-                            <a href="/clients/esborrar/'.$value.'" class="badge badge-danger p-1 m-2">Esborrar client</a> 
+                            <a href="/clients/'.$value.'" class="badge badge-info p-1 m-2">'.$this->translator->trans('client.fitxa').'</a>
+                            <a href="/clients/modificar/'.$value.'" class="badge badge-secondary p-1 m-2">'.$this->translator->trans('client.edit').'</a>
+                            <a href="/clients/esborrar/'.$value.'" class="badge badge-danger p-1 m-2">'.$this->translator->trans('client.del').'</a> 
                         </div>';
            
             return $action;                   
         }])
         ->createAdapter(ORMAdapter::class, [
             'entity' => Client::class,
+            'query' => function (QueryBuilder $builder){
+                $builder
+                    ->select('client')
+                    ->from(Client::class, 'client')
+                    ->orderBy('client.cognoms')
+                ;
+            }
         ])
         ->handleRequest($request);
 
@@ -109,31 +113,19 @@ class ClientController extends BaseController
        */
       public function modificarClient(Request $request,Client $client):Response
       {
-        $entityManager = $this->obManager();
 
-         
          $form = $this->createForm(ClientType::class, $client);
          $form->handleRequest($request);
 
          if ($form->isSubmitted() && $form->isValid()) {
-            
-            $entityManager->persist($client);
 
-            $entityManager->flush();
-            
+            $this->addFlash('success', 'client.success-edit');
+            $this->save($client);
+
             return $this->redirectToRoute('llistar_clients');
         }
 
         return $this->render('client/modificar_client.html.twig', ['form' => $form->createView(),'client'=>$client ]);
-
-
-
-
-
-        /*return $this->render('client/modificar_client.html.twig', [
-            'controller_name' => 'ClientController',
-            'client' => $client,
-        ]);*/
       }
 
      /**
@@ -149,21 +141,4 @@ class ClientController extends BaseController
        
      }
 
-
-
-
 }
-
-
-/*class ClientController extends AbstractController
-{
-    /**
-     * @Route("/client", name="client")
-     */
-   /* public function index(): Response
-    {
-        return $this->render('client/index.html.twig', [
-            'controller_name' => 'ClientController',
-        ]);
-    }
-}*/

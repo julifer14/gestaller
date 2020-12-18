@@ -21,7 +21,12 @@ class ArticleType extends AbstractType
             ->add('nom',TextType::class, ['label' => 'Nom '])
             ->add('descripcio',TextType::class, ['label' => 'Descripció '])
             ->add('preu',NumberType::class, ['label' => 'Preu Unitari '])
-            ->add('iva',NumberType::class, ['label' => 'IVA '])
+           // ->add('iva',NumberType::class, ['label' => 'IVA '])
+             ->add('iva',ChoiceType::class, [
+                'choices' => [
+                    '21%' => 0.21,
+                    '0%' => 0
+                ],])
             ->add('stock',NumberType::class, ['label' => 'Stock '])
             ->add('categoria', EntityType::class,
             [

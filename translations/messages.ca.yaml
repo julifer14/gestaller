@@ -1,0 +1,22 @@
+actions:  
+  save: Guardar
+  send: Enviar 
+  
+client:
+  add: Afegir un client
+  del: Esborrar client
+  edit: Modificar client
+
+  fitxa: Fitxa client
+  list: Llista de clients 
+  success-add: "Client afegit."
+  error-del: "No s'ha pogut eliminar el client"
+  success-edit: "Client modificat"
+
+  info:
+    tel: Telefon
+    mail: Email
+    dni: DNI
+
+vehicle:
+  list: Llista de vehicles
