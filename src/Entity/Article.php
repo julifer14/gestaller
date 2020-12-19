@@ -53,6 +53,11 @@ class Article
      */
     private $liniaPressupost;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $referencia;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,18 @@ class Article
     public function setLiniaPressupost(?LiniaPressupost $liniaPressupost): self
     {
         $this->liniaPressupost = $liniaPressupost;
+
+        return $this;
+    }
+
+    public function getReferencia(): ?string
+    {
+        return $this->referencia;
+    }
+
+    public function setReferencia(?string $referencia): self
+    {
+        $this->referencia = $referencia;
 
         return $this;
     }

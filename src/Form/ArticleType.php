@@ -6,7 +6,7 @@ use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\{TextType, NumberType};
+use Symfony\Component\Form\Extension\Core\Type\{TextType, ChoiceType,NumberType};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Form\CategoriaType;
 use App\Entity\Categoria;
@@ -28,6 +28,7 @@ class ArticleType extends AbstractType
                     '0%' => 0
                 ],])
             ->add('stock',NumberType::class, ['label' => 'Stock '])
+            ->add('referencia',TextType::class, ['label' => 'Referència '])
             ->add('categoria', EntityType::class,
             [
                 'label' => 'Categoria',
