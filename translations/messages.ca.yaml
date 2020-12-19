@@ -24,3 +24,8 @@ vehicle:
   error-del: "No s'ha pogut eliminar el vehicle"
   success-del: "Vehicle eliminat"
   success-edit: "Vehicle modificat"
+
+model:
+  list: Llista de models
+  success-add: "Model afegit"
+  success-edit: "Model modificat"

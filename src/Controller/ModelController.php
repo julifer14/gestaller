@@ -68,9 +68,8 @@ class ModelController extends BaseController
 
          if ($form->isSubmitted() && $form->isValid()) {
             
-            $entityManager->persist($model);
-
-            $entityManager->flush();
+            $this->addFlash('success', 'model.success-edit');
+            $this->save($model);
             
             return $this->redirectToRoute('llistar_models');
         }
@@ -95,9 +94,8 @@ class ModelController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
            
-           $entityManager->persist($model);
-
-           $entityManager->flush();
+            $this->addFlash('success', 'model.success-add');
+            $this->save($model);   
            
            return $this->redirectToRoute('llistar_models');
        }

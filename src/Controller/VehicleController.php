@@ -100,11 +100,7 @@ class VehicleController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'vehicle.success-add');
-
-            $this->save($vehicle);
-
-           
-           
+            $this->save($vehicle);           
            return $this->redirectToRoute('llistar_vehicles');
        }
 
