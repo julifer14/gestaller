@@ -94,16 +94,16 @@ class VehicleController extends BaseController
         ->getRepository(Model::class)
         ->findAll();
 
-       //print_r($clients);
         
         $form = $this->createForm(VehicleType::class, $vehicle, array('clients' => $clients, 'models' => $models) );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
-           $entityManager->persist($vehicle);
+            $this->addFlash('success', 'vehicle.success-add');
 
-           $entityManager->flush();
+            $this->save($vehicle);
+
+           
            
            return $this->redirectToRoute('llistar_vehicles');
        }
@@ -120,8 +120,9 @@ class VehicleController extends BaseController
         $resultat = $this->esborrar($vehicle);
 
         if(!$resultat){
-            // fflash
+            $this->addFlash('error', 'vehicle.error-del');
         }
+        $this->addFlash('success', 'vehicle.success-del');
         return $this->redirectToRoute('llistar_vehicles');
     }
 
@@ -152,24 +153,15 @@ class VehicleController extends BaseController
          $form->handleRequest($request);
 
          if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'vehicle.success-edit');
+            $this->save($vehicle);
             
-            $entityManager->persist($vehicle);
-
-            $entityManager->flush();
             
             return $this->redirectToRoute('llistar_vehicles');
         }
 
         return $this->render('vehicle/modificar_vehicle.html.twig', ['form' => $form->createView(),'vehicle'=>$vehicle ]);
 
-
-
-
-
-        /*return $this->render('client/modificar_client.html.twig', [
-            'controller_name' => 'ClientController',
-            'client' => $client,
-        ]);*/
       }
 
 }

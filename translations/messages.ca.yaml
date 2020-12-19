@@ -9,7 +9,7 @@ client:
 
   fitxa: Fitxa client
   list: Llista de clients 
-  success-add: "Client afegit."
+  success-add: "Client afegit"
   error-del: "No s'ha pogut eliminar el client"
   success-edit: "Client modificat"
 
@@ -20,3 +20,7 @@ client:
 
 vehicle:
   list: Llista de vehicles
+  success-add: "Vehicle afegit"
+  error-del: "No s'ha pogut eliminar el vehicle"
+  success-del: "Vehicle eliminat"
+  success-edit: "Vehicle modificat"
