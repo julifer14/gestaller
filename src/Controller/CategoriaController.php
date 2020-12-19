@@ -63,7 +63,6 @@ class CategoriaController extends BaseController
        */
       public function modificarCategoria(Request $request,Categoria $categoria):Response
       {
-        $entityManager = $this->obManager();
 
          
          $form = $this->createForm(CategoriaType::class, $categoria);
@@ -71,9 +70,8 @@ class CategoriaController extends BaseController
 
          if ($form->isSubmitted() && $form->isValid()) {
             
-            $entityManager->persist($categoria);
-
-            $entityManager->flush();
+            $this->addFlash('success', 'categoria.success-edit');
+            $this->save($categoria);
             
             return $this->redirectToRoute('llistar_cagegories');
         }
@@ -88,7 +86,6 @@ class CategoriaController extends BaseController
      */
     public function createCategoria(Request $request,ValidatorInterface $validator):Response
     {
-        $entityManager = $this->obManager();
 
         $categoria = new Categoria();
        
@@ -100,9 +97,8 @@ class CategoriaController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
            
-           $entityManager->persist($categoria);
-
-           $entityManager->flush();
+            $this->addFlash('success', 'categoria.success-add');
+            $this->save($categoria);
            
            return $this->redirectToRoute('llistar_categories');
        }

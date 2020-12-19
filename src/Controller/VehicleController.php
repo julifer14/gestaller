@@ -83,7 +83,6 @@ class VehicleController extends BaseController
      */
     public function createVehicle(Request $request,ValidatorInterface $validator):Response
     {
-        $entityManager = $this->obManager();
 
         $vehicle = new Vehicle();
        
@@ -142,7 +141,6 @@ class VehicleController extends BaseController
        */
       public function modificarVehicle(Request $request,Vehicle $vehicle):Response
       {
-        $entityManager = $this->obManager();
 
          
          $form = $this->createForm(VehicleType::class, $vehicle);

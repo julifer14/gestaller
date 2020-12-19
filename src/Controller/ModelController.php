@@ -58,7 +58,6 @@ class ModelController extends BaseController
        */
       public function modificarModel(Request $request,Model $model):Response
       {
-        $entityManager = $this->obManager();
         $marques = $this->getDoctrine()
             ->getRepository(Marca::class)
             ->findAll();
@@ -83,7 +82,6 @@ class ModelController extends BaseController
      */
     public function createModel(Request $request,ValidatorInterface $validator):Response
     {
-        $entityManager = $this->obManager();
 
         $model = new Model();
        

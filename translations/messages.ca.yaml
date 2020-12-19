@@ -29,3 +29,20 @@ model:
   list: Llista de models
   success-add: "Model afegit"
   success-edit: "Model modificat"
+
+marca:
+  list: Llista de marques
+  success-add: "Marca afegida"
+  success-edit: "Marca modificada"
+
+categoria:
+  list: Llista de categories d'article
+  success-add: "Categoria afegida"
+  success-edit: "Categoria modificada"
+
+article:
+  list: Llista d'articles
+  success-add: "Article afegit"
+  error-del: "No s'ha pogut eliminar l'article"
+  success-del: "Article eliminat"
+  success-edit: "Article modificat"

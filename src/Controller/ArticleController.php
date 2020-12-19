@@ -67,7 +67,6 @@ class ArticleController extends BaseController
      */
     public function createArticle(Request $request,ValidatorInterface $validator):Response
     {
-        $entityManager = $this->obManager();
 
         $article = new Article();
        
@@ -81,9 +80,8 @@ class ArticleController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
            
-           $entityManager->persist($article);
-
-           $entityManager->flush();
+            $this->addFlash('success', 'article.success-add');
+            $this->save($article);
            
            return $this->redirectToRoute('llistar_articles');
        }
@@ -101,17 +99,11 @@ class ArticleController extends BaseController
 
        $resultat = $this->esborrar($article);
 
+       
        if(!$resultat){
-           $this->addFlash(
-               'error',
-               'Error al esborrar article'
-           );
-           return $this->redirectToRoute('llistar_articles');
-       }
-       $this->addFlash(
-        'notice',
-        'Article esborrat'
-        );
+        $this->addFlash('error', 'article.error-del');
+    }
+    $this->addFlash('success', 'article.success-del');
        return $this->redirectToRoute('llistar_articles');
     }
 
@@ -134,7 +126,6 @@ class ArticleController extends BaseController
        */
       public function modificarArticle(Request $request,Article $article):Response
       {
-        $entityManager = $this->obManager();
 
          
          $form = $this->createForm(ArticleType::class, $article);
@@ -142,9 +133,8 @@ class ArticleController extends BaseController
 
          if ($form->isSubmitted() && $form->isValid()) {
             
-            $entityManager->persist($article);
-
-            $entityManager->flush();
+            $this->addFlash('success', 'article.success-edit');
+            $this->save($article);
             
             return $this->redirectToRoute('llistar_articles');
         }

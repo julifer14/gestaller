@@ -59,7 +59,6 @@ class MarcaController extends BaseController
      */
     public function createMarca(Request $request,ValidatorInterface $validator):Response
     {
-        $entityManager = $this->obManager();
 
         $marca = new Marca();
        
@@ -69,10 +68,8 @@ class MarcaController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
-           $entityManager->persist($marca);
-
-           $entityManager->flush();
+            $this->addFlash('success', 'marca.success-add');
+            $this->save($marca);
            
            return $this->redirectToRoute('llistar_marques');
        }
@@ -87,7 +84,6 @@ class MarcaController extends BaseController
        */
       public function modificarMarca(Request $request,Marca $marca):Response
       {
-        $entityManager = $this->obManager();
 
          
          $form = $this->createForm(MarcaType::class, $marca);
@@ -95,9 +91,8 @@ class MarcaController extends BaseController
 
          if ($form->isSubmitted() && $form->isValid()) {
             
-            $entityManager->persist($marca);
-
-            $entityManager->flush();
+            $this->addFlash('success', 'model.success-edit');
+            $this->save($marca);
             
             return $this->redirectToRoute('llistar_marques');
         }
