@@ -3,6 +3,7 @@ actions:
   send: Enviar 
   
 client:
+  client: Client
   add: Afegir un client
   del: Esborrar client
   edit: Modificar client
@@ -19,6 +20,7 @@ client:
     dni: DNI
 
 vehicle:
+  vehicle: Vehicle
   list: Llista de vehicles
   success-add: "Vehicle afegit"
   error-del: "No s'ha pogut eliminar el vehicle"
@@ -26,23 +28,35 @@ vehicle:
   success-edit: "Vehicle modificat"
 
 model:
+  model: Model
   list: Llista de models
   success-add: "Model afegit"
   success-edit: "Model modificat"
 
 marca:
+  marca: Marca
   list: Llista de marques
   success-add: "Marca afegida"
   success-edit: "Marca modificada"
 
 categoria:
+  categoria: Categoria
   list: Llista de categories d'article
   success-add: "Categoria afegida"
   success-edit: "Categoria modificada"
 
 article:
+  article: Article
   list: Llista d'articles
   success-add: "Article afegit"
   error-del: "No s'ha pogut eliminar l'article"
   success-del: "Article eliminat"
   success-edit: "Article modificat"
+
+pressupost:
+  pressupost: Pressupost
+  list: Llista de pressupostos
+  success-add: "Pressupost guardat"
+  error-del: "No s'ha pogut eliminar el pressupost"
+  success-del: "Pressupost eliminat"
+  success-edit: "Pressupost modificat"
