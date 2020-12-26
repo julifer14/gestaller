@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{"model.list"|trans}}{% endblock %}
-{% block title_block %}{{"model.list"|trans}}{% endblock %}
+{% block title %}{{"user.llistar"|trans}}{% endblock %}
+{% block title_block %}{{"user.llistar"|trans}}{% endblock %}
 
 {% block body %}
 <div class="row">
-    <a href="/models/afegir"  class="btn btn-primary m-3" role="button">Afegir model</a>
+    <a href="/register"  class="btn btn-primary m-3" role="button">{{"user.add"|trans}}</a>
 </div>
     
     <div class="table-responsive">
-		<div id="models">Loading...</div>
+		<div id="usuaris">Loading...</div>
 	</div>
 {% endblock %}
 {% block javascripts %}
@@ -18,7 +18,7 @@
 
 	<script>
 		$(function() {
-		    var dt = $('#models').initDataTables({{ datatable_settings(datatable) }}, {
+		    var dt = $('#usuaris').initDataTables({{ datatable_settings(datatable) }}, {
 		    	searching: true,
                 dom: 'Bfrtip'
 		    });
