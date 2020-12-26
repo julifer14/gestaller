@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,6 +35,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Pressupost::class, mappedBy="treballador")
+     */
+    private $pressuposts;
+
+    public function __construct()
+    {
+        $this->pressuposts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,5 +122,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Pressupost[]
+     */
+    public function getPressuposts(): Collection
+    {
+        return $this->pressuposts;
+    }
+
+    public function addPressupost(Pressupost $pressupost): self
+    {
+        if (!$this->pressuposts->contains($pressupost)) {
+            $this->pressuposts[] = $pressupost;
+            $pressupost->setTreballador($this);
+        }
+
+        return $this;
+    }
+
+    public function removePressupost(Pressupost $pressupost): self
+    {
+        if ($this->pressuposts->removeElement($pressupost)) {
+            // set the owning side to null (unless already changed)
+            if ($pressupost->getTreballador() === $this) {
+                $pressupost->setTreballador(null);
+            }
+        }
+
+        return $this;
     }
 }

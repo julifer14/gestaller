@@ -55,6 +55,11 @@ class Pressupost
      */
     private $estat;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pressuposts")
+     */
+    private $treballador;
+
     public function __construct()
     {
         $this->liniaPressuposts = new ArrayCollection();
@@ -163,6 +168,18 @@ class Pressupost
     public function setEstat(bool $estat): self
     {
         $this->estat = $estat;
+
+        return $this;
+    }
+
+    public function getTreballador(): ?User
+    {
+        return $this->treballador;
+    }
+
+    public function setTreballador(?User $treballador): self
+    {
+        $this->treballador = $treballador;
 
         return $this;
     }
