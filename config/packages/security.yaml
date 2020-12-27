@@ -37,4 +37,9 @@ security:
     access_control:
         - { path: ^/login, roles:  IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/register, roles: ROLE_DIRECTOR }
+        - { path: ^/marques, roles: ROLE_DIRECTOR }
+        - { path: ^/models, roles: ROLE_DIRECTOR }
+        - { path: ^/articles, roles: ROLE_DIRECTOR }
+        - { path: ^/categories, roles: ROLE_DIRECTOR }
+
         - { path: ^/, roles: ROLE_USER }

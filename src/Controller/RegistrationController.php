@@ -32,6 +32,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            if($user->hasRole("ROLE_DIRECTOR")){
+                $user->directorHeredaRols();
+            } 
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

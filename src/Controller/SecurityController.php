@@ -48,26 +48,27 @@ class SecurityController extends BaseController
      */
     public function llistar_usuaris(Request $request, DataTableFactory $dataTableFactory, TranslatorInterface $translator):Response
     {
+
+        $this->translator = $translator;
+
         $usuaris = $this->getDoctrine()
         ->getRepository(User::class)
         ->findAll();
 
     $table = $dataTableFactory->create()
-    ->add('id', TextColumn::class, ['label' => 'id','searchable'=> True])
+    //->add('id', TextColumn::class, ['label' => 'id','searchable'=> True])
     ->add('email', TextColumn::class, ['label' => 'Nom','searchable'=> True])
     /*->add('roles', TextColumn::class, ['label' => 'Rols'])*/
-    /*->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
+    ->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
                                     
        $action = "";
        $action = '
                     <div class="btn-group">
-                        <a href="/clients/'.$value.'" class="badge badge-info p-1 m-2">'.$this->translator->trans('client.fitxa').'</a>
-                        <a href="/clients/modificar/'.$value.'" class="badge badge-secondary p-1 m-2">'.$this->translator->trans('client.edit').'</a>
-                        <a href="/clients/esborrar/'.$value.'" class="badge badge-danger p-1 m-2">'.$this->translator->trans('client.del').'</a> 
+                        <a href="/user/'.$value.'" class="badge badge-secondary p-1 m-2">'.$this->translator->trans('user.fitxa').'</a>
                     </div>';
        
         return $action;                   
-    }])*/
+    }])
     ->createAdapter(ORMAdapter::class, [
         'entity' => User::class,
         /*'query' => function (QueryBuilder $builder){
@@ -87,6 +88,19 @@ class SecurityController extends BaseController
     return $this->render('security/llistar.html.twig', ['datatable' => $table]);
 
     }
+
+    /**
+      * @Route("user/{id}", name="fitxa_user")
+      */
+      public function show(User $user):Response
+      {
+         return $this->render('security/fitxa_user.html.twig', [
+             'controller_name' => 'SecurityController',
+             'user' => $user,
+         ]);
+ 
+        
+      }
 
  
 }

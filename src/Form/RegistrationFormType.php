@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -20,6 +22,10 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('nom', TextType::class,['label'=>'Nom'])
+            ->add('cognom', TextType::class,['label'=>'Cognoms'])
+            ->add('dni', TextType::class,['label'=>'DNI'])
+            ->add('telefon', TextType::class,['label'=>'Telefon'])
             ->add('email',EmailType::class,['label' => 'Correu'])
             /*->add('roles',ChoiceType::class, [
                 'choices' => [

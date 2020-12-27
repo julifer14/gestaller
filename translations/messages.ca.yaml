@@ -14,10 +14,14 @@ client:
   error-del: "No s'ha pogut eliminar el client"
   success-edit: "Client modificat"
 
+  vehicle:
+    list: "Llistat de vehicles"
+
   info:
     tel: Telefon
     mail: Email
     dni: DNI
+    codi: "Codi client"
 
 vehicle:
   vehicle: Vehicle
@@ -72,3 +76,16 @@ login:
 user:
   llistar: "Llistar usuaris"
   add: "Afegir usuari"
+  edit: "Editar usuari"
+  del: "Eliminar usuari"
+  fitxa: "Fitxa d'usuari"
+  rols:
+    list: "Llistat de rols de l'usuari"
+
+  info:
+    codi: "Codi usuari"
+    nom: "Nom"
+    cognom: "Cognoms"
+    dni: "DNI"
+    tel: "Telèfon"
+    mail: "Correu electrònic"

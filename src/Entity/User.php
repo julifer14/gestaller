@@ -43,6 +43,26 @@ class User implements UserInterface
      */
     private $pressuposts;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $cognom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $telefon;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $dni;
+
     public function __construct()
     {
         $this->pressuposts = new ArrayCollection();
@@ -65,6 +85,13 @@ class User implements UserInterface
         return $this;
     }
 
+    public function hasRole(string $role):bool{
+        if(!empty($this->getRoles())){
+            return in_array(strtoupper($role), $this->getRoles(), true);
+        }
+        return false;
+    }
+
     /**
      * A visual identifier that represents this user.
      *
@@ -85,6 +112,13 @@ class User implements UserInterface
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    public function directorHeredaRols():self{
+        $roles = $this->getRoles();
+        $rolesNou= array_push($roles,"ROL_MECANIC","ROL_ADMIN");
+        $this->setRoles($roles);
+        return $this;
     }
 
     public function setRoles(array $roles): self
@@ -152,6 +186,54 @@ class User implements UserInterface
                 $pressupost->setTreballador(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getCognom(): ?string
+    {
+        return $this->cognom;
+    }
+
+    public function setCognom(string $cognom): self
+    {
+        $this->cognom = $cognom;
+
+        return $this;
+    }
+
+    public function getTelefon(): ?string
+    {
+        return $this->telefon;
+    }
+
+    public function setTelefon(string $telefon): self
+    {
+        $this->telefon = $telefon;
+
+        return $this;
+    }
+
+    public function getDni(): ?string
+    {
+        return $this->dni;
+    }
+
+    public function setDni(string $dni): self
+    {
+        $this->dni = $dni;
 
         return $this;
     }
