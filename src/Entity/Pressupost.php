@@ -22,7 +22,7 @@ class Pressupost
     /**
      * @ORM\Column(type="integer")
      */
-    private $any;
+    private $any ;
 
     /**
      * @ORM\Column(type="text")
@@ -182,5 +182,18 @@ class Pressupost
         $this->treballador = $treballador;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        
+        return (string)$this->id;
+    }
+
+    public function getTotalLinies(){
+        return sizeof($this->getLiniaPressuposts());
+    }
+
+    public function setTotalLinies($total){
     }
 }

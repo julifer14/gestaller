@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,14 +51,21 @@ class Article
     private $categoria;
 
     /**
-     * @ORM\ManyToOne(targetEntity=LiniaPressupost::class, inversedBy="article")
-     */
-    private $liniaPressupost;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $referencia;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LiniaPressupost::class, mappedBy="article")
+     */
+    private $liniaPressuposts;
+
+    public function __construct()
+    {
+        $this->liniaPressuposts = new ArrayCollection();
+    }
+
+   
 
     public function getId(): ?int
     {
@@ -135,17 +144,7 @@ class Article
         return $this;
     }
 
-    public function getLiniaPressupost(): ?LiniaPressupost
-    {
-        return $this->liniaPressupost;
-    }
-
-    public function setLiniaPressupost(?LiniaPressupost $liniaPressupost): self
-    {
-        $this->liniaPressupost = $liniaPressupost;
-
-        return $this;
-    }
+    
 
     public function getReferencia(): ?string
     {
@@ -155,6 +154,40 @@ class Article
     public function setReferencia(?string $referencia): self
     {
         $this->referencia = $referencia;
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->getNom()."(".$this->getReferencia().")";
+    }
+
+    /**
+     * @return Collection|LiniaPressupost[]
+     */
+    public function getLiniaPressuposts(): Collection
+    {
+        return $this->liniaPressuposts;
+    }
+
+    public function addLiniaPressupost(LiniaPressupost $liniaPressupost): self
+    {
+        if (!$this->liniaPressuposts->contains($liniaPressupost)) {
+            $this->liniaPressuposts[] = $liniaPressupost;
+            $liniaPressupost->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLiniaPressupost(LiniaPressupost $liniaPressupost): self
+    {
+        if ($this->liniaPressuposts->removeElement($liniaPressupost)) {
+            // set the owning side to null (unless already changed)
+            if ($liniaPressupost->getArticle() === $this) {
+                $liniaPressupost->setArticle(null);
+            }
+        }
 
         return $this;
     }

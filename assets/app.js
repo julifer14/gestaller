@@ -27,6 +27,30 @@ require('bootstrap');
 import 'bootstrap-select';
 import 'bootstrap-select/dist/js/i18n/defaults-es_ES.min';
 
+var total_linia = 0;
+
 $(document).ready(function() {
      $('select').selectpicker({language: 'ES', liveSearch: true});
+     //add_linia
+     total_linia = $("#pressupost_totalLinies").val();
+
+     $( ".add_linia" ).click(function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          var id = $(this).attr('data-id-pressupost');
+
+          $.ajax({
+               // la URL para la petición
+               url : '/pressupostos/afegirLinia',
+               data : { id : id , total_linia: total_linia},
+               type : 'POST',
+               dataType : 'html',
+               success : function(result) {
+                   $('#linias').append(result);
+                   total_linia = total_linia +1;
+               }
+           });
+     });
+
 });

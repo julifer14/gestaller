@@ -5,8 +5,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\{Pressupost};
-use App\Form\PressupostType;
+use App\Entity\{Pressupost,Article,LiniaPressupost};
+use App\Form\{PressupostType,LiniaPressupostType};
+use App\Manager\PressupostManager;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -21,7 +23,6 @@ use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 class PressupostController extends BaseController
 {
 
-    const IVA_ACTUAL = 0.21;
     /**
      * @Route("/pressupostos", name="llistar_pressupostos")
      */
@@ -34,8 +35,10 @@ class PressupostController extends BaseController
         $table = $dataTableFactory->create()
         //->add('id', TextColumn::class, ['label' => 'Codi pressupost','searchable'=> True]) 
         ->add('vehicle', TextColumn::class, ['label' => 'Vehicle','searchable'=> True,'field'=>'vehicle.Matricula'])            
-        ->add('client', TextColumn::class, ['label' => 'Client','searchable'=> True,'field'=>'vehicle.client.nom'])
+        ->add('client', TextColumn::class, ['label' => 'Client','searchable'=> True,'field'=>'vehicle.client.cognoms'])
+        ->add('treballador', TextColumn::class, ['label' => 'Treballador','searchable'=> True,'field'=>'treballador.id'])
         ->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
+            
                                         
            $action = "";
            $action = '
@@ -59,34 +62,75 @@ class PressupostController extends BaseController
         return $this->render('pressupost/index.html.twig', ['datatable' => $table]);
     }
 
+    /**
+     * @Route("/pressupostos/afegirLinia",name="afegir_linia_pressupost")
+     */
+    public function createLinia(Request $request):Response{
+
+        $id_pressupost = $request->request->get('id_pressupost');
+        $total_linia = $request->request->get('total_linia');
+        $pressupost = $this->getDoctrine()->getRepository(Pressupost::class)->findOneById($id_pressupost);
+        //Comprovacions de pressupost correcte
+    
+        $articles =  $this->getDoctrine()->getRepository(Article::class)->findAll();
+        return $this->render('pressupost/parcial/formLinia.html.twig', ['total_linia' => $total_linia, 'articles' => $articles]);
+
+    }
+
+    
+
 
      /**
      * @Route("/pressupostos/afegir",name="afegir_pressupost")
      */
-    public function createPressupost(Request $request,ValidatorInterface $validator):Response
+    public function createPressupost(Request $request,ValidatorInterface $validator, PressupostManager $pressupostManager):Response
     {
         $entityManager = $this->obManager();
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
 
         $pressupost = new Pressupost();
-       
+        
+
+       //Treure!
         $pressupost->setAny(2020);
-        $pressupost->setIVA(self::IVA_ACTUAL);
         $date = new \DateTime('@'.strtotime('now'));
         $pressupost->setData($date);
-        
+
         $form = $this->createForm(PressupostType::class, $pressupost);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
-           $entityManager->persist($pressupost);
 
-           $entityManager->flush();
+            $noves_linies = $request->request->get('new_linia');
+            $pressupostManager->savePressupost($pressupost, $noves_linies);
+            $this->addFlash('success', 'pressupost.success-add');
            
-           return $this->redirectToRoute('llistar_pressupostos');
+           return $this->redirectToRoute('modificar_pressupost', array("id"=>$pressupost->getId()));
        }
 
-       return $this->render('pressupost/afegir.html.twig', ['form' => $form->createView() ]);
+       return $this->render('pressupost/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);
        
     }
+
+    /**
+       * @Route("pressupostos/modificar/{id}", name="modificar_pressupost")
+       */
+      public function modificarPressupost(Request $request,Pressupost $pressupost, PressupostManager $pressupostManager):Response
+      {
+
+         $form = $this->createForm(PressupostType::class, $pressupost);
+         $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+            $noves_linies = $request->request->get('new_linia');
+            $pressupostManager->savePressupost($pressupost, $noves_linies);
+            $this->addFlash('success', 'pressupost.success-edit');
+            return $this->redirectToRoute('llistar_pressupostos');
+        }
+
+        return $this->render('pressupost/modificar_pressupost.html.twig', ['form' => $form->createView(),'pressupost'=>$pressupost ]);
+      }
+
 }

@@ -22,6 +22,10 @@ client:
     mail: Email
     dni: DNI
     codi: "Codi client"
+    nom: Nom
+    cognoms: Cognoms
+form:
+  any: Ejercici
 
 vehicle:
   vehicle: Vehicle
@@ -64,6 +68,7 @@ pressupost:
   error-del: "No s'ha pogut eliminar el pressupost"
   success-del: "Pressupost eliminat"
   success-edit: "Pressupost modificat"
+  edit: "Editar pressupost"
 
 register:
   success-add: "Usuari registrat"
