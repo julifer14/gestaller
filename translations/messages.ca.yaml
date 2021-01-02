@@ -25,7 +25,16 @@ client:
     nom: Nom
     cognoms: Cognoms
 form:
-  any: Ejercici
+  any: "Ejercici: "
+  data: "Data: "
+  tasca: "Tasca a realitzar: "
+  iva: "IVA: "
+  estat: "Estat: "
+  matricula: "Matricula: "
+  treballador: "Treballador: "
+  article: "Article "
+  quantitat: "Quantitat "
+  preu: "Preu "
 
 vehicle:
   vehicle: Vehicle
@@ -69,6 +78,7 @@ pressupost:
   success-del: "Pressupost eliminat"
   success-edit: "Pressupost modificat"
   edit: "Editar pressupost"
+  pressupostNum: "Pressupost: "
 
 register:
   success-add: "Usuari registrat"

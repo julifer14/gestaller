@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\{Marca,Model};
+use App\Entity\{Marca, Model};
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Form\MarcaType;
@@ -27,29 +27,29 @@ class MarcaController extends BaseController
             ->getRepository(Marca::class)
             ->findAll();
 
-            $table = $dataTableFactory->create()
-            ->add('nom', TextColumn::class, ['label' => 'Nom','searchable'=> True])            
-            ->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
-                                            
-               $action = "";
-               $action = '
+        $table = $dataTableFactory->create()
+            ->add('nom', TextColumn::class, ['label' => 'Nom', 'searchable' => True])
+            ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+
+                $action = "";
+                $action = '
                             <div class="btn-group">
-                                <a href="/marques/modificar/'.$value.'" class="badge badge-secondary p-2 m-1">Modificar marca</a>
-                               <!-- <a href="/marques/esborrar/'.$value.'" class="badge badge-danger p-2 m-1">Esborrar marca</a> -->
+                                <a href="/marques/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar marca</a>
+                               <!-- <a href="/marques/esborrar/' . $value . '" class="badge badge-danger p-2 m-1">Esborrar marca</a> -->
                             </div>';
-               
-                return $action;                   
+
+                return $action;
             }])
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Marca::class,
             ])
             ->handleRequest($request);
-    
-            if ($table->isCallback()) {
-                return $table->getResponse();
-            }
-    
-            return $this->render('marca/index.html.twig', ['datatable' => $table]);
+
+        if ($table->isCallback()) {
+            return $table->getResponse();
+        }
+
+        return $this->render('marca/index.html.twig', ['datatable' => $table]);
     }
 
 
@@ -57,48 +57,45 @@ class MarcaController extends BaseController
     /**
      * @Route("/marques/afegir",name="afegir_marca")
      */
-    public function createMarca(Request $request,ValidatorInterface $validator):Response
+    public function createMarca(Request $request, ValidatorInterface $validator): Response
     {
 
         $marca = new Marca();
-       
-        
-        
+
+
+
         $form = $this->createForm(MarcaType::class, $marca);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'marca.success-add');
             $this->save($marca);
-           
-           return $this->redirectToRoute('llistar_marques');
-       }
 
-       return $this->render('marca/afegir.html.twig', ['form' => $form->createView() ]);
-       
+            return $this->redirectToRoute('llistar_marques');
+        }
+
+        return $this->render('marca/afegir.html.twig', ['form' => $form->createView()]);
     }
 
 
     /**
-       * @Route("marques/modificar/{id}", name="modificar_marca")
-       */
-      public function modificarMarca(Request $request,Marca $marca):Response
-      {
+     * @Route("marques/modificar/{id}", name="modificar_marca")
+     */
+    public function modificarMarca(Request $request, Marca $marca): Response
+    {
 
-         
-         $form = $this->createForm(MarcaType::class, $marca);
-         $form->handleRequest($request);
 
-         if ($form->isSubmitted() && $form->isValid()) {
-            
+        $form = $this->createForm(MarcaType::class, $marca);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $this->addFlash('success', 'model.success-edit');
             $this->save($marca);
-            
+
             return $this->redirectToRoute('llistar_marques');
         }
 
-        return $this->render('marca/modificar_marca.html.twig', ['form' => $form->createView(),'marca'=>$marca ]);
-
+        return $this->render('marca/modificar_marca.html.twig', ['form' => $form->createView(), 'marca' => $marca]);
     }
-
 }

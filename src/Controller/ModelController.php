@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\{Marca,Model};
+use App\Entity\{Marca, Model};
 use App\Form\ModelType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -27,80 +27,76 @@ class ModelController extends BaseController
             ->getRepository(Model::class)
             ->findAll();
 
-            $table = $dataTableFactory->create()
-            ->add('Marca', TextColumn::class, ['label' => 'Marca','searchable'=> True,'field'=>'Marca.nom']) 
-            ->add('nom', TextColumn::class, ['label' => 'Model','searchable'=> True])            
-            ->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
-                                            
-               $action = "";
-               $action = '
+        $table = $dataTableFactory->create()
+            ->add('Marca', TextColumn::class, ['label' => 'Marca', 'searchable' => True, 'field' => 'Marca.nom'])
+            ->add('nom', TextColumn::class, ['label' => 'Model', 'searchable' => True])
+            ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+
+                $action = "";
+                $action = '
                             <div class="btn-group">
-                                <a href="/models/modificar/'.$value.'" class="badge badge-secondary p-2 m-1">Modificar model</a>
-                               <!-- <a href="/models/esborrar/'.$value.'" class="badge badge-danger p-2 m-1">Esborrar model</a> -->
+                                <a href="/models/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar model</a>
+                               <!-- <a href="/models/esborrar/' . $value . '" class="badge badge-danger p-2 m-1">Esborrar model</a> -->
                             </div>';
-               
-                return $action;                   
+
+                return $action;
             }])
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Model::class,
             ])
             ->handleRequest($request);
-    
-            if ($table->isCallback()) {
-                return $table->getResponse();
-            }
-    
-            return $this->render('model/index.html.twig', ['datatable' => $table]);
+
+        if ($table->isCallback()) {
+            return $table->getResponse();
+        }
+
+        return $this->render('model/index.html.twig', ['datatable' => $table]);
     }
 
     /**
-       * @Route("models/modificar/{id}", name="modificar_model")
-       */
-      public function modificarModel(Request $request,Model $model):Response
-      {
+     * @Route("models/modificar/{id}", name="modificar_model")
+     */
+    public function modificarModel(Request $request, Model $model): Response
+    {
         $marques = $this->getDoctrine()
             ->getRepository(Marca::class)
             ->findAll();
-         
-         $form = $this->createForm(ModelType::class, $model, array('marques' => $marques));
-         $form->handleRequest($request);
 
-         if ($form->isSubmitted() && $form->isValid()) {
-            
+        $form = $this->createForm(ModelType::class, $model, array('marques' => $marques));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $this->addFlash('success', 'model.success-edit');
             $this->save($model);
-            
+
             return $this->redirectToRoute('llistar_models');
         }
 
-        return $this->render('model/modificar_model.html.twig', ['form' => $form->createView(),'model'=>$model ]);
-
+        return $this->render('model/modificar_model.html.twig', ['form' => $form->createView(), 'model' => $model]);
     }
 
     /**
      * @Route("/models/afegir",name="afegir_model")
      */
-    public function createModel(Request $request,ValidatorInterface $validator):Response
+    public function createModel(Request $request, ValidatorInterface $validator): Response
     {
 
         $model = new Model();
-       
-        
-        
+
+
+
         $form = $this->createForm(ModelType::class, $model);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
+
             $this->addFlash('success', 'model.success-add');
-            $this->save($model);   
-           
-           return $this->redirectToRoute('llistar_models');
-       }
+            $this->save($model);
 
-       return $this->render('model/afegir.html.twig', ['form' => $form->createView() ]);
-       
+            return $this->redirectToRoute('llistar_models');
+        }
+
+        return $this->render('model/afegir.html.twig', ['form' => $form->createView()]);
     }
-
-
 }
