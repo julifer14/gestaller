@@ -104,3 +104,8 @@ user:
     dni: "DNI"
     tel: "Telèfon"
     mail: "Correu electrònic"
+
+empresa:
+  success-add: "Empresa afegida correctament"
+  error-add: "No es pot afegir un altre empresa"
+  afegir: "Afegir empresa"

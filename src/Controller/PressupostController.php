@@ -27,7 +27,7 @@ class PressupostController extends BaseController
      */
     public function pdfAction(Pdf $pdf, Pressupost $pressupost)
     {
-        $html = $this->renderView('pressupost/fitxa_pressupost.html.twig', [
+        $html = $this->renderView('pressupost/fitxa_pressupost_pdf.html.twig', [
             'controller_name' => 'PressupostController',
             'pressupost' => $pressupost,
         ]);

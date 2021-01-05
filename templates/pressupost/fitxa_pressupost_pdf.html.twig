@@ -1,0 +1,72 @@
+
+
+{% block title_block %}
+  {{ 'pressupost.pressupostNum'|trans }} {{ pressupost.id }}
+{% endblock %}
+
+{% block body %}
+  <div class="container mt-4">
+    <div class="container mt-4">
+      <div class="pt-2">
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.any'|trans }}</b>
+            {{ pressupost.any }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.data'|trans }}</b>
+            {{ pressupost.data|date('d/m/Y') }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.tasca'|trans }}</b>
+            {{ pressupost.tasca }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.iva'|trans }}</b>
+            {{ pressupost.iva }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.estat'|trans }}</b>
+            {% if pressupost.estat %}
+              Acceptat
+            {% else %}
+              Rebutjat
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.matricula'|trans }}</b>
+            {{ pressupost.vehicle }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.treballador'|trans }}</b>{{ pressupost.treballador }}
+          </div>
+        </div>
+        <div class="card border-dark m-2 p-1">
+          {% for l in pressupost.liniaPressuposts %}
+            <div class="row">
+              <div class="col-sm">
+                <span>{{ 'form.article'|trans }}</span>
+                <span>{{ l.article }}</span>
+              </div>
+              <div class="col-sm">
+                <span>{{ 'form.quantitat'|trans }}</span>
+                <span>{{ l.quantitat }}</span>
+              </div>
+
+              <div class="col-sm">
+                <span>{{ 'form.preu'|trans }}</span>
+                <span>{{ l.preu }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
