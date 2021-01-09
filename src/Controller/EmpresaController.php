@@ -12,51 +12,36 @@ use App\Form\{EmpresaType};
 
 class EmpresaController extends BaseController
 {
-    
+
     /**
-     * @Route("/empresa/add", name="add_empresa")
+     * @Route("/empresa", name="empresa")
      */
-    public function create_empresa(Request $request, ValidatorInterface $validator):Response{
+    public function empresa(Request $request, ValidatorInterface $validator): Response
+    {
 
-        $empreses = $this->getDoctrine()
+        $empresa = $this->getDoctrine()
             ->getRepository(Empresa::class)
-            ->findAll();
-        $size = count($empreses);
-        
-        if($size>=1){
-            $this->addFlash('danger', 'empresa.error-add');
+            ->findOneBy(['id'=>1]);
 
-            return $this->redirectToRoute('empresa');
+
+        if (!$empresa) {
+            $empresa = new Empresa();
+            // return $this->redirectToRoute('homepage');
         }
 
         $entityManager = $this->obManager();
-        $empresa = new Empresa();
 
         $form = $this->createForm(EmpresaType::class, $empresa);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            
+
             $this->addFlash('success', 'empresa.success-add');
             $this->save($empresa);
             return $this->redirectToRoute('empresa');
         }
 
-        return $this->render('empresa/afegir.html.twig', ['form' => $form->createView()]);
-
-
-    }
-
-    /**
-     * @Route("/empresa", name="empresa")
-     */
-    public function index(): Response
-    {
-        $empresa = $this->getDoctrine()->getRepository(Empresa::class)->findOneBy(['id' => 0]);
-        dump($empresa);
-        return $this->render('empresa/index.html.twig', [
-            'controller_name' => 'EmpresaController',
-        ]);
+        return $this->render('empresa/empresa.html.twig', ['form' => $form->createView()]);
     }
 }

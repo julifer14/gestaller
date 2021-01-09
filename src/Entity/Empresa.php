@@ -52,6 +52,11 @@ class Empresa
      */
     private $telefon;
 
+    /**
+     * @ORM\Column(type="string", length=9)
+     */
+    private $nif;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Empresa
     public function setTelefon(string $telefon): self
     {
         $this->telefon = $telefon;
+
+        return $this;
+    }
+
+    public function getNif(): ?string
+    {
+        return $this->nif;
+    }
+
+    public function setNif(string $nif): self
+    {
+        $this->nif = $nif;
 
         return $this;
     }
