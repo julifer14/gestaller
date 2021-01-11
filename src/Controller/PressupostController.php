@@ -60,7 +60,7 @@ class PressupostController extends BaseController
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
-                           <!-- <a href="/pressupostos/esborrar/' . $value . '" class="badge badge-danger p-2 m-1">Esborrar pressupost</a> -->
+                            <a href="/pressupostos/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
                         </div>';
 
                 return $action;
