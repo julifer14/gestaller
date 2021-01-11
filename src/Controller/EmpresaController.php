@@ -39,9 +39,9 @@ class EmpresaController extends BaseController
 
             $this->addFlash('success', 'empresa.success-add');
             $this->save($empresa);
-            return $this->redirectToRoute('empresa');
+            return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('empresa/empresa.html.twig', ['form' => $form->createView()]);
+        return $this->render('empresa/empresa.html.twig', ['form' => $form->createView(),'logo'=>$empresa->getLogo()]);
     }
 }

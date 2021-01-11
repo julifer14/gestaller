@@ -23,7 +23,7 @@ class EmpresaType extends AbstractType
             ->add('ciutat')
             ->add('provincia')
             ->add('logo',FileType::class, [
-                'label' => 'Logo',
+                'label' => '',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,

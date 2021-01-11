@@ -106,6 +106,6 @@ user:
     mail: "Correu electrònic"
 
 empresa:
-  success-add: "Empresa afegida correctament"
+  success-add: "Informació empresa actualitzada"
   error-add: "No es pot afegir un altre empresa"
   info: "Informació empresa"

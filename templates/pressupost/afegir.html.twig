@@ -1,65 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nou pressupost{% endblock %}
+{% block title %}
+  Nou pressupost
+{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-		<h1>Nou pressupost</h1>	 	
-		<div class="pt-2">
-			
+  <div class="container mt-4">
+    <h1>
+      Nou pressupost
+    </h1>
+    <div class="pt-2">
+      {{ form_start(form) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.any) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.data) }}
+        </div>
+      </div>
+      {{ form_row(form.tasca) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.iva) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.estat) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.vehicle) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.treballador) }}
+        </div>
+      </div>
+      <div clas="row">
+        {{ form_row(form.liniaPressuposts) }}
+        <button class="btn btn-primary add_linia"
+          data-id-pressupost="{{ form.vars.data.id }}">
+          Afegir linia
+        </button>
+      </div>
+      <div id="linias"></div>
 
-			{{ form_start(form) }}
-				<div class="row">
-				<div class="col">{{ form_row(form.any) }}</div>
-				<div class="col">{{ form_row(form.data) }}</div>
-				</div>
-				{{ form_row(form.tasca) }}
-				<div class="row">
-				<div class="col">{{ form_row(form.iva) }}</div>
-				<div class="col">{{ form_row(form.estat) }}</div>
-				</div>
-				<div class="row">
-				<div class="col">{{ form_row(form.vehicle) }}</div>
-				<div class="col">{{ form_row(form.treballador) }}</div>
-				</div>
-				<div clas="row">
-				{{ form_row(form.liniaPressuposts) }} <button class="btn btn-primary add_linia"  data-id-pressupost="{{ form.vars.data.id }}" >Afegir linia</button>
-				</div>
-				<div id="linias">
-				</div>
+      {{ form_rest(form) }}
 
-				
-				{{ form_rest(form) }}
+      <div class="w-100 text-center">
+        <button type="submit" class="btn btn-outline-primary">
+          <i class="fa fa-paper-plane"></i>Guardar
+        </button>
+      </div>
 
-
-             
-				<div class="w-100 text-center">
-					<button type="submit" class="btn btn-outline-primary"><i class="fa fa-paper-plane"></i>Guardar</button>
-				</div>
-
-			{{ form_end(form) }}
-		</div>
-			
-<!--<div class="container">
-<p class="h4">Afegir linia</p>
-		<form class="row mt-4">
-			<div class="col-auto">
-				<label for="article" class="visually-hidden">Article</label>
-				<input type="text"  class="form-control" id="article">
-			</div>
-			<div class="col-auto">
-				<label for="quantitat" class="visually-hidden">Quantitat</label>
-				<input type="number" class="form-control" id="quantitat">
-			</div>
-			<div class="col-auto">
-				<label for="preu" class="visually-hidden">Preu</label>
-				<input type="number" class="form-control" id="preu">
-			</div>
-			<div class="col-auto">
-				<button type="submit" class="btn btn-primary mb-3">Afegir linia</button>
-			</div>
-		</form>
-</div>-->
-
-	</div>
+      {{ form_end(form) }}
+    </div>
+  </div>
 {% endblock %}
