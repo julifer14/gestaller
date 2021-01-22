@@ -60,6 +60,11 @@ class Pressupost
      */
     private $treballador;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $total;
+
     public function __construct()
     {
         $this->liniaPressuposts = new ArrayCollection();
@@ -195,5 +200,17 @@ class Pressupost
     }
 
     public function setTotalLinies($total){
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): self
+    {
+        $this->total = $total;
+
+        return $this;
     }
 }

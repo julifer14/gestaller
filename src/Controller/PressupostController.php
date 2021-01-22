@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\{Pressupost, Article, LiniaPressupost};
+use App\Entity\{Pressupost, Article, LiniaPressupost,Empresa};
 use App\Form\{PressupostType, LiniaPressupostType};
 use App\Manager\PressupostManager;
 
@@ -27,9 +27,14 @@ class PressupostController extends BaseController
      */
     public function pdfAction(Pdf $pdf, Pressupost $pressupost)
     {
+        $empresa = $this->getDoctrine()
+            ->getRepository(Empresa::class)
+            ->findOneBy(['id'=>1]);
+
         $html = $this->renderView('pressupost/fitxa_pressupost_pdf.html.twig', [
             'controller_name' => 'PressupostController',
             'pressupost' => $pressupost,
+            'empresa' => $empresa,
         ]);
         $nomFitxer = "pressupost".$pressupost->getId();
         return new PdfResponse(
@@ -50,8 +55,8 @@ class PressupostController extends BaseController
         $table = $dataTableFactory->create()
             //->add('id', TextColumn::class, ['label' => 'Codi pressupost','searchable'=> True]) 
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
-            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client.cognoms'])
-            ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'searchable' => True, 'field' => 'treballador.id'])
+            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
+            ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
             ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
 
 
@@ -112,6 +117,7 @@ class PressupostController extends BaseController
         $pressupost->setAny(2020);
         $date = new \DateTime('@' . strtotime('now'));
         $pressupost->setData($date);
+        $pressupost->setTotal(0);
 
         $form = $this->createForm(PressupostType::class, $pressupost);
         $form->handleRequest($request);
@@ -122,7 +128,7 @@ class PressupostController extends BaseController
             $pressupostManager->savePressupost($pressupost, $noves_linies);
             $this->addFlash('success', 'pressupost.success-add');
 
-            return $this->redirectToRoute('modificar_pressupost', array("id" => $pressupost->getId()));
+            return $this->redirectToRoute('llistar_pressupostos', array("id" => $pressupost->getId()));
         }
 
         return $this->render('pressupost/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);

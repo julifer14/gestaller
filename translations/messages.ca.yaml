@@ -13,6 +13,8 @@ client:
   success-add: "Client afegit"
   error-del: "No s'ha pogut eliminar el client"
   success-edit: "Client modificat"
+  adreca: "Adreça"
+  
 
   vehicle:
     list: "Llistat de vehicles"
@@ -24,6 +26,9 @@ client:
     codi: "Codi client"
     nom: Nom
     cognoms: Cognoms
+    adreca: "Adreça"
+    poblacio: "Població"
+
 form:
   any: "Ejercici: "
   data: "Data: "
@@ -35,6 +40,7 @@ form:
   article: "Article "
   quantitat: "Quantitat "
   preu: "Preu "
+  articles: "Articles "
 
 vehicle:
   vehicle: Vehicle
@@ -69,6 +75,10 @@ article:
   error-del: "No s'ha pogut eliminar l'article"
   success-del: "Article eliminat"
   success-edit: "Article modificat"
+  referencia: Referència
+  quantitat: Quantitat
+  total: Total
+  preu: Preu unitari
 
 pressupost:
   pressupost: Pressupost
@@ -78,7 +88,7 @@ pressupost:
   success-del: "Pressupost eliminat"
   success-edit: "Pressupost modificat"
   edit: "Editar pressupost"
-  pressupostNum: "Pressupost: "
+  pressupostNum: "Pressupost número: "
 
 register:
   success-add: "Usuari registrat"

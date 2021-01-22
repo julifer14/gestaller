@@ -53,7 +53,12 @@ class PressupostType extends AbstractType
             ])   
             
             ->add('totalLinies', HiddenType::class, /*['mapped' => false]*/)
-            
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+                $pressupost = $event->getData();
+                $form = $event->getForm();
+                $liniaPressupost = $form->get('liniaPressuposts')->getData();
+                
+            })
           ;
                 
     }

@@ -19,8 +19,12 @@
 		$(function() {
 		    var dt = $('#pressupostos').initDataTables({{ datatable_settings(datatable) }}, {
 		    	searching: true,
-                dom: 'Bfrtip'
+                dom: 'Bfrtip',
+				
 		    });
+			
+			
 		});
+		
 	</script>
 {% endblock %}

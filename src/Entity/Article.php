@@ -159,7 +159,7 @@ class Article
     }
 
     public function __toString(){
-        return $this->getNom()."(".$this->getReferencia().")";
+        return $this->getNom();
     }
 
     /**

@@ -8,15 +8,20 @@
       {% endblock %}
     </title>
 
-
-
-<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
-
+    <link rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ asset('favicon/apple-touch-icon.png') }}" />
+    <link rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ asset('favicon/favicon-32x32.png') }}" />
+    <link rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ asset('favicon/favicon-16x16.png') }}" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block stylesheets %}
@@ -26,8 +31,8 @@
         type="text/css"
         href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css" />
 
-      <!--  Renders a link tag (if your module requires any CSS)
-                 <link rel="stylesheet" href="/build/app.css">  -->
+      <!--   Renders a link tag (if your module requires any CSS)
+                 <link rel="stylesheet" href="/build/app.css">   -->
     {% endblock %}
   </head>
   <body>
@@ -118,18 +123,20 @@
     <div class="container-fluid">
       <h1 class="mt-2 mb-2">
         {% block title_block %}
+
         {% endblock %}
       </h1>
       {% include '_partials/messages_flashes.html.twig' %}
       {% block body %}
+
       {% endblock %}
     </div>
 
     {{ encore_entry_script_tags('app') }}
     {% block javascripts %}
-      <!--  Renders app.js & a webpack runtime.js file
+      <!--   Renders app.js & a webpack runtime.js file
                 <script src="/build/runtime.js"></script>
-                <script src="/build/app.js"></script>  -->
+                <script src="/build/app.js"></script>   -->
     {% endblock %}
   </body>
 </html>
