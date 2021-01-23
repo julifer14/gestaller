@@ -73,7 +73,7 @@ class CategoriaController extends BaseController
             $this->addFlash('success', 'categoria.success-edit');
             $this->save($categoria);
             
-            return $this->redirectToRoute('llistar_cagegories');
+            return $this->redirectToRoute('llistar_categories');
         }
 
         return $this->render('categoria/modificar_categoria.html.twig', ['form' => $form->createView(),'categoria'=>$categoria ]);

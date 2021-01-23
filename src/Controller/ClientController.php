@@ -82,6 +82,7 @@ class ClientController extends BaseController
                             <a href="/clients/' . $value . '" class="badge badge-info p-1 m-2">' . $this->translator->trans('client.fitxa') . '</a>
                             <a href="/clients/modificar/' . $value . '" class="badge badge-secondary p-1 m-2">' . $this->translator->trans('client.edit') . '</a>
                             <a href="/clients/esborrar/' . $value . '" class="badge badge-danger p-1 m-2">' . $this->translator->trans('client.del') . '</a> 
+                            <a href="/vehicles/afegir/' . $value . '" class="badge badge-primary p-1 m-2">' . $this->translator->trans('client.addVehicle') . '</a> 
                         </div>';
 
                 return $action;

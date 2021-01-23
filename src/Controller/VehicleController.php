@@ -80,22 +80,28 @@ class VehicleController extends BaseController
 
     /**
      * @Route("/vehicles/afegir",name="afegir_vehicle")
+     * @Route("/vehicles/afegir/{client}",name="afegir_vehicle_client")
      */
-    public function createVehicle(Request $request,ValidatorInterface $validator):Response
+    public function createVehicle(Request $request,ValidatorInterface $validator, Client $client=null):Response
     {
+        
 
         $vehicle = new Vehicle();
-       
+        if($client){
+            $vehicle->setClient($client);
+            
+        }
         $clients = $this->getDoctrine()
             ->getRepository(Client::class)
             ->findAll();
         $models = $this->getDoctrine()
         ->getRepository(Model::class)
         ->findAll();
-
+        
         
         $form = $this->createForm(VehicleType::class, $vehicle, array('clients' => $clients, 'models' => $models) );
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'vehicle.success-add');

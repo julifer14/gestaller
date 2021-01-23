@@ -7,6 +7,7 @@ client:
   add: Afegir un client
   del: Esborrar client
   edit: Modificar client
+  addVehicle: Afegir vehicle
 
   fitxa: Fitxa client
   list: Llista de clients 
@@ -106,6 +107,7 @@ user:
   fitxa: "Fitxa d'usuari"
   rols:
     list: "Llistat de rols de l'usuari"
+  success-edit: "Usuari modificat correctament"  
 
   info:
     codi: "Codi usuari"

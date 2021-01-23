@@ -9,6 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\User;
+use App\Form\UserType;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
@@ -46,61 +47,77 @@ class SecurityController extends BaseController
     /**
      * @Route("/llistarUsuaris",name="llistar_usuaris")
      */
-    public function llistar_usuaris(Request $request, DataTableFactory $dataTableFactory, TranslatorInterface $translator):Response
+    public function llistar_usuaris(Request $request, DataTableFactory $dataTableFactory, TranslatorInterface $translator): Response
     {
 
         $this->translator = $translator;
 
         $usuaris = $this->getDoctrine()
-        ->getRepository(User::class)
-        ->findAll();
+            ->getRepository(User::class)
+            ->findAll();
 
-    $table = $dataTableFactory->create()
-    //->add('id', TextColumn::class, ['label' => 'id','searchable'=> True])
-    ->add('email', TextColumn::class, ['label' => 'Nom','searchable'=> True])
-    /*->add('roles', TextColumn::class, ['label' => 'Rols'])*/
-    ->add('id', TextColumn::class, ['label' => '', 'render' => function($value, $context) {
-                                    
-       $action = "";
-       $action = '
+        $table = $dataTableFactory->create()
+            //->add('id', TextColumn::class, ['label' => 'id','searchable'=> True])
+            ->add('email', TextColumn::class, ['label' => 'Nom', 'searchable' => True])
+            /*->add('roles', TextColumn::class, ['label' => 'Rols'])*/
+            ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+
+                $action = "";
+                $action = '
                     <div class="btn-group">
-                        <a href="/user/'.$value.'" class="badge badge-secondary p-1 m-2">'.$this->translator->trans('user.fitxa').'</a>
+                        <a href="/user/' . $value . '" class="badge badge-secondary p-1 m-2">' . $this->translator->trans('user.fitxa') . '</a>
                     </div>';
-       
-        return $action;                   
-    }])
-    ->createAdapter(ORMAdapter::class, [
-        'entity' => User::class,
-        /*'query' => function (QueryBuilder $builder){
+
+                return $action;
+            }])
+            ->createAdapter(ORMAdapter::class, [
+                'entity' => User::class,
+                /*'query' => function (QueryBuilder $builder){
             $builder
                 ->select('user')
                 ->from(User::class, 'user')
                 ->orderBy('user.email')
             ;
         }*/
-    ])
-    ->handleRequest($request);
+            ])
+            ->handleRequest($request);
 
-    if ($table->isCallback()) {
-        return $table->getResponse();
-    }
+        if ($table->isCallback()) {
+            return $table->getResponse();
+        }
 
-    return $this->render('security/llistar.html.twig', ['datatable' => $table]);
-
+        return $this->render('security/llistar.html.twig', ['datatable' => $table]);
     }
 
     /**
-      * @Route("user/{id}", name="fitxa_user")
-      */
-      public function show(User $user):Response
-      {
-         return $this->render('security/fitxa_user.html.twig', [
-             'controller_name' => 'SecurityController',
-             'user' => $user,
-         ]);
- 
-        
-      }
+     * @Route("user/{id}", name="fitxa_user")
+     */
+    public function show(User $user): Response
+    {
+        return $this->render('security/fitxa_user.html.twig', [
+            'controller_name' => 'SecurityController',
+            'user' => $user,
+        ]);
+    }
 
- 
+
+    /**
+     * @Route("user/modificar/{id}", name="modificar_user")
+     */
+    public function modificarUser(Request $request, User $user): Response
+    {
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->addFlash('success', 'user.success-edit');
+            $this->save($user);
+
+            return $this->redirectToRoute('llistar_usuaris');
+        }
+
+        return $this->render('security/modificar_user.html.twig', ['form' => $form->createView(), 'usuari' => $user]);
+    }
 }

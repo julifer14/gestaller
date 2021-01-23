@@ -1,54 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{"client.fitxa"|trans}}{% endblock %}
-
-{% block body %}
-<div class="container mt-4">
-		<h1>{{ client.nom }} {{ client.cognoms }}</h1>	 	
-			
-			<div class="card">
-				<div class="card-header">
-					<span>Codi client: </span>{{ client.id }} 
-				</div>
-				<div class="card-body">
-					<p class="card-text">
-						<span>{{ client.nom }} {{ client.cognoms }}</span>
-					</p>
-					<p class="card-text">
-						<span>{{ client.adreca}} </span><span>{{ client.CP}} </span> <span>{{ client.ciutat}} </span>
-					</p>
-					<p class="card-text">
-						<span>{{ client.pais}}</span>
-					</p>
-					
-					<p class="card-text">
-						<span>{{ "client.info.tel"|trans }}: </span><span>{{ client.telefon}}</span>
-					</p>
-					<p class="card-text">
-						<span>{{ "client.info.mail"|trans }}: </span><span>{{ client.email}}</span>
-					</p>
-					<p class="card-text">
-						<span>{{ "client.info.dni"|trans }}: </span><span>{{ client.dni}}</span>
-					</p>
-				</div>
-				<div class="card-footer">
-				<a href="/clients/modificar/{{ client.id }}" class="btn btn-secondary">{{ "client.edit"|trans }}</a>
-					<a href="/clients/esborrar/{{ client.id }}" class="btn btn-danger">{{ "client.del"|trans }}</a>
-				</div>
-			</div>
-			<div class="card">
-				<div class="card-header">
-					<span>{{ "client.vehicle.list"|trans }}</span>
-				</div>
-				<div class="card-body">
-					{% for vehicle in client.vehicles %}
-						<p>{{ vehicle.id }} {{ vehicle.matricula }}</p>
-					{% endfor %}
-				</div>
-				
-			</div>
-			
-
-	</div>
+{% block title %}
+  {{ 'client.fitxa'|trans }}
 {% endblock %}
 
+{% block body %}
+  <div class="container mt-4">
+    <h1>
+      {{ client.nom }} {{ client.cognoms }}
+    </h1>
+
+    <div class="card">
+      <div class="card-header">
+        <span>Codi client:</span>{{ client.id }}
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <span>{{ client.nom }} {{ client.cognoms }}</span>
+        </p>
+        <p class="card-text">
+          <span>{{ client.adreca }}</span><span>{{ client.CP }}</span> <span>{{
+              client.ciutat
+            }}</span>
+        </p>
+        <p class="card-text">
+          <span>{{ client.pais }}</span>
+        </p>
+
+        <p class="card-text">
+          <span>{{ 'client.info.tel'|trans }}:</span><span>{{ client.telefon }}</span>
+        </p>
+        <p class="card-text">
+          <span>{{ 'client.info.mail'|trans }}:</span><span>{{ client.email }}</span>
+        </p>
+        <p class="card-text">
+          <span>{{ 'client.info.dni'|trans }}:</span><span>{{ client.dni }}</span>
+        </p>
+      </div>
+      <div class="card-footer">
+        <a href="/clients/modificar/{{ client.id }}" class="btn btn-secondary">
+          {{ 'client.edit'|trans }}
+        </a>
+		<a href="/vehicles/afegir/{{ client.id }}" class="btn btn-primary">
+          {{ 'client.addVehicle'|trans }}
+        </a>
+        <a href="/clients/esborrar/{{ client.id }}" class="btn btn-danger">
+          {{ 'client.del'|trans }}
+        </a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>{{ 'client.vehicle.list'|trans }}</span>
+      </div>
+      <div class="card-body">
+        {% for vehicle in client.vehicles %}
+          <p>
+            {{ vehicle.id }} {{ vehicle.matricula }}
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
