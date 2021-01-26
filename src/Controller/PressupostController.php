@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\{Pressupost, Article, LiniaPressupost,Empresa};
+use App\Entity\{Pressupost, Article, LiniaPressupost, Empresa};
 use App\Form\{PressupostType, LiniaPressupostType};
 use App\Manager\PressupostManager;
 
@@ -22,21 +22,21 @@ use Knp\Snappy\Pdf;
 
 class PressupostController extends BaseController
 {
-     /**
+    /**
      * @Route("pressupostos/{id}/pdf", name="pressupost_pdf")
      */
     public function pdfAction(Pdf $pdf, Pressupost $pressupost)
     {
         $empresa = $this->getDoctrine()
             ->getRepository(Empresa::class)
-            ->findOneBy(['id'=>1]);
+            ->findOneBy(['id' => 1]);
 
         $html = $this->renderView('pressupost/fitxa_pressupost_pdf.html.twig', [
             'controller_name' => 'PressupostController',
             'pressupost' => $pressupost,
             'empresa' => $empresa,
         ]);
-        $nomFitxer = "pressupost".$pressupost->getId();
+        $nomFitxer = "pressupost" . $pressupost->getId();
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             $nomFitxer
@@ -57,15 +57,30 @@ class PressupostController extends BaseController
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
+            ->add('estat', TextColumn::class, ['label' => 'Estat', 'render' => function ($value, $context) {
+                $action = "";
+                dump($context);
+                if ($value) {
+
+                    // $action=' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
+                    $action = '<div class="text-light text-center bg-success">Acceptat</div>';
+                } else {
+                    //$action=   '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
+                    $action = '<div class="text-light text-center bg-danger">Rebutjat</div>';
+                }
+                return $action;
+            }])
             ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
 
 
                 $action = "";
-                $action = '
+                $action = $value.' 
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
                             <a href="/pressupostos/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
+                            <!--<a href="/pressupostos/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
+                            <a href="/pressupostos/' . $value . '/rebutjat" class="badge badge-light p-2 m-1">❌</a>-->
                         </div>';
 
                 return $action;
@@ -132,6 +147,30 @@ class PressupostController extends BaseController
         }
 
         return $this->render('pressupost/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);
+    }
+
+    /**
+     * @Route("pressupostos/{id}/acceptat", name="acceptar_pressupost")
+     */
+    public function acceptarPressupost(Request $request, Pressupost $pressupost): Response
+    {
+        $pressupost->setEstat(1);
+        $this->addFlash('success', 'pressupost.canviEstat');
+        $this->save($pressupost);
+
+        return $this->redirectToRoute('llistar_pressupostos');
+    }
+
+    /**
+     * @Route("pressupostos/{id}/rebutjat", name="rebutjat_pressupost")
+     */
+    public function rebutjarPressupost(Request $request, Pressupost $pressupost): Response
+    {
+        $pressupost->setEstat(0);
+        $this->addFlash('success', 'pressupost.canviEstat');
+        $this->save($pressupost);
+
+        return $this->redirectToRoute('llistar_pressupostos');
     }
 
     /**

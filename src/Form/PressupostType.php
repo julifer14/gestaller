@@ -31,8 +31,9 @@ class PressupostType extends AbstractType
                 ],])
             ->add('estat',ChoiceType::class, [
                 'choices' => [
+                    '❌ Rebutjat' => False,
                     '✅ Acceptar' => True,
-                    '❌ Rebutjat' => False
+                    
                 ],])
             ->add('vehicle', EntityType::class,
             [
