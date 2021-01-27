@@ -53,28 +53,30 @@ class PressupostController extends BaseController
             ->findAll();
 
         $table = $dataTableFactory->create()
+            ->add('estat', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+                $action = "";
+                dump($context);
+                if ($value) {
+                    $action = '<span class="dot-green"></span>';
+                    // $action=' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
+                    //$action = '<div class="text-light text-center bg-success">*</div>';
+                } else {
+                    //$action=   '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
+                    //$action = '<div class="text-light text-center bg-danger">*</div>';
+                    $action = '<span class="dot-red"></span>';
+                }
+                return $action;
+            }])
             //->add('id', TextColumn::class, ['label' => 'Codi pressupost','searchable'=> True]) 
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
-            ->add('estat', TextColumn::class, ['label' => 'Estat', 'render' => function ($value, $context) {
-                $action = "";
-                dump($context);
-                if ($value) {
 
-                    // $action=' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
-                    $action = '<div class="text-light text-center bg-success">Acceptat</div>';
-                } else {
-                    //$action=   '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
-                    $action = '<div class="text-light text-center bg-danger">Rebutjat</div>';
-                }
-                return $action;
-            }])
             ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
 
 
                 $action = "";
-                $action = $value.' 
+                $action = $value . ' 
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
