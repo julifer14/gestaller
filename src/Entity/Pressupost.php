@@ -65,6 +65,11 @@ class Pressupost
      */
     private $total;
 
+    /**
+     * @ORM\OneToOne(targetEntity=OrdreReparacio::class, mappedBy="pressupost", cascade={"persist", "remove"})
+     */
+    private $ordreReparacio;
+
     public function __construct()
     {
         $this->liniaPressuposts = new ArrayCollection();
@@ -210,6 +215,28 @@ class Pressupost
     public function setTotal(float $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getOrdreReparacio(): ?OrdreReparacio
+    {
+        return $this->ordreReparacio;
+    }
+
+    public function setOrdreReparacio(?OrdreReparacio $ordreReparacio): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($ordreReparacio === null && $this->ordreReparacio !== null) {
+            $this->ordreReparacio->setPressupost(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($ordreReparacio !== null && $ordreReparacio->getPressupost() !== $this) {
+            $ordreReparacio->setPressupost($this);
+        }
+
+        $this->ordreReparacio = $ordreReparacio;
 
         return $this;
     }

@@ -47,9 +47,15 @@ class Vehicle
      */
     private $pressuposts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrdreReparacio::class, mappedBy="vehicle")
+     */
+    private $ordreReparacios;
+
     public function __construct()
     {
         $this->pressuposts = new ArrayCollection();
+        $this->ordreReparacios = new ArrayCollection();
     }
 
    
@@ -147,6 +153,36 @@ class Vehicle
     public function __toString()
     {
         return $this->Matricula;
+    }
+
+    /**
+     * @return Collection|OrdreReparacio[]
+     */
+    public function getOrdreReparacios(): Collection
+    {
+        return $this->ordreReparacios;
+    }
+
+    public function addOrdreReparacio(OrdreReparacio $ordreReparacio): self
+    {
+        if (!$this->ordreReparacios->contains($ordreReparacio)) {
+            $this->ordreReparacios[] = $ordreReparacio;
+            $ordreReparacio->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdreReparacio(OrdreReparacio $ordreReparacio): self
+    {
+        if ($this->ordreReparacios->removeElement($ordreReparacio)) {
+            // set the owning side to null (unless already changed)
+            if ($ordreReparacio->getVehicle() === $this) {
+                $ordreReparacio->setVehicle(null);
+            }
+        }
+
+        return $this;
     }
 
     
