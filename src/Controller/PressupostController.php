@@ -53,17 +53,15 @@ class PressupostController extends BaseController
             ->findAll();
 
         $table = $dataTableFactory->create()
-            ->add('estat', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+            ->add('estat', TextColumn::class, ['label' => 'Estat', 'render' => function ($value, $context) {
                 $action = "";
-                dump($context);
                 if ($value) {
                     $action = '<span class="dot-green"></span>';
-                    // $action=' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
-                    //$action = '<div class="text-light text-center bg-success">*</div>';
+                     $action=$action.' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
                 } else {
-                    //$action=   '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
-                    //$action = '<div class="text-light text-center bg-danger">*</div>';
                     $action = '<span class="dot-red"></span>';
+                    $action=  $action. '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
+                    
                 }
                 return $action;
             }])
@@ -76,7 +74,10 @@ class PressupostController extends BaseController
 
 
                 $action = "";
-                $action = $value . ' 
+                if ($value < 10) {
+                    $action = '0';
+                } 
+                $action = $action.$value.' 
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
@@ -84,6 +85,14 @@ class PressupostController extends BaseController
                             <!--<a href="/pressupostos/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
                             <a href="/pressupostos/' . $value . '/rebutjat" class="badge badge-light p-2 m-1">❌</a>-->
                         </div>';
+                if ($context->getEstat()) {
+                    //Pressupost esta acceptat
+                   // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
+                     $action = $action.'<a href="/pressupostos/' . $context . '/ordrerep" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                } else {
+                    //Pressupost esta rebutjat
+                    //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
+                }
 
                 return $action;
             }])

@@ -90,7 +90,7 @@ pressupost:
   success-edit: "Pressupost modificat"
   edit: "Editar pressupost"
   pressupostNum: "Pressupost número: "
-  canviEstat: "Canvi d'estat correctament"
+  canviEstat: "Canvi d'estat del pressupost correctament"
 
 register:
   success-add: "Usuari registrat"
