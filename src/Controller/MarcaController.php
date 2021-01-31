@@ -23,9 +23,9 @@ class MarcaController extends BaseController
      */
     public function llistar_marques(Request $request, DataTableFactory $dataTableFactory): Response
     {
-        $marques = $this->getDoctrine()
+       /* $marques = $this->getDoctrine()
             ->getRepository(Marca::class)
-            ->findAll();
+            ->findAll();*/
 
         $table = $dataTableFactory->create()
             ->add('nom', TextColumn::class, ['label' => 'Nom', 'searchable' => True])

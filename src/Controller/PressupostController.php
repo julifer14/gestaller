@@ -140,8 +140,9 @@ class PressupostController extends BaseController
 
 
         //Treure!
-        $pressupost->setAny(2020);
+        
         $date = new \DateTime('@' . strtotime('now'));
+        $pressupost->setAny($date->format('Y'));
         $pressupost->setData($date);
         $pressupost->setTotal(0);
 

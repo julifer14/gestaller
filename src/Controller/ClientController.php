@@ -64,9 +64,9 @@ class ClientController extends BaseController
         $this->translator = $translator;
 
 
-        $clients = $this->getDoctrine()
+       /* $clients = $this->getDoctrine()
             ->getRepository(Client::class)
-            ->findAll();
+            ->findAll();*/
 
         $table = $dataTableFactory->create()
             ->add('nom', TextColumn::class, ['label' => 'Nom', 'searchable' => True])

@@ -82,6 +82,7 @@ article:
   preu: Preu unitari
 
 pressupost:
+  add: "Afegir pressupost"
   pressupost: Pressupost
   list: Llista de pressupostos
   success-add: "Pressupost guardat"
@@ -122,3 +123,7 @@ empresa:
   success-add: "Informació empresa actualitzada"
   error-add: "No es pot afegir un altre empresa"
   info: "Informació empresa"
+
+ordre:
+  llistar: "Llistar ordres de reparació"
+  add: "Afegir ordre de reparació"

@@ -24,9 +24,9 @@ class CategoriaController extends BaseController
     public function llistar_categories(Request $request, DataTableFactory $dataTableFactory): Response
     {
         
-        $categories = $this->getDoctrine()
+        /*$categories = $this->getDoctrine()
             ->getRepository(Categoria::class)
-            ->findAll();
+            ->findAll();*/
 
         $table = $dataTableFactory->create()
         ->add('nom', TextColumn::class, ['label' => 'Nom'])

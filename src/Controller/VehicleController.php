@@ -25,9 +25,9 @@ class VehicleController extends BaseController
     public function llistar_vehicles(Request $request, DataTableFactory $dataTableFactory): Response
     {
         
-        $vehicle = $this->getDoctrine()
+        /*$vehicle = $this->getDoctrine()
             ->getRepository(Vehicle::class)
-            ->findAll();
+            ->findAll();*/
 
         $table = $dataTableFactory->create()
         ->add('Matricula', TextColumn::class, ['label' => 'Matricula','searchable'=> True])

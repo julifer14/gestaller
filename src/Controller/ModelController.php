@@ -23,9 +23,9 @@ class ModelController extends BaseController
      */
     public function llistar_models(Request $request, DataTableFactory $dataTableFactory): Response
     {
-        $models = $this->getDoctrine()
+        /*$models = $this->getDoctrine()
             ->getRepository(Model::class)
-            ->findAll();
+            ->findAll();*/
 
         $table = $dataTableFactory->create()
             ->add('Marca', TextColumn::class, ['label' => 'Marca', 'searchable' => True, 'field' => 'Marca.nom'])
