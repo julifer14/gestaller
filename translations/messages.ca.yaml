@@ -42,6 +42,10 @@ form:
   quantitat: "Quantitat "
   preu: "Preu "
   articles: "Articles "
+  dataEntrada: "Data entrada"
+  dataSortida: "Data sortida"
+  combustible: "Combustible "
+  km: "Quilòmetres"
 
 vehicle:
   vehicle: Vehicle
@@ -127,3 +131,4 @@ empresa:
 ordre:
   llistar: "Llistar ordres de reparació"
   add: "Afegir ordre de reparació"
+  success-add: "Ordre creada"

@@ -14,6 +14,7 @@ use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class OrdreReparacioController extends BaseController
 {
@@ -43,13 +44,14 @@ class OrdreReparacioController extends BaseController
     /**
      * @Route("ordres/afegir", name="afegir_ordre")
      */
-    public function createOrdre(Request $request, ValidatorInterface $validator):Response{
+    public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user):Response{
         ini_set( 'date.timezone', 'Europe/Berlin' ); 
         $ordre = new OrdreReparacio();
         $date = new \DateTime('@' . strtotime('now'));
         $ordre->setAny($date->format('Y'));
         $ordre->setDataCreacio($date);
         $ordre->setDataEntrada($date);
+        $ordre->setTreballador($user);
         $form = $this->createForm(OrdreReparacioType::class, $ordre);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
