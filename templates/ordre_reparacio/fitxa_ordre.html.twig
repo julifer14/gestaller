@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'ordre.ordreNum'|trans }} {{ ordre.id }}
+{% endblock %}
+{% block title_block %}
+  {{ 'ordre.ordreNum'|trans }} {{ ordre.id }}
+{% endblock %}
+
+{% block body %}
+  <div class="container mt-4">
+    <div class="container mt-4">
+      <div class="pt-2">
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.any'|trans }}</b>
+            {{ ordre.any }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.data'|trans }}</b>
+            {{ ordre.dataCreacio|date('d/m/Y') }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.tasca'|trans }}</b>
+            {{ ordre.tasca }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.dataEntrada'|trans }}</b>
+            {{ ordre.dataEntrada|date('d/m/Y') }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.dataSortida'|trans }}</b>
+            {{ ordre.dataSortida|date('d/m/Y') }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.iva'|trans }}</b>
+            {{ ordre.iva }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.estat'|trans }}</b>
+            {% if ordre.estat %}
+              Tancada
+            {% else %}
+              Oberta
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.matricula'|trans }}</b>
+            {{ ordre.vehicle }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.treballador'|trans }}</b>{{ ordre.treballador }}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}

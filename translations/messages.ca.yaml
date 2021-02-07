@@ -132,3 +132,5 @@ ordre:
   llistar: "Llistar ordres de reparació"
   add: "Crear ordre de reparació"
   success-add: "Ordre creada"
+  ordre: "Ordre de reparació"
+  ordreNum: "Ordre de reparació número: "

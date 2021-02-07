@@ -6,51 +6,105 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.scss';
+import './styles/app.scss'
 
-import $ from 'jquery';
-global.$ = global.jQuery = $;
+import $ from 'jquery'
+global.$ = global.jQuery = $
 
-import "../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js";
+import '../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js'
 
 //import 'cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
-console.log('Hello Webpack Encore! Edit me in assets/app.js');
+console.log('Hello Webpack Encore! Edit me in assets/app.js')
 
 // loads the jquery package from node_modules
 
-import greet from './greet';
+import greet from './greet'
 
-require('bootstrap');
-import 'bootstrap-select';
-import 'bootstrap-select/dist/js/i18n/defaults-es_ES.min';
+require('bootstrap')
+import 'bootstrap-select'
+import 'bootstrap-datepicker'
+import 'bootstrap-datepicker/'
 
-var total_linia = 0;
+import 'bootstrap-select/dist/js/i18n/defaults-es_ES.min'
 
-$(document).ready(function() {
-     $('select').selectpicker({language: 'ES', liveSearch: true});
-     //add_linia
-     total_linia = $("#pressupost_totalLinies").val();
+var total_linia = 0
 
-     $( ".add_linia" ).click(function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          var id = $(this).attr('data-id-pressupost');
+$(document).ready(function () {
+  $('select').selectpicker({ language: 'ES', liveSearch: true })
+  $('.js-datepicker').datepicker({
+    format: 'dd-mm-yyyy',
+    closeText: 'Cerrar',
+    prevText: '<Ant',
+    nextText: 'Sig>',
+    currentText: 'Hoy',
+    monthNames: [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+    ],
+    monthNamesShort: [
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic',
+    ],
+    dayNames: [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+    ],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+    weekHeader: 'Sm',
+    dateFormat: 'dd/mm/yy',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+  })
+  //add_linia
+  total_linia = $('#pressupost_totalLinies').val()
 
-          $.ajax({
-               // la URL para la petición
-               url : '/pressupostos/afegirLinia',
-               data : { id : id , total_linia: total_linia},
-               type : 'POST',
-               dataType : 'html',
-               success : function(result) {
-                   $('#linias').append(result);
-                   total_linia = total_linia +1;
-               }
-           });
-     });
+  $('.add_linia').click(function (e) {
+    e.preventDefault()
+    e.stopPropagation()
 
-});
+    var id = $(this).attr('data-id-pressupost')
+
+    $.ajax({
+      // la URL para la petición
+      url: '/pressupostos/afegirLinia',
+      data: { id: id, total_linia: total_linia },
+      type: 'POST',
+      dataType: 'html',
+      success: function (result) {
+        $('#linias').append(result)
+        total_linia = total_linia + 1
+      },
+    })
+  })
+})
