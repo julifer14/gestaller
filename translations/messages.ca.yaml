@@ -86,7 +86,7 @@ article:
   preu: Preu unitari
 
 pressupost:
-  add: "Afegir pressupost"
+  add: "Crear pressupost"
   pressupost: Pressupost
   list: Llista de pressupostos
   success-add: "Pressupost guardat"
@@ -130,5 +130,5 @@ empresa:
 
 ordre:
   llistar: "Llistar ordres de reparació"
-  add: "Afegir ordre de reparació"
+  add: "Crear ordre de reparació"
   success-add: "Ordre creada"

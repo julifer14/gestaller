@@ -1,26 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ 'ordre.add'|trans }}{% endblock %}
+{% block title %}
+  {{ 'ordre.add'|trans }}
+{% endblock %}
 {% block title_block %}
-  {{ 'ordre.add'|trans }} 
+  {{ 'ordre.add'|trans }}
 {% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-		<div class="pt-2">
-			
+  <div class="container mt-4">
+    <div class="pt-2">
+      {{ form_start(form) }}
 
-			{{ form_start(form) }}
-				{{ form_rest(form) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.any) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.dataCreacio) }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.tasca) }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.dataEntrada) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.dataSortida) }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.combustible) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.quilometres) }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.vehicle) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.pressupost) }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.iva) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.estat) }}
+        </div>
+      </div>
+	  <div class="row">
+        <div class="col">
+          {{ form_row(form.autoritzacio) }}
+        </div>
+        
+      </div>
 
 
-             
-				<div class="w-100 text-center">
-					<button type="submit" class="btn btn-outline-primary"><i class="fa fa-paper-plane"></i> Enviar</button>
-				</div>
+      {{ form_rest(form) }}
 
-			{{ form_end(form) }}
-		</div>
+      <div class="w-100 text-center">
+        <button type="submit" class="btn btn-outline-primary">
+          <i class="fa fa-paper-plane"></i> Guardar
+        </button>
+      </div>
 
-	</div>
+      {{ form_end(form) }}
+    </div>
+  </div>
 {% endblock %}

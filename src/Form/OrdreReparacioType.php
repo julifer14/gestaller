@@ -6,7 +6,7 @@ use App\Entity\OrdreReparacio;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\{PercentType, NumberType, DateType, ChoiceType, TextareaType};
+use Symfony\Component\Form\Extension\Core\Type\{PercentType,CheckboxType, NumberType, DateType,DateTimeType, ChoiceType, TextareaType};
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\{Vehicle, User, Pressupost};
 
@@ -24,9 +24,9 @@ class OrdreReparacioType extends AbstractType
                     '0%' => 0
                 ],
             ])
-            ->add('dataEntrada', DateType::class, ['label' => 'Data Entrada ',    'format' => 'dd MM yyyy', 'disabled' => True])
-            ->add('dataSortida', DateType::class, ['label' => 'Data Sortida ',    'format' => 'dd MM yyyy'])
-            ->add('autoritzacio')
+            ->add('dataEntrada', DateTimeType::class, ['label' => 'Data Entrada ', 'disabled' => True])
+            ->add('dataSortida'/*, DateTimeType::class, ['label' => 'Data Sortida ']*/)
+            ->add('autoritzacio',CheckboxType::class,['label'=>'Autoritza la reparació'])
             ->add('combustible', PercentType::class, ['label' => 'Combustible'])
             ->add('quilometres', NumberType::class, ['label' => 'Quilòmetres',])
             ->add(
@@ -38,6 +38,13 @@ class OrdreReparacioType extends AbstractType
 
                 ]
             )
+            ->add('estat',ChoiceType::class, [
+                'choices' => [
+                    '✅ Obert' => False,
+                    '❌ Tancat' => True,
+                    
+                    
+                ],])
             /*->add(
                 'treballador',
                 EntityType::class,

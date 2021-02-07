@@ -31,11 +31,14 @@
         type="text/css"
         href="https://cdn.datatables.net/v/dt/jq-3.2.1/dt-1.10.16/datatables.min.css" />
 
-      <!--   Renders a link tag (if your module requires any CSS)
-                 <link rel="stylesheet" href="/build/app.css">   -->
+      <!--    Renders a link tag (if your module requires any CSS)
+                 <link rel="stylesheet" href="/build/app.css">    -->
     {% endblock %}
   </head>
   <body>
+
+
+
     {% block navbar %}
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Home</a>
@@ -50,7 +53,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            
             {% if app.user %}
               <li class="nav-item">
                 <a class="nav-link" href="/clients">Clients</a>
@@ -65,7 +67,12 @@
                 <a class="nav-link" href="/ordres">Ordre reparació</a>
               </li>
             {% endif %}
+          </ul>
+
+        </div>
+            
             {% if is_granted('ROLE_DIRECTOR') %}
+             <ul class="navbar-nav">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle"
                   href="#"
@@ -108,14 +115,19 @@
                   <a class="dropdown-item" href="/empresa">Conf. empresa</a>
                 </div>
               </li>
+              </ul>
             {% endif %}
             {% if app.user %}
+            <div class="navbar-nav d-flex">
+              <li class="d-flex">
+                <a class="nav-link" href="/user/{{ app.user.id }}"> {{ app.user.nom }}</a>
+              </li>
               <li class="d-flex">
                 <a class="nav-link" href="/logout">Logout</a>
               </li>
             {% endif %}
-          </ul>
-        </div>
+            </div>
+            
       </nav>
     {% endblock %}
 
@@ -133,9 +145,9 @@
 
     {{ encore_entry_script_tags('app') }}
     {% block javascripts %}
-      <!--   Renders app.js & a webpack runtime.js file
+      <!--    Renders app.js & a webpack runtime.js file
                 <script src="/build/runtime.js"></script>
-                <script src="/build/app.js"></script>   -->
+                <script src="/build/app.js"></script>    -->
     {% endblock %}
   </body>
 </html>

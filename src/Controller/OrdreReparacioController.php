@@ -26,6 +26,9 @@ class OrdreReparacioController extends BaseController
         $ordres = $this->getDoctrine()->getRepository(OrdreReparacio::class)->findAll();
         $table = $dataTableFactory->create()
             ->add('id', TextColumn::class, ['label' => 'ID'])
+            ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
+            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
+            ->add('pressupost', TextColumn::class, ['label' => 'Pressupost'])
             ->createAdapter(ORMAdapter::class, [
                 'entity' => OrdreReparacio::class,
             ])
@@ -44,8 +47,10 @@ class OrdreReparacioController extends BaseController
     /**
      * @Route("ordres/afegir", name="afegir_ordre")
      */
-    public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user):Response{
-        ini_set( 'date.timezone', 'Europe/Berlin' ); 
+    public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user): Response
+    {
+        //ini_set( 'date.timezone', 'Europe/Berlin' ); 
+        date_default_timezone_set('Europe/Madrid');
         $ordre = new OrdreReparacio();
         $date = new \DateTime('@' . strtotime('now'));
         $ordre->setAny($date->format('Y'));
@@ -54,13 +59,13 @@ class OrdreReparacioController extends BaseController
         $ordre->setTreballador($user);
         $form = $this->createForm(OrdreReparacioType::class, $ordre);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->addFlash('success', 'ordre.success-add');
             $this->save($ordre);
 
             return $this->redirectToRoute('llistar_ordres');
         }
 
-        return $this->render('ordre_reparacio/afegir.html.twig',['form'=>$form->createView()]);
+        return $this->render('ordre_reparacio/afegir.html.twig', ['form' => $form->createView()]);
     }
 }

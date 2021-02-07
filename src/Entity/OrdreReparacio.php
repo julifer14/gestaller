@@ -79,6 +79,11 @@ class OrdreReparacio
      */
     private $pressupost;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $estat;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -226,6 +231,18 @@ class OrdreReparacio
     public function setPressupost(?Pressupost $pressupost): self
     {
         $this->pressupost = $pressupost;
+
+        return $this;
+    }
+
+    public function getEstat()
+    {
+        return $this->estat;
+    }
+
+    public function setEstat($estat): self
+    {
+        $this->estat = $estat;
 
         return $this;
     }
