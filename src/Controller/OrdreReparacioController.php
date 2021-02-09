@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\OrdreReparacio;
+use App\Entity\{OrdreReparacio, Pressupost};
 use App\Form\OrdreReparacioType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,13 +46,21 @@ class OrdreReparacioController extends BaseController
 
 
     /**
-     * @Route("ordres/afegir", name="afegir_ordre")
+     * @Route("ordres/afegir/{pressupost}",defaults={"pressupost"=-1}, name="afegir_ordre")
      */
-    public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user): Response
+    public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user, Pressupost $pressupost = null): Response
     {
+
+        //dump($pressupost);
+        //exit;
         //ini_set( 'date.timezone', 'Europe/Madrid' ); 
         date_default_timezone_set("Europe/Madrid");
         $ordre = new OrdreReparacio();
+        if ($pressupost) {
+            $ordre->setTasca($pressupost->getTasca());
+            $ordre->setPressupost($pressupost);
+            $ordre->setVehicle($pressupost->getVehicle());
+        }
         $date = new \DateTime('@' . strtotime('now'));
         $ordre->setAny($date->format('Y'));
         $ordre->setDataCreacio($date);

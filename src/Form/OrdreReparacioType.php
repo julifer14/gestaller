@@ -30,7 +30,7 @@ class OrdreReparacioType extends AbstractType
             ->add('dataSortida', DateTimeType::class, [
                 'label' => 'Data/Hora Sortida ',  'required' => False
             ])
-            ->add('autoritzacio', CheckboxType::class, ['label' => 'Autoritza la reparació'])
+            ->add('autoritzacio', CheckboxType::class, ['label' => 'Autoritza la reparació', 'required' => false,])
             ->add('combustible', PercentType::class, ['label' => 'Combustible'])
             ->add('quilometres', NumberType::class, ['label' => 'Quilòmetres',])
             ->add(
@@ -75,11 +75,9 @@ class OrdreReparacioType extends AbstractType
                 $dataSortida = $form->get('dataSortida')->getData();
                 dump($dataEntrada);
                 dump($dataSortida);
-                dump($dataSortida>$dataEntrada);
+                dump($dataSortida > $dataEntrada);
                 exit;
-                
-            })
-          ;
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

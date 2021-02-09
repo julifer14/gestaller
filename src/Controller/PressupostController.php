@@ -88,7 +88,7 @@ class PressupostController extends BaseController
                 if ($context->getEstat()) {
                     //Pressupost esta acceptat
                    // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                     $action = $action.'<a href="/pressupostos/' . $context . '/ordrerep" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                     $action = $action.'<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';

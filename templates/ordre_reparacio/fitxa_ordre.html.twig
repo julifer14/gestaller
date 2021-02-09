@@ -30,11 +30,11 @@
         <div class="row">
           <div class="col">
             <b>{{ 'form.dataEntrada'|trans }}</b>
-            {{ ordre.dataEntrada|date('d/m/Y') }}
+            {{ ordre.dataEntrada|date('d/m/Y',"Europe/Madrid") }}
           </div>
           <div class="col">
             <b>{{ 'form.dataSortida'|trans }}</b>
-            {{ ordre.dataSortida|date('d/m/Y') }}
+            {{ ordre.dataSortida|date('d/m/Y', "Europe/Madrid") }}
           </div>
         </div>
         <div class="row">
