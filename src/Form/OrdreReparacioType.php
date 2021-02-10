@@ -68,7 +68,7 @@ class OrdreReparacioType extends AbstractType
 
                 ]
             )
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+           /* ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $ordre = $event->getData();
                 $form = $event->getForm();
                 $dataEntrada = $form->get('dataEntrada')->getData();
@@ -77,7 +77,7 @@ class OrdreReparacioType extends AbstractType
                 dump($dataSortida);
                 dump($dataSortida > $dataEntrada);
                 exit;
-            });
+            })*/;
     }
 
     public function configureOptions(OptionsResolver $resolver)
