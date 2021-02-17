@@ -33,7 +33,7 @@ client:
 form:
   any: "Ejercici: "
   data: "Data: "
-  tasca: "Tasca a realitzar: "
+  tasca: "Descripció dels treballs"
   iva: "IVA: "
   estat: "Estat: "
   matricula: "Matricula: "
@@ -46,6 +46,11 @@ form:
   dataSortida: "Data sortida"
   combustible: "Combustible "
   km: "Quilòmetres"
+  doc: "Document número"
+  sigClient: "Signatura client"
+  sigTaller: "Signatura i segell taller"
+  nom: "Nom"
+  estadaTaller: "A partir del 3r dia d'aquesta data, la no retiradadel vehicle comportarà despeses d'estada, l'import de ________ €/dia."
 
 vehicle:
   vehicle: Vehicle
@@ -122,6 +127,7 @@ user:
     dni: "DNI"
     tel: "Telèfon"
     mail: "Correu electrònic"
+    
 
 empresa:
   success-add: "Informació empresa actualitzada"
@@ -129,8 +135,25 @@ empresa:
   info: "Informació empresa"
 
 ordre:
+  ordrePdf: "Ordre d'encàrrec i resguard de dipòsit"
+  lleiOrdre: "Segons la Llei 22/2010 de Codi de Consum de Catalunya i el Decret de Tallers 298/1993"
   llistar: "Llistar ordres de reparació"
   add: "Crear ordre de reparació"
   success-add: "Ordre creada"
   ordre: "Ordre de reparació"
   ordreNum: "Ordre de reparació número: "
+  encarrecRep: "Encàrrec de reparació"
+  recollidaPeces: "Recolliré les peces substituides"
+  autoRecRest: "Autortizo l'ús de recanvis reconstruïts"
+  autoSubSer: "Autoritzo la subcontractació de serveis"
+  autoritzacio: "Autortizo la realització de les operacions necessàries per als treballs i serveis encarregats i renunció expressament a l'elaboració del pressupost (Signatura i manuscrit \"Renunció pressupost\")"
+  encarrecPre: "Encàrrec de pressupost"
+  preus: "Preu/Hora del taller i resta de serveis (estada, residus...) Veure preu segons cartell exhibit"
+  preuTreballFerPre: "Preu del treball de confecció del pressupost"
+  baseImposable: "Base imposable"
+  IVA: IVA
+  total: "Total"
+  autoPre: "Autoritzo la confecció del pressupost i dels treballs i proves necassaries, inclús desmontar qualsevol element, per al seu diagnòstic i càlcul. Quedo informat que de no acceptar-lo hauré d'abonar l'import de la seva confecció detallat en aquest apartat."
+  preuMaxim: "Indicar els preus màxims dels treballs si es coneixen:"
+  sigConformitat: "Signatura de CONFORMITAT amb el preu màxim del servei encarregat"
+  condicionsAdd: "Condicions addicionals:"

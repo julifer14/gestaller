@@ -47,6 +47,8 @@ class EmpresaType extends AbstractType
             ])
             ->add('telefon')
             ->add('nif')
+            ->add('condicionsOrdre')
+            ->add('email')
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 
                 $empresa = $event->getData();

@@ -57,6 +57,16 @@ class Empresa
      */
     private $nif;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $condicionsOrdre;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $email;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +164,30 @@ class Empresa
     public function setNif(string $nif): self
     {
         $this->nif = $nif;
+
+        return $this;
+    }
+
+    public function getCondicionsOrdre(): ?string
+    {
+        return $this->condicionsOrdre;
+    }
+
+    public function setCondicionsOrdre(?string $condicionsOrdre): self
+    {
+        $this->condicionsOrdre = $condicionsOrdre;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

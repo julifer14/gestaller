@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\{OrdreReparacio, Pressupost};
+use App\Entity\{OrdreReparacio, Pressupost, Empresa};
 use App\Form\OrdreReparacioType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,10 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
-use Omines\DataTablesBundle\Column\TextColumn;
+use Omines\DataTablesBundle\Column\{TextColumn, DateTimeColumn};
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 
 class OrdreReparacioController extends BaseController
 {
@@ -28,11 +32,46 @@ class OrdreReparacioController extends BaseController
 
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
-            ->add('pressupost', TextColumn::class, ['label' => 'Pressupost'])
+            /* ->add('pressupost', TextColumn::class, ['label' => 'Pressupost', 'field' => 'pressupost.id', 'render' => function ($value, $context) {
+
+                if ($value) {
+                    return $value . 'patata';
+                } else {
+                    return '';
+                }
+
+                if(is_null($context->getPressupost())) return 'sense res';
+                return $context->getPressupost()->__toString()."patata";
+            }])*/
+            ->add('dataEntrada', DateTimeColumn::class, ['label' => 'Data d\'entrada', 'format' => 'd-m-Y'])
+            ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+
+
+                $action = "";
+                if ($value < 10) {
+                    $action = '0';
+                }
+                $action = $action . $value . ' 
+                        <div class="btn-group">
+                            <a href="/ordres/' . $value . '" class="badge badge-secondary p-2 m-1">Veure ordre</a>
+                            <a href="/ordres/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar ordre</a>
+                            <a href="/ordres/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
+                            
+                        </div>';
+                /*if ($context->getEstat()) {
+                    //Pressupost esta acceptat
+                   // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
+                     $action = $action.'<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                } else {
+                    //Pressupost esta rebutjat
+                    //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
+                }*/
+
+                return $action;
+            }])
             ->createAdapter(ORMAdapter::class, [
                 'entity' => OrdreReparacio::class,
             ])
-            ->add('id', TextColumn::class, ['label' => 'ID'])
             ->handleRequest($request);
 
         if ($table->isCallback()) {
@@ -87,5 +126,27 @@ class OrdreReparacioController extends BaseController
             'controller_name' => 'OrdreReparacioController',
             'ordre' => $ordre,
         ]);
+    }
+
+
+    /**
+     * @Route("ordres/{id}/pdf", name="ordres_pdf")
+     */
+    public function pdfAction(Pdf $pdf, OrdreReparacio $ordre)
+    {
+        $empresa = $this->getDoctrine()
+            ->getRepository(Empresa::class)
+            ->findOneBy(['id' => 1]);
+
+        $html = $this->renderView('ordre_reparacio/fitxa_ordre_pdf.html.twig', [
+            'controller_name' => 'OrdreReparacuoController',
+            'ordre' => $ordre,
+            'empresa' => $empresa,
+        ]);
+        $nomFitxer = "ordre_reparacio" . $ordre->getId();
+        return new PdfResponse(
+            $pdf->getOutputFromHtml($html),
+            $nomFitxer
+        );
     }
 }

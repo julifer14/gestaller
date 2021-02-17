@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <base href="http://127.0.0.1:8000" />
+    <link href="/build/app.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="text-center">
+        <p class="lead">
+          {{ 'ordre.ordrePdf'|trans }}
+        </p>
+        <p class="fs-6 text-muted">
+          {{ 'ordre.lleiOrdre'|trans }}
+        </p>
+      </div>
+      <div class="row card">
+        <!--           <div class="col">
+          <img src="images/{{ empresa.logo }}"
+            clas=""
+            width="150"
+            heigth="150"
+            alt="Logo empresa" />
+        </div>          -->
+        <div class="col">
+          <p class="text-center">
+            <span class="text-uppercase">{{ empresa.nom }}</span><br />
+            {{ empresa.nif }}
+            {{ empresa.direccio }}
+            {{ empresa.codipostal }}
+            {{ empresa.ciutat }}
+            {{ empresa.provincia }}
+            {{ empresa.telefon }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col card m-0">
+          <p class="m-0">
+            <b>{{ 'client.client'|trans }}:</b>
+            {{ ordre.vehicle.client.nom }}
+            {{ ordre.vehicle.client.cognoms }}
+          </p>
+          <p class="m-0">
+            <b>{{ 'client.info.adreca'|trans }}:</b>
+            {{ ordre.vehicle.client.adreca }}<br />
+            {{ ordre.vehicle.client.CP }}
+            {{ ordre.vehicle.client.ciutat }}
+          </p>
+          <p class="m-0">
+            <b>{{ 'client.info.tel'|trans }}:</b>
+            {{ ordre.vehicle.client.telefon }}
+          </p>
+          <p class="m-0">
+            <b>{{ 'client.info.mail'|trans }}:</b>
+            {{ ordre.vehicle.client.email }}
+          </p>
+        </div>
+
+        <div class="col card">
+          <p class="m-0">
+            <b>{{ 'vehicle.vehicle'|trans }}:</b>
+            {{ ordre.vehicle.matricula }}
+          </p>
+          <p class="m-0">
+            <b>{{ 'model.model'|trans }}:</b>
+            {{ ordre.vehicle.model }}
+          </p>
+          <p class="m-0">
+            <b>{{ 'form.km'|trans }}:</b>
+            {{ ordre.vehicle.kilometres }}
+          </p>
+          <p class="m-0">
+            <b>{{ 'form.combustible'|trans }}:</b>
+            {{ ordre.combustible }} %
+          </p>
+        </div>
+      </div>
+      <hr />
+
+      <div class="row">
+        <div class="col">
+          <b>{{ 'form.doc'|trans }}:</b> {{ ordre.id }}
+        </div>
+        <p class="col">
+          <b>{{ 'form.any'|trans }}:</b>
+          {{ ordre.any }}
+        </p>
+        <p class="col">
+          <b>{{ 'form.dataEntrada'|trans }}:</b>
+          {{ ordre.dataEntrada|date('d/m/Y') }}
+        </p>
+        <p class="col">
+          <b>{{ 'form.dataSortida'|trans }}:</b>
+          {% if ordre.dataSortida %}
+            {{ ordre.dataSortida|date('d/m/Y') }}
+          {% endif %}
+        </p>
+      </div>
+
+      <hr />
+      <div class="row">
+        <div class="col">
+          <p class="text-justify">
+            <b class="text-center">{{ 'form.tasca'|trans }}</b>
+            <p>
+              {{ ordre.tasca }}
+            </p>
+          </p>
+        </div>
+      </div>
+
+      <div class="row text-center mt-1">
+        <div class="col">
+          <b>{{ 'ordre.preus'|trans }}</b>
+        </div>
+      </div>
+
+      <!-- Encarrec pressupost -->
+
+      <div class="row mt-3">
+        <div class="col card">
+          <b class="text-center">{{ 'ordre.encarrecPre'|trans }}</b>
+          <p class="pt-2">
+            {{ 'ordre.preuTreballFerPre'|trans }}
+          </p>
+          <table>
+            <tr>
+              <td class="pr-5">
+                <p>
+                  {{ 'ordre.baseImposable'|trans }}
+                </p>
+              </td>
+              <td class="pr-5">
+                <p>
+                  {{ 'ordre.IVA'|trans }} {{ ordre.iva * 100 }}%
+                </p>
+              </td>
+              <td>
+                <p>
+                  {{ 'ordre.total'|trans }}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                &nbsp;
+              </td>
+            </tr>
+          </table>
+          <p class="text-justify">
+            <small>{{ 'ordre.autoPre'|trans }}</small>
+          </p>
+          <div class="row">
+            <div class="col">
+              <p>
+                {{ 'form.sigClient'|trans }}
+              </p>
+            </div>
+            <div class="col">
+              <p>
+                {{ 'form.sigTaller'|trans }}
+              </p>
+            </div>
+          </div>
+
+          <div class="row pt-5">
+            <div class="col">
+              <p>
+                {{ 'form.nom'|trans }}:
+              </p>
+            </div>
+          </div>
+
+          <div class="row pt-1">
+            <div class="col">
+              <p>
+                {{ 'form.estadaTaller'|trans }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Encarrec reparacio -->
+        <div class="col card">
+          <b class="text-center">{{ 'ordre.encarrecRep'|trans }}</b>
+          <table>
+            <tr>
+              <td>
+                {{ 'ordre.recollidaPeces'|trans }}
+              </td>
+              <td>
+                Si
+              </td>
+              <td>
+                No
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{ 'ordre.autoRecRest'|trans }}
+              </td>
+              <td>
+                Si
+              </td>
+              <td>
+                No
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {{ 'ordre.autoSubSer'|trans }}
+              </td>
+              <td>
+                <span>Si</span>
+              </td>
+              <td>
+                No
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="text-justify">
+                <small>{{ 'ordre.autoritzacio'|trans }}</small>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                &nbsp;
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>{{ 'ordre.preuMaxim'|trans }}</b>
+              </td>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <td class="pr-5">
+                <p>
+                  {{ 'ordre.baseImposable'|trans }}
+                </p>
+              </td>
+              <td class="pr-5">
+                <p>
+                  {{ 'ordre.IVA'|trans }} {{ ordre.iva * 100 }}%
+                </p>
+              </td>
+              <td>
+                <p>
+                  {{ 'ordre.total'|trans }}
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <p class="pt-2 pb-5">
+            {{ 'ordre.sigConformitat'|trans }}
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <b>{{ 'ordre.condicionsAdd'|trans }}</b>
+        <p>
+          <small>{{ empresa.condicionsOrdre }}</small>
+          <small>
+            Responsable fitxer: {{ empresa.nom }} NIF: {{ empresa.nif }} Dir. postal:
+            {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}
+            ({{ empresa.provincia }}) Telèfon: {{ empresa.telefon }} En nom de l'empresa
+            tactem la informació que ens facilita amb la finalitat de prestar els
+            serveis sol·licitats i realitzar la factura del mateix. Les dades proporcionades
+            s'emmagatzemaran durant la relació comercial o els anys marcats per la
+            llei. Les dades no es cediran a tercers llevat en els casos que existeixi
+            obligació legal. Té dret a la possiblitat d'exercir els seus drets d'accés,
+            rectificació, cancel·lació i oposició, limitació del tractament, portabilitat
+            de les dades i a no ser objecte de decisions individualitzades automatitzades
+            mitjançant el correu electrònic: {{ empresa.email }}
+          </small>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
