@@ -101,6 +101,13 @@ pressupost:
   edit: "Editar pressupost"
   pressupostNum: "Pressupost número: "
   canviEstat: "Canvi d'estat del pressupost correctament"
+  autoritzacio: "El client autoritza la realització de les reparacions especificades, al vehicle citat, d'acord amb el pressupost,així com a la realització de les proves a carretera que siguin necessaries. "
+  recollidaPecesSi: "No desitjo recollir les peces substituides"
+  recollidaPecesNo: "Si desitjo recollir les peces substituides"
+  baseImposable: "Base Imposable"
+  iva: "% IVA"
+  total: "Total pressupost"
+  
 
 register:
   success-add: "Usuari registrat"

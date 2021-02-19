@@ -51,7 +51,7 @@ class PressupostManager extends BaseManager
                 $linia->setQuantitat($l['qtat']);
                 $linia->setPreu($article->getPreu());
                 $linia->setPressupost($pressupost);
-                $this->totalAcum = $this->totalAcum + ($article->getPreu()*$l['qtat']);
+                $this->totalAcum = ($this->totalAcum + ($article->getPreu()*$l['qtat']));
                 
                 $this->save($linia);
             }

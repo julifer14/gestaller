@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -10,133 +9,192 @@
 
   <body>
     <div class="container mt-4">
-      <div class="container mt-4">
-        <div class="pt-2">
-          <div class="row">
-            <div class="col card border-dark">
-              <img src="images/{{ empresa.logo }}"
-                clas="img-thumbnail"
-                width="75"
-                heigth="75"
-                alt="Logo empresa" />
+      <div class="pt-2">
+        <div class="row">
+          <div class="col card border-dark">
+            <img src="images/{{ empresa.logo }}"
+              clas="img-thumbnail"
+              width="75"
+              heigth="75"
+              alt="Logo empresa" />
 
-              {{ empresa.nom }}<br />
-              {{ empresa.nif }}<br />
-              {{ empresa.direccio }}<br />
-              {{ empresa.codipostal }}
-              {{ empresa.ciutat }}<br />
-              {{ empresa.provincia }}<br />
-              {{ empresa.telefon }}
-            </div>
-            <div class="col card border-dark">
-              <b>{{ 'client.client'|trans }}</b>
+            {{ empresa.nom }}<br />
+            {{ empresa.nif }}<br />
+            {{ empresa.direccio }}<br />
+            {{ empresa.codipostal }}
+            {{ empresa.ciutat }}<br />
+            {{ empresa.provincia }}<br />
+            {{ empresa.telefon }}
+          </div>
+
+          <div class="col card border-dark pl-1">
+            <p>
+              <b>{{ 'client.client'|trans }}:</b>
+              {{ pressupost.vehicle.client.id }} -
               {{ pressupost.vehicle.client.nom }}
-              {{ pressupost.vehicle.client.cognoms }} <br />
-              <b>{{ 'client.info.adreca'|trans }}</b>
-              {{ pressupost.vehicle.client.adreca }}<br />
+              {{ pressupost.vehicle.client.cognoms }}
+            </p>
+            <p>
+              <b>{{ 'client.info.adreca'|trans }}:</b>
+              {{ pressupost.vehicle.client.adreca }}
               {{ pressupost.vehicle.client.CP }}
-              {{ pressupost.vehicle.client.ciutat }}<br />
-              <b>{{ 'client.info.tel'|trans }}</b>
+              {{ pressupost.vehicle.client.ciutat }}
+            </p>
+            <p>
+              <b>{{ 'client.info.tel'|trans }}:</b>
               {{ pressupost.vehicle.client.telefon }}
-              <br />
-              <b>{{ 'client.info.mail'|trans }}</b>
+            </p>
+            <p>
+              <b>{{ 'client.info.mail'|trans }}:</b>
               {{ pressupost.vehicle.client.email }}
-              <br />
-            </div>
+            </p>
           </div>
-          <div class="row">
-            <div class="col">
-              <b>{{ 'pressupost.pressupostNum'|trans }}</b> {{ pressupost.id }}
-            </div>
-            <div class="col">
-              <b>{{ 'form.any'|trans }}</b>
-              {{ pressupost.any }}
-            </div>
-            <div class="col">
-              <b>{{ 'form.data'|trans }}</b>
-              {{ pressupost.data|date('d/m/Y') }}
-            </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <b>{{ 'pressupost.pressupostNum'|trans }}</b> {{ pressupost.id }}
           </div>
+          <div class="col">
+            <b>{{ 'form.any'|trans }}</b>
+            {{ pressupost.any }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.data'|trans }}</b>
+            {{ pressupost.data|date('d/m/Y') }}
+          </div>
+        </div>
 
-          <div class="row">
-            <div class="col">
-              <b>{{ 'form.iva'|trans }}</b>
-              {{ pressupost.iva }}
-            </div>
-            <div class="col">
-              <b>{{ 'form.estat'|trans }}</b>
-              {% if pressupost.estat %}
-                Acceptat
-              {% else %}
-                Rebutjat
-              {% endif %}
-            </div>
+        <div class="row">
+          <div class="col">
+            <b>{{ 'form.iva'|trans }}</b>
+            {{ pressupost.iva }}
           </div>
-          <div class="row">
-            <div class="col">
-              <b>{{ 'form.matricula'|trans }}</b>
-              {{ pressupost.vehicle }}
-            </div>
-            <div class="col">
-              <b>{{ 'form.treballador'|trans }}</b>{{ pressupost.treballador }}
-            </div>
+          <div class="col">
+            <b>{{ 'form.estat'|trans }}</b>
+            {% if pressupost.estat %}
+              Acceptat
+            {% else %}
+              Rebutjat
+            {% endif %}
           </div>
-          <div class="row">
-            <div class="col card border-dark">
-              <b>{{ 'form.tasca'|trans }}</b>
+        </div>
+        <div class="row mb-2">
+          <div class="col">
+            <b>{{ 'form.matricula'|trans }}</b>
+            {{ pressupost.vehicle }}
+          </div>
+          <div class="col">
+            <b>{{ 'form.treballador'|trans }}</b>{{ pressupost.treballador }}
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col card border-dark">
+            <b>{{ 'form.tasca'|trans }}</b>
+            <p>
+              {{ pressupost.tasca }}
+            </p>
+          </div>
+        </div>
+
+        <div class="row text-center mt-4 bg-secondary text-white text-uppercase">
+          <div class="col">
+            <b class="mb-2 ">{{ 'form.articles'|trans }}</b>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">
+                  {{ 'article.referencia'|trans }}
+                </th>
+                <th scope="col">
+                  {{ 'article.article'|trans }}
+                </th>
+                <th scope="col">
+                  {{ 'article.quantitat'|trans }}
+                </th>
+                <th scope="col">
+                  {{ 'article.preu'|trans }}
+                </th>
+                <th scope="col">
+                  {{ 'article.total'|trans }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for l in pressupost.liniaPressuposts %}
+                <tr>
+                  <th scope="row">
+                    {{ l.article.referencia }}
+                  </th>
+                  <td>
+                    <span>{{ l.article }}</span>
+                  </td>
+                  <td>
+                    <span>{{ l.quantitat }}</span>
+                  </td>
+                  <td>
+                    <span>{{ l.preu }}</span>
+                  </td>
+                  <td>
+                    <span>{{ l.preu * l.quantitat }}</span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-5">
+          <div class="row bg-secondary text-white text-center text-uppercase">
+            <div class="col">
               <p>
-                {{ pressupost.tasca }}
+                {{ 'pressupost.baseImposable'|trans }}
+              </p>
+            </div>
+            <div class="col">
+              <p>
+                {{ 'pressupost.iva'|trans }}
+              </p>
+            </div>
+            <div class="col text-right">
+              <p>
+                {{ 'pressupost.total'|trans }}
               </p>
             </div>
           </div>
-          <div class="row">
-            <b>{{ 'form.articles'|trans }}</b>
 
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    {{ 'article.referencia'|trans }}
-                  </th>
-                  <th scope="col">
-                    {{ 'article.article'|trans }}
-                  </th>
-                  <th scope="col">
-                    {{ 'article.quantitat'|trans }}
-                  </th>
-                  <th scope="col">
-                    {{ 'article.preu'|trans }}
-                  </th>
-                  <th scope="col">
-                    {{ 'article.total'|trans }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for l in pressupost.liniaPressuposts %}
-                  <tr>
-                    <th scope="row">
-                      {{ l.article.referencia }}
-                    </th>
-                    <td>
-                      <span>{{ l.article }}</span>
-                    </td>
-                    <td>
-                      <span>{{ l.quantitat }}</span>
-                    </td>
-                    <td>
-                      <span>{{ l.preu }}</span>
-                    </td>
-                    <td>
-                      <span>{{ l.preu * l.quantitat }}</span>
-                      
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <div class="row bg-light text-center">
+            <div class="col">
+              <p>
+                {{ pressupost.total }} €
+              </p>
+            </div>
+            <div class="col">
+              <p>
+                {{ pressupost.iva * 100 }}%
+              </p>
+            </div>
+            <div class="col text-right">
+              <b>{{ pressupost.total * (1 + pressupost.iva) }} €</b>
+            </div>
+          </div>
+        </div>
 
-            <div class="col card border-dark mt-2 pl-1"></div>
+        <div class="row card border-dark mt-2 pl-1">
+          <div class="col">
+            <p>
+              {{ 'pressupost.autoritzacio'|trans }}
+            </p>
+            <p class="ml-5 mt-2">
+              [_] {{ 'pressupost.recollidaPecesNo'|trans }}
+            </p>
+            <p class="ml-5">
+              [_] {{ 'pressupost.recollidaPecesSi'|trans }}
+            </p>
           </div>
         </div>
       </div>
