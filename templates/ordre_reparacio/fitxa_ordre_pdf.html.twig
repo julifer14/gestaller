@@ -18,21 +18,22 @@
         </p>
       </div>
       <div class="row card">
-        <!--           <div class="col">
+        <!--            <div class="col">
           <img src="images/{{ empresa.logo }}"
             clas=""
             width="150"
             heigth="150"
             alt="Logo empresa" />
-        </div>          -->
-        <div class="col">
-          <p class="text-center">
-            <span class="text-uppercase">{{ empresa.nom }}</span><br />
-            {{ empresa.nif }}
-            {{ empresa.direccio }}
-            {{ empresa.codipostal }}
-            {{ empresa.ciutat }}
-            {{ empresa.provincia }}
+        </div>           -->
+        <div class="col text-center ">
+          <p class=" text-uppercase ">
+            {{ empresa.nom }} - {{ empresa.nif }}
+          </p>
+          
+          <p class="">
+            {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }} ({{ empresa.provincia }})
+          </p>
+          <p>
             {{ empresa.telefon }}
           </p>
         </div>
@@ -46,7 +47,7 @@
           </p>
           <p class="m-0">
             <b>{{ 'client.info.adreca'|trans }}:</b>
-            {{ ordre.vehicle.client.adreca }}<br />
+            {{ ordre.vehicle.client.adreca }} 
             {{ ordre.vehicle.client.CP }}
             {{ ordre.vehicle.client.ciutat }}
           </p>
@@ -275,9 +276,9 @@
 
       <div>
         <b>{{ 'ordre.condicionsAdd'|trans }}</b>
-        <p>
-          <small>{{ empresa.condicionsOrdre }}</small>
-          <small>
+        <p class="text-justify lh-1 font-10">
+          <span>{{ empresa.condicionsOrdre }}</span>
+          <span>
             Responsable fitxer: {{ empresa.nom }} NIF: {{ empresa.nif }} Dir. postal:
             {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}
             ({{ empresa.provincia }}) Telèfon: {{ empresa.telefon }} En nom de l'empresa
@@ -289,7 +290,7 @@
             rectificació, cancel·lació i oposició, limitació del tractament, portabilitat
             de les dades i a no ser objecte de decisions individualitzades automatitzades
             mitjançant el correu electrònic: {{ empresa.email }}
-          </small>
+          </span>
         </p>
       </div>
     </div>
