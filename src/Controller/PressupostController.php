@@ -70,7 +70,7 @@ class PressupostController extends BaseController
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
 
-            ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+            ->add('id', TextColumn::class, ['label' => '','searchable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";

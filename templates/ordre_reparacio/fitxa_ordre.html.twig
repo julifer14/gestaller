@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-  <!-- <div class="container mt-4">
+  <!--  <div class="container mt-4">
     <div class="container mt-4">
       <div class="pt-2">
         <div class="row">
@@ -63,7 +63,7 @@
         
       </div>
     </div>
-  </div> -->
+  </div>  -->
 
   <div class="text-center">
     <p class="lead">
@@ -74,13 +74,13 @@
     </p>
   </div>
   <div class="row card">
-    <!--             <div class="col">
+    <!--              <div class="col">
           <img src="images/{{ empresa.logo }}"
             clas=""
             width="150"
             heigth="150"
             alt="Logo empresa" />
-        </div>            -->
+        </div>             -->
     <div class="col text-center">
       <p class="text-uppercase">
         {{ empresa.nom }} - {{ empresa.nif }}
@@ -292,7 +292,13 @@
         </tr>
         <tr>
           <td colspan="2">
-            &nbsp;
+            {% if ordre.estat == true %}
+              <p class="text-success text-center pt-2 pb-0">
+                Reparació autoritzada
+              </p>
+            {% else %}
+              &nbsp;
+            {% endif %}
           </td>
         </tr>
         <tr>

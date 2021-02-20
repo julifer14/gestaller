@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
-use Omines\DataTablesBundle\Column\{TextColumn, DateTimeColumn};
+use Omines\DataTablesBundle\Column\{BoolColumn, TextColumn, DateTimeColumn};
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -43,8 +43,27 @@ class OrdreReparacioController extends BaseController
                 if(is_null($context->getPressupost())) return 'sense res';
                 return $context->getPressupost()->__toString()."patata";
             }])*/
+
             ->add('dataEntrada', DateTimeColumn::class, ['label' => 'Data d\'entrada', 'format' => 'd-m-Y'])
-            ->add('id', TextColumn::class, ['label' => '', 'render' => function ($value, $context) {
+            ->add('estat', BoolColumn::class, ['label' => 'Tancada?', 'render' => function ($value, $context) {
+                $action = "";
+                if ($value == "true") {
+                    $action = "<span class='text-success text-center'>SI</span>";
+                } else {
+                    $action = "<span class='text-danger text-center'>NO</span>";
+                }
+                return $action;
+            }])
+            ->add('autoritzacio', BoolColumn::class, ['label' => 'Autoritzada?', 'render' => function ($value, $context) {
+                $action = "";
+                if ($value == "true") {
+                    $action = "<span class='text-success text-center'>SI</span>";
+                } else {
+                    $action = "<span class='text-danger text-center'>NO</span>";
+                }
+                return $action;
+            }])
+            ->add('id', TextColumn::class, ['label' => '','searchable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";
@@ -133,6 +152,65 @@ class OrdreReparacioController extends BaseController
         ]);
     }
 
+    /**
+     * @Route("ordres/{id}/acceptar",name="acceptar_ordre")
+     */
+    public function acceptarOrdre(Request $request, OrdreReparacio $ordre): Response
+    {
+        if ($ordre->getEstat()) {
+            $this->addFlash('danger', 'ordre.tancada');
+
+            return $this->redirectToRoute('llistar_ordres');
+        }
+        $ordre->setEstat(1);
+        $ordre->setAutoritzacio(1);
+        $this->addFlash('success', 'ordre.canviEstatOK');
+        $this->save($ordre);
+
+        return $this->redirectToRoute('llistar_ordres');
+    }
+
+    /**
+     * @Route("ordres/{id}/rebutjar",name="rebutjar_ordre")
+     */
+    public function rebutjarOrdre(Request $request, OrdreReparacio $ordre): Response
+    {
+        if ($ordre->getEstat()) {
+            $this->addFlash('danger', 'ordre.tancada');
+
+            return $this->redirectToRoute('llistar_ordres');
+        }
+        $ordre->setEstat(1);
+        $ordre->setAutoritzacio(0);
+        $this->addFlash('success', 'ordre.canviEstatKO');
+        $this->save($ordre);
+
+        return $this->redirectToRoute('llistar_ordres');
+    }
+
+    /**
+     * @Route("ordres/modificar/{id}", name="modificar_ordre")
+     */
+    public function modificarOrdre(Request $request, OrdreReparacio $ordre): Response
+    {
+        if ($ordre->getEstat()) {
+            $this->addFlash('danger', 'ordre.tancada');
+
+            return $this->redirectToRoute('llistar_ordres');
+        }
+        $form = $this->createForm(OrdreReparacioType::class, $ordre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->addFlash('success', 'ordre.success-edit');
+            $this->save($ordre);
+
+            return $this->redirectToRoute('llistar_ordres');
+        }
+
+        return $this->render('ordre_reparacio/modificar_ordre.html.twig', ['form' => $form->createView(), 'ordre' => $ordre]);
+    }
 
     /**
      * @Route("ordres/{id}/pdf", name="ordres_pdf")

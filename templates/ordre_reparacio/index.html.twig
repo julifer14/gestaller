@@ -1,33 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ 'ordre.llistar'|trans }}{% endblock %}
+{% block title %}
+  {{ 'ordre.llistar'|trans }}
+{% endblock %}
 {% block title_block %}
-  {{ 'ordre.llistar'|trans }} 
+  {{ 'ordre.llistar'|trans }}
 {% endblock %}
 
 {% block body %}
-<div class="row">
-    <a href="/ordres/afegir"  class="btn btn-primary m-3" role="button">Crear ordre reparació</a>
-</div>
-    
-    <div class="table-responsive">
-		<div id="ordres">Loading...</div>
-	</div>
+  <div class="row">
+    <a href="/ordres/afegir" class="btn btn-primary m-3" role="button">
+      Crear ordre reparació
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <div id="ordres">
+      Loading...
+    </div>
+  </div>
 {% endblock %}
 {% block javascripts %}
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
+  <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
 
-	<script>
-		$(function() {
-		    var dt = $('#ordres').initDataTables({{ datatable_settings(datatable) }}, {
-		    	searching: true,
-                dom: 'Bfrtip',
-				
-		    });
-			
-			
-		});
-		
-	</script>
+  <script>
+    $(function() { var dt = $('#ordres').initDataTables({{
+      datatable_settings(datatable)
+    }}, { searching: true, dom: 'Bfrtip',
+
+    });
+
+    });
+  </script>
 {% endblock %}
