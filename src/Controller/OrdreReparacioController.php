@@ -122,9 +122,14 @@ class OrdreReparacioController extends BaseController
      */
     public function show(OrdreReparacio $ordre): Response
     {
+        $empresa = $this->getDoctrine()
+            ->getRepository(Empresa::class)
+            ->findOneBy(['id' => 1]);
+
         return $this->render('ordre_reparacio/fitxa_ordre.html.twig', [
             'controller_name' => 'OrdreReparacioController',
             'ordre' => $ordre,
+            'empresa' => $empresa
         ]);
     }
 

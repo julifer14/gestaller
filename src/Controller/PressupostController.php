@@ -209,9 +209,14 @@ class PressupostController extends BaseController
      */
     public function show(Pressupost $pressupost): Response
     {
+        $empresa = $this->getDoctrine()
+            ->getRepository(Empresa::class)
+            ->findOneBy(['id' => 1]);
+
         return $this->render('pressupost/fitxa_pressupost.html.twig', [
             'controller_name' => 'PressupostController',
             'pressupost' => $pressupost,
+            'empresa' => $empresa
         ]);
     }
 }
