@@ -57,11 +57,10 @@ class PressupostController extends BaseController
                 $action = "";
                 if ($value) {
                     $action = '<span class="dot-green"></span>';
-                     $action=$action.' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
+                    $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
                 } else {
                     $action = '<span class="dot-red"></span>';
-                    $action=  $action. '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
-                    
+                    $action =  $action . '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
                 }
                 return $action;
             }])
@@ -70,14 +69,14 @@ class PressupostController extends BaseController
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
 
-            ->add('id', TextColumn::class, ['label' => '','searchable' => True, 'render' => function ($value, $context) {
+            ->add('id', TextColumn::class, ['label' => '', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";
                 if ($value < 10) {
                     $action = '0';
-                } 
-                $action = $action.$value.' 
+                }
+                $action = $action . $value . ' 
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
@@ -87,8 +86,8 @@ class PressupostController extends BaseController
                         </div>';
                 if ($context->getEstat()) {
                     //Pressupost esta acceptat
-                   // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                     $action = $action.'<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                    // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
+                    $action = $action . '<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
@@ -96,6 +95,7 @@ class PressupostController extends BaseController
 
                 return $action;
             }])
+            ->addOrderBy(4, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Pressupost::class,
             ])
@@ -140,7 +140,7 @@ class PressupostController extends BaseController
 
 
         //Treure!
-        
+
         $date = new \DateTime('@' . strtotime('now'));
         $pressupost->setAny($date->format('Y'));
         $pressupost->setData($date);

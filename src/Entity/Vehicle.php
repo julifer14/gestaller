@@ -52,10 +52,16 @@ class Vehicle
      */
     private $ordreReparacios;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Factura::class, mappedBy="vehicle")
+     */
+    private $facturas;
+
     public function __construct()
     {
         $this->pressuposts = new ArrayCollection();
         $this->ordreReparacios = new ArrayCollection();
+        $this->facturas = new ArrayCollection();
     }
 
    
@@ -179,6 +185,36 @@ class Vehicle
             // set the owning side to null (unless already changed)
             if ($ordreReparacio->getVehicle() === $this) {
                 $ordreReparacio->setVehicle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Factura[]
+     */
+    public function getFacturas(): Collection
+    {
+        return $this->facturas;
+    }
+
+    public function addFactura(Factura $factura): self
+    {
+        if (!$this->facturas->contains($factura)) {
+            $this->facturas[] = $factura;
+            $factura->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFactura(Factura $factura): self
+    {
+        if ($this->facturas->removeElement($factura)) {
+            // set the owning side to null (unless already changed)
+            if ($factura->getVehicle() === $this) {
+                $factura->setVehicle(null);
             }
         }
 

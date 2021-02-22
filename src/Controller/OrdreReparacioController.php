@@ -30,8 +30,8 @@ class OrdreReparacioController extends BaseController
         $ordres = $this->getDoctrine()->getRepository(OrdreReparacio::class)->findAll();
         $table = $dataTableFactory->create()
 
-            ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
-            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
+            ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', /*'searchable' => True,*/ 'field' => 'vehicle.Matricula'])
+            ->add('client', TextColumn::class, ['label' => 'Client',/* 'searchable' => True,*/ 'field' => 'vehicle.client'])
             /* ->add('pressupost', TextColumn::class, ['label' => 'Pressupost', 'field' => 'pressupost.id', 'render' => function ($value, $context) {
 
                 if ($value) {
@@ -54,6 +54,7 @@ class OrdreReparacioController extends BaseController
                 }
                 return $action;
             }])
+
             ->add('autoritzacio', BoolColumn::class, ['label' => 'Autoritzada?', 'render' => function ($value, $context) {
                 $action = "";
                 if ($value == "true") {
@@ -63,7 +64,7 @@ class OrdreReparacioController extends BaseController
                 }
                 return $action;
             }])
-            ->add('id', TextColumn::class, ['label' => '','searchable' => True, 'render' => function ($value, $context) {
+            ->add('id', TextColumn::class, ['label' => '', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";
@@ -88,6 +89,7 @@ class OrdreReparacioController extends BaseController
 
                 return $action;
             }])
+            ->addOrderBy(5, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => OrdreReparacio::class,
             ])
