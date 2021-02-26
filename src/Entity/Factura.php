@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FacturaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -79,6 +81,16 @@ class Factura
      * @ORM\JoinColumn(nullable=false)
      */
     private $ordre;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LiniaFactura::class, mappedBy="factura", orphanRemoval=true)
+     */
+    private $liniaFacturas;
+
+    public function __construct()
+    {
+        $this->liniaFacturas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -229,6 +241,36 @@ class Factura
     public function setOrdre(OrdreReparacio $ordre): self
     {
         $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LiniaFactura[]
+     */
+    public function getLiniaFacturas(): Collection
+    {
+        return $this->liniaFacturas;
+    }
+
+    public function addLiniaFactura(LiniaFactura $liniaFactura): self
+    {
+        if (!$this->liniaFacturas->contains($liniaFactura)) {
+            $this->liniaFacturas[] = $liniaFactura;
+            $liniaFactura->setFactura($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLiniaFactura(LiniaFactura $liniaFactura): self
+    {
+        if ($this->liniaFacturas->removeElement($liniaFactura)) {
+            // set the owning side to null (unless already changed)
+            if ($liniaFactura->getFactura() === $this) {
+                $liniaFactura->setFactura(null);
+            }
+        }
 
         return $this;
     }

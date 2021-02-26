@@ -169,3 +169,8 @@ ordre:
   preuMaxim: "Indicar els preus màxims dels treballs si es coneixen:"
   sigConformitat: "Signatura de CONFORMITAT amb el preu màxim del servei encarregat"
   condicionsAdd: "Condicions addicionals:"
+
+factura:
+  list: "Llistat de factures"
+  add: "Crear factura"
+  
