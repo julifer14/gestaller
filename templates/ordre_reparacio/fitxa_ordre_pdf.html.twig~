@@ -3,7 +3,8 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ {#   <base href="http://www.fernandezjulian.com" /> #}
+    <link href="{{ asset('build/app.css') }}" rel="stylesheet" />
   </head>
 
   <body>
@@ -17,22 +18,20 @@
         </p>
       </div>
       <div class="row card">
-        <!--             <div class="col">
-         
-          <img src="{{ asset('images/'~empresa.logo) }}"
+        <!--            <div class="col">
+          <img src="{{ asset('images/'~empresa.logo') }}"
             clas=""
             width="150"
             heigth="150"
             alt="Logo empresa" />
-        </div>            -->
-        <div class="col text-center">
-          <p class="text-uppercase">
+        </div>           -->
+        <div class="col text-center ">
+          <p class=" text-uppercase ">
             {{ empresa.nom }} - {{ empresa.nif }}
           </p>
-
+          
           <p class="">
-            {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}
-            ({{ empresa.provincia }})
+            {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }} ({{ empresa.provincia }})
           </p>
           <p>
             {{ empresa.telefon }}
@@ -48,7 +47,7 @@
           </p>
           <p class="m-0">
             <b>{{ 'client.info.adreca'|trans }}:</b>
-            {{ ordre.vehicle.client.adreca }}
+            {{ ordre.vehicle.client.adreca }} 
             {{ ordre.vehicle.client.CP }}
             {{ ordre.vehicle.client.ciutat }}
           </p>
@@ -86,9 +85,6 @@
       <div class="row">
         <div class="col">
           <b>{{ 'form.doc'|trans }}:</b> {{ ordre.id }}
-        </div>
-        <div class="col">
-          <b>{{ 'form.pressupost'|trans }}:</b> {{ ordre.pressupost }}
         </div>
         <p class="col">
           <b>{{ 'form.any'|trans }}:</b>
