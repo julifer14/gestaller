@@ -18,20 +18,21 @@
         </p>
       </div>
       <div class="row card">
-        <!--            <div class="col">
+        <!--             <div class="col">
           <img src="images/{{ empresa.logo }}"
             clas=""
             width="150"
             heigth="150"
             alt="Logo empresa" />
-        </div>           -->
-        <div class="col text-center ">
-          <p class=" text-uppercase ">
+        </div>            -->
+        <div class="col text-center">
+          <p class="text-uppercase">
             {{ empresa.nom }} - {{ empresa.nif }}
           </p>
-          
+
           <p class="">
-            {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }} ({{ empresa.provincia }})
+            {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}
+            ({{ empresa.provincia }})
           </p>
           <p>
             {{ empresa.telefon }}
@@ -47,7 +48,7 @@
           </p>
           <p class="m-0">
             <b>{{ 'client.info.adreca'|trans }}:</b>
-            {{ ordre.vehicle.client.adreca }} 
+            {{ ordre.vehicle.client.adreca }}
             {{ ordre.vehicle.client.CP }}
             {{ ordre.vehicle.client.ciutat }}
           </p>
@@ -85,6 +86,9 @@
       <div class="row">
         <div class="col">
           <b>{{ 'form.doc'|trans }}:</b> {{ ordre.id }}
+        </div>
+        <div class="col">
+          <b>{{ 'form.pressupost'|trans }}:</b> {{ ordre.pressupost }}
         </div>
         <p class="col">
           <b>{{ 'form.any'|trans }}:</b>

@@ -78,14 +78,14 @@ class OrdreReparacioController extends BaseController
                             <a href="/ordres/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
                             
                         </div>';
-                /*if ($context->getEstat()) {
+                if ($context->esFacturable()) {
                     //Pressupost esta acceptat
                    // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                     $action = $action.'<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                     $action = $action.'<a href="/factures/afegir/' . $context->getId() . '" class="badge badge-info p-2 m-1">Crear factura</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
-                }*/
+                }
 
                 return $action;
             }])
@@ -110,32 +110,38 @@ class OrdreReparacioController extends BaseController
      */
     public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user, Pressupost $pressupost = null): Response
     {
+        if (!$pressupost->getOrdreReparacio()) {
 
-        //dump($pressupost);
-        //exit;
-        //ini_set( 'date.timezone', 'Europe/Madrid' ); 
-        date_default_timezone_set("Europe/Madrid");
-        $ordre = new OrdreReparacio();
-        if ($pressupost) {
-            $ordre->setTasca($pressupost->getTasca());
-            $ordre->setPressupost($pressupost);
-            $ordre->setVehicle($pressupost->getVehicle());
+            //dump($pressupost);
+            //exit;
+            //ini_set( 'date.timezone', 'Europe/Madrid' ); 
+            date_default_timezone_set("Europe/Madrid");
+            $ordre = new OrdreReparacio();
+            if ($pressupost) {
+                $ordre->setTasca($pressupost->getTasca());
+                $ordre->setPressupost($pressupost);
+                $ordre->setVehicle($pressupost->getVehicle());
+            }
+            $date = new \DateTime('@' . strtotime('now'));
+            $ordre->setAny($date->format('Y'));
+            $ordre->setDataCreacio($date);
+            $ordre->setDataEntrada($date);
+            $ordre->setTreballador($user);
+            $form = $this->createForm(OrdreReparacioType::class, $ordre);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->addFlash('success', 'ordre.success-add');
+                $this->save($ordre);
+
+                return $this->redirectToRoute('llistar_ordres');
+            }
+
+            return $this->render('ordre_reparacio/afegir.html.twig', ['form' => $form->createView()]);
+        } else {
+            $this->addFlash('danger', 'ordre.error-add');
+
+            return $this->redirectToRoute("llistar_pressupostos");
         }
-        $date = new \DateTime('@' . strtotime('now'));
-        $ordre->setAny($date->format('Y'));
-        $ordre->setDataCreacio($date);
-        $ordre->setDataEntrada($date);
-        $ordre->setTreballador($user);
-        $form = $this->createForm(OrdreReparacioType::class, $ordre);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'ordre.success-add');
-            $this->save($ordre);
-
-            return $this->redirectToRoute('llistar_ordres');
-        }
-
-        return $this->render('ordre_reparacio/afegir.html.twig', ['form' => $form->createView()]);
     }
 
     /**

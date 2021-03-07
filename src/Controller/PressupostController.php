@@ -57,10 +57,10 @@ class PressupostController extends BaseController
                 $action = "";
                 if ($value) {
                     $action = '<span class="dot-green"></span>';
-                    $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
+                    //$action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
                 } else {
                     $action = '<span class="dot-red"></span>';
-                    $action =  $action . '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
+                   // $action =  $action . '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
                 }
                 return $action;
             }])
@@ -84,10 +84,10 @@ class PressupostController extends BaseController
                             <!--<a href="/pressupostos/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
                             <a href="/pressupostos/' . $value . '/rebutjat" class="badge badge-light p-2 m-1">❌</a>-->
                         </div>';
-                if ($context->getEstat()) {
+                if ($context->getEstat() && !$context->getOrdreReparacio()) {
                     //Pressupost esta acceptat
                     // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                    $action = $action . '<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                    $action = $action . '<a href="/ordres/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';

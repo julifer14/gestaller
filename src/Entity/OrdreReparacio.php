@@ -246,4 +246,13 @@ class OrdreReparacio
 
         return $this;
     }
+
+    public function esFacturable(){
+        return ($this->getAutoritzacio() && $this->getEstat());
+    }
+
+    public function __toString()
+    {
+        return "(".$this->getId().")";
+    }
 }

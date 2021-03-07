@@ -30,11 +30,12 @@ import 'bootstrap-datepicker/'
 
 import 'bootstrap-select/dist/js/i18n/defaults-es_ES.min'
 
-var total_linia = 0
+var total_linia_pre = 0
+var total_linia_fac = 0
 
 $(document).ready(function () {
   $('select').selectpicker({ language: 'ES', liveSearch: true })
-  $('.js-datepicker').datepicker({
+  /*$('.js-datepicker').datepicker({
     format: 'dd-mm-yyyy',
     closeText: 'Cerrar',
     prevText: '<Ant',
@@ -85,9 +86,11 @@ $(document).ready(function () {
     isRTL: false,
     showMonthAfterYear: false,
     yearSuffix: '',
-  })
+  })*/
+
   //add_linia
-  total_linia = $('#pressupost_totalLinies').val()
+  total_linia_pre = $('#pressupost_totalLinies').val()
+  
 
   $('.add_linia').click(function (e) {
     e.preventDefault()
@@ -98,12 +101,34 @@ $(document).ready(function () {
     $.ajax({
       // la URL para la petición
       url: '/pressupostos/afegirLinia',
-      data: { id: id, total_linia: total_linia },
+      data: { id: id, total_linia: total_linia_pre },
       type: 'POST',
       dataType: 'html',
       success: function (result) {
         $('#linias').append(result)
-        total_linia = total_linia + 1
+        total_linia_pre = total_linia_pre + 1
+      },
+    })
+  })
+
+
+  total_linia_fac = $('#factura_totalLinies').val()
+
+  $('.add_linia_fac').click(function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    var id = $(this).attr('data-id-factura')
+
+    $.ajax({
+      // la URL para la petición
+      url: '/factures/afegirLinia',
+      data: { id: id, total_linia: total_linia_fac },
+      type: 'POST',
+      dataType: 'html',
+      success: function (result) {
+        $('#linias').append(result)
+        total_linia_fac = total_linia_fac + 1
       },
     })
   })

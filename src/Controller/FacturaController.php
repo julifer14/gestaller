@@ -6,7 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\{Pressupost, Article, Factura, Empresa};
+use App\Entity\{Pressupost, Article, Factura, Empresa, OrdreReparacio};
+use App\Manager\FacturaManager;
+use App\Form\{FacturaType, LiniaFacturaType};
 
 
 use Omines\DataTablesBundle\Column\TextColumn;
@@ -14,7 +16,7 @@ use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 
 
-class FacturaController extends AbstractController
+class FacturaController extends BaseController
 {
     /**
      * @Route("/factures", name="llistar_factures")
@@ -65,4 +67,58 @@ class FacturaController extends AbstractController
 
         return $this->render('factura/index.html.twig', ['datatable' => $table]);
     }
+
+    /**
+     * @Route("/factures/afegirLinia",name="afegir_linia_factura")
+     */
+    public function createLinia(Request $request): Response
+    {
+
+        $id_factura = $request->request->get('id_factura');
+        $total_linia = $request->request->get('total_linia');
+        $factura = $this->getDoctrine()->getRepository(Factura::class)->findOneBy(['id' => $id_factura]);
+        //Comprovacions de pressupost correcte
+
+        $articles =  $this->getDoctrine()->getRepository(Article::class)->findAll();
+        return $this->render('factura/parcial/formLinia.html.twig', ['total_linia' => $total_linia, 'articles' => $articles]);
+    }
+
+
+    /**
+     * @Route("/factures/afegir/{ordre}",name="afegir_factura")
+     */
+    public function createFactura(Request $request, FacturaManager $facturaManager,OrdreReparacio $ordre): Response
+    {
+        $entityManager = $this->obManager();
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
+
+        $factura = new Factura();
+
+
+        //Treure!
+
+        $date = new \DateTime('@' . strtotime('now'));
+        $factura->setAny($date->format('Y'));
+        $factura->setData($date);
+        $factura->setTotal(0);
+        $factura->setOrdre($ordre);
+
+        $form = $this->createForm(FacturaType::class, $factura);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $noves_linies = $request->request->get('new_linia');
+            $facturaManager->saveFactura($factura, $noves_linies);
+            $this->addFlash('success', 'factura.success-add');
+
+            return $this->redirectToRoute('llistar_factures', array("id" => $factura->getId()));
+        }
+
+        return $this->render('factura/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);
+    }
+
+
 }

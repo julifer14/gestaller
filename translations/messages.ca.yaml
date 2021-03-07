@@ -51,6 +51,7 @@ form:
   sigTaller: "Signatura i segell taller"
   nom: "Nom"
   estadaTaller: "A partir del 3r dia d'aquesta data, la no retiradadel vehicle comportarà despeses d'estada, l'import de ________ €/dia."
+  pressupost: "Pressupost número"
 
 vehicle:
   vehicle: Vehicle
@@ -146,6 +147,7 @@ ordre:
   lleiOrdre: "Segons la Llei 22/2010 de Codi de Consum de Catalunya i el Decret de Tallers 298/1993"
   llistar: "Llistar ordres de reparació"
   add: "Crear ordre de reparació"
+  error-add: "Pressupost amb ordre ja creada"
   success-add: "Ordre creada"
   success-edit: "Ordre editada"
   edit: "Editar Ordre"
@@ -173,4 +175,5 @@ ordre:
 factura:
   list: "Llistat de factures"
   add: "Crear factura"
+  success-add: "Factura creada correctament"
   

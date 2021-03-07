@@ -50,7 +50,7 @@ class Factura
     private $estat;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $formaPagament;
 
@@ -72,13 +72,13 @@ class Factura
    
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $observacions;
 
     /**
      * @ORM\OneToOne(targetEntity=OrdreReparacio::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ordre;
 
@@ -273,5 +273,13 @@ class Factura
         }
 
         return $this;
+    }
+
+
+    public function getTotalLinies(){
+        return sizeof($this->getLiniaFacturas());
+    }
+
+    public function setTotalLinies($total){
     }
 }
