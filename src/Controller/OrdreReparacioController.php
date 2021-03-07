@@ -228,6 +228,8 @@ class OrdreReparacioController extends BaseController
             'ordre' => $ordre,
             'empresa' => $empresa,
         ]);
+        
+                
         $nomFitxer = "ordre_reparacio" . $ordre->getId();
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
