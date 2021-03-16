@@ -1,11 +1,11 @@
 knp_snappy:
-    pdf:
-        enabled:    true
-        binary:     '%env(WKHTMLTOPDF_PATH)%'
-        options:
-           # - { name: 'page-size', value: 'A4' }
-           
-    image: 
-        enabled:    true
-        binary:     '%env(WKHTMLTOIMAGE_PATH)%'
-        options:    []
+  pdf:
+    enabled: true
+    binary: '%env(WKHTMLTOPDF_PATH)%'
+    options: []
+      # - { name: 'page-size', value: 'A4' }
+
+  image:
+    enabled: true
+    binary: '%env(WKHTMLTOIMAGE_PATH)%'
+    options: []
