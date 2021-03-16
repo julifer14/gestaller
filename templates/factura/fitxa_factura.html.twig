@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'factura.facturaNum'|trans }} {{ factura.id }}
+{% endblock %}
+{% block title_block %}
+  {{ 'factura.facturaNum'|trans }} {{ factura.id }}
+{% endblock %}
+
+{% block body %}
+  <div class="pt-2">
+    <div class="row">
+      <div class="col card border-dark">
+        <!--       <img src="images/{{ empresa.logo }}"
+          clas="img-thumbnail"
+          width="75"
+          heigth="75"
+          alt="Logo empresa" />      -->
+
+        {{ empresa.nom }}<br />
+        {{ empresa.nif }}<br />
+        {{ empresa.direccio }}<br />
+        {{ empresa.codipostal }}
+        {{ empresa.ciutat }}<br />
+        {{ empresa.provincia }}<br />
+        {{ empresa.telefon }}
+      </div>
+
+      <div class="col card border-dark pl-1">
+        <p>
+          <b>{{ 'client.client'|trans }}:</b>
+          {{ factura.vehicle.client.id }} -
+          {{ factura.vehicle.client.nom }}
+          {{ factura.vehicle.client.cognoms }}
+        </p>
+        <p>
+          <b>{{ 'client.info.adreca'|trans }}:</b>
+          {{ factura.vehicle.client.adreca }}
+          {{ factura.vehicle.client.CP }}
+          {{ factura.vehicle.client.ciutat }}
+        </p>
+        <p>
+          <b>{{ 'client.info.tel'|trans }}:</b>
+          {{ factura.vehicle.client.telefon }}
+        </p>
+        <p>
+          <b>{{ 'client.info.mail'|trans }}:</b>
+          {{ factura.vehicle.client.email }}
+        </p>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col">
+        <b>{{ 'factura.facturaNum'|trans }}</b> {{ factura.id }}
+      </div>
+      <div class="col">
+        <b>{{ 'form.any'|trans }}</b>
+        {{ factura.any }}
+      </div>
+      <div class="col">
+        <b>{{ 'form.data'|trans }}</b>
+        {{ factura.data|date('d/m/Y') }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <b>{{ 'form.iva'|trans }}</b>
+        {{ factura.iva }}
+      </div>
+      <div class="col">
+        <b>{{ 'form.estat'|trans }}</b>
+        {% if factura.estat %}
+          Pagada
+        {% else %}
+          No Pagada
+        {% endif %}
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <b>{{ 'form.matricula'|trans }}</b>
+        {{ factura.vehicle }}
+      </div>
+      <div class="col">
+        <b>{{ 'form.treballador'|trans }}</b>{{ factura.treballador }}
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col card border-dark">
+        <b>{{ 'form.tasca'|trans }}</b>
+        <p>
+          {{ factura.tasca }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row text-center mt-4 bg-secondary text-white text-uppercase">
+      <div class="col">
+        <b class="mb-2">{{ 'form.articles'|trans }}</b>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">
+              {{ 'article.referencia'|trans }}
+            </th>
+            <th scope="col">
+              {{ 'article.article'|trans }}
+            </th>
+            <th scope="col">
+              {{ 'article.quantitat'|trans }}
+            </th>
+            <th scope="col">
+              {{ 'article.preu'|trans }}
+            </th>
+            <th scope="col">
+              {{ 'article.total'|trans }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for l in factura.liniaFacturas %}
+            <tr>
+              <th scope="row">
+                {{ l.article.referencia }}
+              </th>
+              <td>
+                <span>{{ l.article }}</span>
+              </td>
+              <td>
+                <span>{{ l.quantitat }}</span>
+              </td>
+              <td>
+                <span>{{ l.preu }}</span>
+              </td>
+              <td>
+                <span>{{ l.preu * l.quantitat }}</span>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-5">
+      <div class="row bg-secondary text-white text-center text-uppercase">
+        <div class="col">
+          <p>
+            {{ 'factura.baseImposable'|trans }}
+          </p>
+        </div>
+        <div class="col">
+          <p>
+            {{ 'factura.iva'|trans }}
+          </p>
+        </div>
+        <div class="col text-right">
+          <p>
+            {{ 'factura.total'|trans }}
+          </p>
+        </div>
+      </div>
+
+      <div class="row bg-light text-center">
+        <div class="col">
+          <p>
+            {{ factura.total }} €
+          </p>
+        </div>
+        <div class="col">
+          <p>
+            {{ factura.iva * 100 }}%
+          </p>
+        </div>
+        <div class="col text-right">
+          <b>{{ factura.total * (1 + factura.iva) }} €</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="text-justify">
+          {{ 'factura.observacions'|trans }}:
+        </p>
+        <p class="text-justify">
+          {{ factura.observacions }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="text-justify">
+          {{ 'factura.pagament'|trans }}:{% if factura.formaPagament == 2 %}
+            {{ 'factura.xec'|trans }}
+          {% elseif factura.formaPagament == 0 %}
+            {{ 'factura.efectiu'|trans }}
+          {% elseif factura.formaPagament == 1 %}
+            {{ 'factura.targeta'|trans }}
+          {% else %}
+            {{ 'factura.noPagat'|trans }}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <hr />
+
+    <div class="row">
+      <div class="col">
+        <p class="text-justify lh-1 font-10">
+          {{ 'factura.legal'|trans }}
+        </p>
+        <p class="text-justify lh-1 font-10">
+          Responsable fitxer: {{ empresa.nom }} NIF: {{ empresa.nif }} Dir. postal:
+          {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}
+          ({{ empresa.provincia }}) Telèfon: {{ empresa.telefon }} En nom de l'empresa
+          tactem la informació que ens facilita amb la finalitat de prestar els serveis
+          sol·licitats i realitzar la factura del mateix. Les dades proporcionades
+          s'emmagatzemaran durant la relació comercial o els anys marcats per la
+          llei. Les dades no es cediran a tercers llevat en els casos que existeixi
+          obligació legal. Té dret a la possiblitat d'exercir els seus drets d'accés,
+          rectificació, cancel·lació i oposició, limitació del tractament, portabilitat
+          de les dades i a no ser objecte de decisions individualitzades automatitzades
+          mitjançant el correu electrònic: {{ empresa.email }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

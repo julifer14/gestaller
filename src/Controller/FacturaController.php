@@ -15,6 +15,8 @@ use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 
 class FacturaController extends BaseController
 {
@@ -33,18 +35,18 @@ class FacturaController extends BaseController
 
 
                 $action = "";
-                /*if ($value < 10) {
+                if ($value < 10) {
                     $action = '0';
                 }
                 $action = $action . $value . ' 
                         <div class="btn-group">
-                            <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
-                            <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
-                            <a href="/pressupostos/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
-                            <!--<a href="/pressupostos/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
-                            <a href="/pressupostos/' . $value . '/rebutjat" class="badge badge-light p-2 m-1">❌</a>-->
+                            <a href="/factures/' . $value . '" class="badge badge-secondary p-2 m-1">Veure factura</a>
+                            <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
+                            <a href="/factures/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
+                            <!--<a href="/factures/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
+                            <a href="/factures/' . $value . '/rebutjat" class="badge badge-light p-2 m-1">❌</a>-->
                         </div>';
-                if ($context->getEstat()) {
+               /* if ($context->getEstat()) {
                     //Pressupost esta acceptat
                     // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
                     $action = $action . '<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
@@ -97,7 +99,6 @@ class FacturaController extends BaseController
         $factura = new Factura();
 
 
-        //Treure!
 
         $date = new \DateTime('@' . strtotime('now'));
         $factura->setAny($date->format('Y'));
@@ -120,5 +121,41 @@ class FacturaController extends BaseController
         return $this->render('factura/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);
     }
 
+     /**
+     * @Route("factures/{id}", name="factura_show")
+     */
+    public function show(Factura $factura): Response
+    {
+        $empresa = $this->getDoctrine()
+            ->getRepository(Empresa::class)
+            ->findOneBy(['id' => 1]);
+
+        return $this->render('factura/fitxa_factura.html.twig', [
+            'factura' => $factura,
+            'empresa' => $empresa
+        ]);
+    }
+
+
+    /**
+     * @Route("factures/{id}/pdf", name="factura_pdf")
+     */
+    public function pdfAction(Pdf $pdf, Factura $factura)
+    {
+        $empresa = $this->getDoctrine()
+            ->getRepository(Empresa::class)
+            ->findOneBy(['id' => 1]);
+
+        $html = $this->renderView('factura/fitxa_factura_pdf.html.twig', [
+            'controller_name' => 'PressupostController',
+            'factura' => $factura,
+            'empresa' => $empresa,
+        ]);
+        $nomFitxer = "factura" . $factura->getId();
+        return new PdfResponse(
+            $pdf->getOutputFromHtml($html),
+            $nomFitxer
+        );
+    }
 
 }

@@ -176,4 +176,25 @@ factura:
   list: "Llistat de factures"
   add: "Crear factura"
   success-add: "Factura creada correctament"
-  
+  facturaNum: "Factura Número: "
+  observacions: "Observacions"
+  pagament: "Forma de pagament"
+  noPagat: "No pagat"
+  targeta: "Targeta"
+  xec: "Xec"
+  efectiu: "Efectiu"
+  legal: "Aquesta reparació queda garantida d'acord amb el que preveuen la Llei 23/03 i el Decret 298/1993, a excepció dels materials de desgast, que es garantiran d'acord amb le seu ús i/o quilometratge. Aquesta garantia s'entén solament aplicable als béns i consumidors definits a l'article 1 de la Llei 23/03. La resta s'emparan amb la legislació vigent que li sigui d'aplicació."
+  baseImposable: "Base imposable"
+  IVA: IVA
+  total: "Total"
+  rgpd: " Responsable fitxer: {{ empresa.nom }} NIF: {{ empresa.nif }} Dir. postal:
+          {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}
+          ({{ empresa.provincia }}) Telèfon: {{ empresa.telefon }} En nom de l'empresa
+          tactem la informació que ens facilita amb la finalitat de prestar els serveis
+          sol·licitats i realitzar la factura del mateix. Les dades proporcionades
+          s'emmagatzemaran durant la relació comercial o els anys marcats per la
+          llei. Les dades no es cediran a tercers llevat en els casos que existeixi
+          obligació legal. Té dret a la possiblitat d'exercir els seus drets d'accés,
+          rectificació, cancel·lació i oposició, limitació del tractament, portabilitat
+          de les dades i a no ser objecte de decisions individualitzades automatitzades
+          mitjançant el correu electrònic: {{ empresa.email }}"
