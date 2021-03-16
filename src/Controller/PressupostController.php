@@ -36,7 +36,7 @@ class PressupostController extends BaseController
             'pressupost' => $pressupost,
             'empresa' => $empresa,
         ]);
-        $nomFitxer = "pressupost" . $pressupost->getId();
+        $nomFitxer = "pressupost" . $pressupost->getId().".pdf";
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             $nomFitxer

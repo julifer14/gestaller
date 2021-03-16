@@ -151,7 +151,7 @@ class FacturaController extends BaseController
             'factura' => $factura,
             'empresa' => $empresa,
         ]);
-        $nomFitxer = "factura" . $factura->getId();
+        $nomFitxer = "factura" . $factura->getId().".pdf";
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             $nomFitxer

@@ -236,7 +236,7 @@ class OrdreReparacioController extends BaseController
         ]);
         
                 
-        $nomFitxer = "ordre_reparacio" . $ordre->getId();
+        $nomFitxer = "ordre_reparacio" . $ordre->getId().".pdf";
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             $nomFitxer
