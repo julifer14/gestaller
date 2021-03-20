@@ -84,6 +84,12 @@ class OrdreReparacio
      */
     private $estat;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Factura::class,inversedBy="ordre", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $factura;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -248,11 +254,28 @@ class OrdreReparacio
     }
 
     public function esFacturable(){
-        return ($this->getAutoritzacio() && $this->getEstat());
+        
+        return ($this->getAutoritzacio() && $this->getEstat() && !$this->getFactura());
+    }
+
+
+
+    public function getFactura(): ?Factura
+    {
+        return $this->factura;
+    }
+
+    public function setFactura(?Factura $factura): self
+    {
+        $this->factura = $factura;
+
+        return $this;
     }
 
     public function __toString()
     {
         return "(".$this->getId().")";
     }
+
+    
 }

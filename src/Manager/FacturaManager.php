@@ -20,43 +20,49 @@ class FacturaManager extends BaseManager
 {
 
     public function __construct(
-        EntityManagerInterface $em, 
-        SessionInterface $session, 
-        TranslatorInterface $translator, 
+        EntityManagerInterface $em,
+        SessionInterface $session,
+        TranslatorInterface $translator,
         TokenStorageInterface $tokenStorage,
         RequestStack $requestStack,
         RouterInterface $router,
         EventDispatcherInterface $dispatcher,
         AuthorizationCheckerInterface $authorizationChecker,
         ParameterBagInterface $params
-        )
-
-    {
-        parent::__construct($em, $session, $translator, $tokenStorage, $requestStack, $router, $dispatcher, $authorizationChecker, $params); 
+    ) {
+        parent::__construct($em, $session, $translator, $tokenStorage, $requestStack, $router, $dispatcher, $authorizationChecker, $params);
 
         $this->em = $em;
         $this->session = $session;
     }
-    
 
-    
-    public function saveFactura(Factura $factura, $linies){
+
+
+    public function saveFactura(Factura $factura, $linies)
+    {
         $this->save($factura);
         $this->totalAcum = 0;
-        if(!empty($linies)){
-            foreach($linies as $l){
+        if (!empty($linies)) {
+            foreach ($linies as $l) {
                 $linia = new LiniaFactura();
-                $article = $this->getRepository("App:Article")->findOneBy(['id'=>$l['article']]);
+                $article = $this->getRepository("App:Article")->findOneBy(['id' => $l['article']]);
                 $linia->setArticle($article);
                 $linia->setQuantitat($l['qtat']);
+                if ($l['descompte']) {
+                    $linia->setDescompte($l['descompte']);
+                    $this->totalAcum = ($this->totalAcum + (($article->getPreu() * $l['qtat']) -  (($article->getPreu() * $l['qtat']) * ($l['descompte'] / 100) * 1)));
+                } else {
+                    $linia->setDescompte(0);
+                    $this->totalAcum = ($this->totalAcum + ($article->getPreu() * $l['qtat']) );
+                }
                 $linia->setPreu($article->getPreu());
                 $linia->setFactura($factura);
-                $this->totalAcum = ($this->totalAcum + ($article->getPreu()*$l['qtat']));
                 
+
                 $this->save($linia);
             }
             $factura->setTotal($this->totalAcum);
             $this->save($factura);
-        } 
+        }
     }
 }

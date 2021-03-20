@@ -90,6 +90,7 @@ article:
   quantitat: Quantitat
   total: Total
   preu: Preu unitari
+  descompte: "Descompte"
 
 pressupost:
   add: "Crear pressupost"

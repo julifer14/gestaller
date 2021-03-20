@@ -80,8 +80,8 @@ class OrdreReparacioController extends BaseController
                         </div>';
                 if ($context->esFacturable()) {
                     //Pressupost esta acceptat
-                   // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                     $action = $action.'<a href="/factures/afegir/' . $context->getId() . '" class="badge badge-info p-2 m-1">Crear factura</a>';
+                    // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
+                    $action = $action . '<a href="/factures/afegir/' . $context->getId() . '" class="badge badge-info p-2 m-1">Crear factura</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
@@ -110,7 +110,7 @@ class OrdreReparacioController extends BaseController
      */
     public function createOrdre(Request $request, ValidatorInterface $validator, UserInterface $user, Pressupost $pressupost = null): Response
     {
-        if (!$pressupost->getOrdreReparacio()) {
+        if (is_null($pressupost) || !$pressupost->getOrdreReparacio()) {
 
             //dump($pressupost);
             //exit;
@@ -234,9 +234,9 @@ class OrdreReparacioController extends BaseController
             'ordre' => $ordre,
             'empresa' => $empresa,
         ]);
-        
-                
-        $nomFitxer = "ordre_reparacio" . $ordre->getId().".pdf";
+
+
+        $nomFitxer = "ordre_reparacio" . $ordre->getId() . ".pdf";
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             $nomFitxer
