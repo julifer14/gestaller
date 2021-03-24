@@ -16,7 +16,7 @@ class LiniaFacturaType extends AbstractType
         $builder
         ->add('id', HiddenType::class)
             ->add('quantitat')
-            ->add('preu')
+           // ->add('preu')
             ->add('descompte')
             ->add('article')
            // ->add('factura')

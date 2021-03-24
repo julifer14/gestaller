@@ -11,11 +11,11 @@
   <div class="pt-2">
     <div class="row">
       <div class="col card border-dark">
-        <!--         <img src="images/{{ empresa.logo }}"
+        <!--          <img src="images/{{ empresa.logo }}"
           clas="img-thumbnail"
           width="75"
           heigth="75"
-          alt="Logo empresa" />        -->
+          alt="Logo empresa" />         -->
 
         {{ empresa.nom }}<br />
         {{ empresa.nif }}<br />
@@ -51,12 +51,13 @@
     </div>
     <div class="row mt-2">
       <div class="col">
-        <b>{{ 'factura.facturaNum'|trans }}</b> {{ factura.id }}
-      </div>
-      <div class="col">
         <b>{{ 'form.any'|trans }}</b>
         {{ factura.any }}
       </div>
+      <div class="col">
+        <b>{{ 'factura.facturaNum'|trans }}</b> {{ factura.id }}
+      </div>
+
       <div class="col">
         <b>{{ 'form.data'|trans }}</b>
         {{ factura.data|date('d/m/Y') }}
@@ -64,6 +65,10 @@
     </div>
 
     <div class="row">
+      <div class="col">
+        <b>{{ 'ordre.ordre'|trans }}:</b>
+        {{ factura.ordre.id }}
+      </div>
       <div class="col">
         <b>{{ 'form.iva'|trans }}</b>
         {{ factura.iva }}
@@ -208,14 +213,14 @@
     <div class="row">
       <div class="col">
         <p class="text-justify">
-          {{ 'factura.pagament'|trans }}:{% if factura.formaPagament == 2 %}
-            {{ 'factura.xec'|trans }}
+          {{ 'factura.pagament'|trans }}:{% if factura.formaPagament is null %}
+            {{ 'factura.noPagat'|trans }}
           {% elseif factura.formaPagament == 0 %}
             {{ 'factura.efectiu'|trans }}
           {% elseif factura.formaPagament == 1 %}
             {{ 'factura.targeta'|trans }}
-          {% else %}
-            {{ 'factura.noPagat'|trans }}
+          {% elseif factura.formaPagament == 2 %}
+            {{ 'factura.xec'|trans }}
           {% endif %}
         </p>
       </div>

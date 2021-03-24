@@ -58,7 +58,7 @@ class FacturaController extends BaseController
 
                 return $action;
             }])
-            //->addOrderBy(4, 'desc')
+            ->addOrderBy(4, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Factura::class,
             ])
