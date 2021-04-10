@@ -13,24 +13,80 @@
       {{ 'factura.add'|trans }}
     </a>
   </div> -->
-
   <div class="table-responsive">
     <div id="factures">
       Loading...
     </div>
   </div>
+
+
+
+<!-- Modal pagar factura -->
+<div class="modal fade" id="modalPagar"  tabindex="-1" role="dialog" aria-labelledby="modalPagarLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalPagarLabel">{{ 'factura.pagar'|trans }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+    
+          <div class="form-group col-sm">
+              <label>{{ 'factura.pagament'|trans }}</label>
+              <select class="form-control" id="tipusPagament" />
+                  
+                      <option value="0">{{ 'factura.efectiu'|trans }}</option>
+                      <option value="1">{{ 'factura.targeta'|trans }}</option>
+                      <option value="2">{{ 'factura.xec'|trans }}</option>
+
+                  
+              </select>   
+          </div>   
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  data-id-factura="55" class="botoPagar btn btn-primary pagarFactura">Pagar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 {% block javascripts %}
   <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="{{ asset('bundles/datatables/js/datatables.js') }}"></script>
-
+  
   <script>
-    $(function() { var dt = $('#factures').initDataTables({{
-      datatable_settings(datatable)
-    }}, { searching: true, dom: 'Bfrtip'
-
+    $(function() { 
+      var dt = $('#factures').initDataTables(
+        {{datatable_settings(datatable)}},   
+        {   
+          searching: true, 
+          dom: 'Bfrtip', 
+          "fnDrawCallback": afegirIdFactura
+        }
+      );
     });
+function afegirIdFactura(){      
 
-    });
+    $('.botoModelPagar').on("click", function (e) {
+      console.log("hola")
+      var idFactura = $(this).attr('data-id-factura')
+      console.log(idFactura)
+      $('.botoPagar').attr('data-id-factura',idFactura)
+      });
+
+      
+    }
+
+    
+
   </script>
 {% endblock %}
+
+

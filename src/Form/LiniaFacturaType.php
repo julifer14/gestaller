@@ -14,7 +14,7 @@ class LiniaFacturaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('id', HiddenType::class)
+            ->add('id', HiddenType::class)
             ->add('quantitat')
            // ->add('preu')
             ->add('descompte')

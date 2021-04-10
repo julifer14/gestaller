@@ -86,6 +86,10 @@ class OrdreReparacioController extends BaseController
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
                 }
+                if ($context->getFactura()) {
+
+                    $action = $action . '<a href="/factures/' . $context->getFactura()->getId() . '" class="badge badge-danger p-2 m-1">Veure factura</a>';
+                }
 
                 return $action;
             }])

@@ -19,6 +19,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "admin-lte": "^3.1",
+        "adminlte": "^2.4.1",
         "bootstrap-datepicker": "^1.9.0",
         "bootstrap-select": "^1.13.18",
         "datatables.net-bs4": "^1.10.22",

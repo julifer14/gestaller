@@ -17,6 +17,7 @@ use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FacturaController extends BaseController
 {
@@ -31,7 +32,16 @@ class FacturaController extends BaseController
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
             ->add('ordre', TextColumn::class, ['label' => 'Ordre de reparació', 'searchable' => True, 'field' => 'ordre.id'])
+            ->add('estat', TextColumn::class, ["visible"=>false,'label' => 'Estat pagament', 'render' => function ($value, $context) {
+                $action = "";
+                if ($value == 0) {
+                    $action = "<p class='text-danger'>No pagada</p>";
+                } else {
+                    $action = "<p class='text-success'>Pagada</p>";
+                }
 
+                return $action;
+            }])
             ->add('id', TextColumn::class, ['label' => '', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
 
 
@@ -44,21 +54,14 @@ class FacturaController extends BaseController
                             <a href="/factures/' . $value . '" class="badge badge-secondary p-2 m-1">Veure factura</a>
                             <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
                             <a href="/factures/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
-                            <!--<a href="/factures/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
-                            <a href="/factures/' . $value . '/rebutjat" class="badge badge-light p-2 m-1">❌</a>-->
                         </div>';
-                /* if ($context->getEstat()) {
-                    //Pressupost esta acceptat
-                    // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                    $action = $action . '<a href="/ordre/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
-                } else {
-                    //Pressupost esta rebutjat
-                    //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
-                }*/
+                if (!$context->getEstat()) {
+                    $action = $action . '<a  data-toggle="modal" data-target="#modalPagar"   data-id-factura="' . $value . '" class="botoModelPagar badge badge-info p-2 m-1">Pagar</a>';
+                } 
 
                 return $action;
             }])
-            ->addOrderBy(4, 'desc')
+            ->addOrderBy(5, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Factura::class,
             ])
@@ -86,47 +89,69 @@ class FacturaController extends BaseController
         return $this->render('factura/parcial/formLinia.html.twig', ['total_linia' => $total_linia, 'articles' => $articles]);
     }
 
+    /**
+     * @Route("factures/{id}/pagar", name="pagar_factura")
+     */
+    public function pagarFactura(Request $request, Factura $factura): Response
+    {
+        //$id_factura = $request->request->get('id');
+        $tipus_pagament = $request->request->get('tipusPagament');
+
+        //$factura = $this->getDoctrine()->getRepository(Factura::class)->findOneBy(['id' => $id_factura]);
+        if ($factura->getEstat()==0 && !is_null($tipus_pagament)) {
+            $factura->pagar($tipus_pagament);
+            $this->save($factura);
+            return new Response("ok", Response::HTTP_OK);
+        }
+        return new Response("ko", Response::HTTP_FORBIDDEN);
+        
+    }
+
 
     /**
      * @Route("/factures/afegir/{ordre}",name="afegir_factura")
      */
     public function createFactura(Request $request, FacturaManager $facturaManager,  UserInterface $user, OrdreReparacio $ordre): Response
     {
-        $entityManager = $this->obManager();
-        $articles = $this->getDoctrine()
-            ->getRepository(Article::class)
-            ->findAll();
+        if ($ordre->esFacturable()) {
+            $entityManager = $this->obManager();
+            $articles = $this->getDoctrine()
+                ->getRepository(Article::class)
+                ->findAll();
 
-        $factura = new Factura();
+            $factura = new Factura();
 
 
 
-        $date = new \DateTime('@' . strtotime('now'));
-        $factura->setAny($date->format('Y'));
-        $factura->setData($date);
-        $factura->setTotal(0);
-        $factura->setTreballador($user);
-        $factura->setOrdre($ordre);
-        $factura->setTasca($ordre->getTasca());
-        $factura->setQuilometres($ordre->getQuilometres());
-        $factura->setVehicle($ordre->getVehicle());
-        $ordre->setFactura($factura);
-        
+            $date = new \DateTime('@' . strtotime('now'));
+            $factura->setAny($date->format('Y'));
+            $factura->setData($date);
+            $factura->setTotal(0);
+            $factura->setTreballador($user);
+            $factura->setOrdre($ordre);
+            $factura->setTasca($ordre->getTasca());
+            $factura->setQuilometres($ordre->getQuilometres());
+            $factura->setVehicle($ordre->getVehicle());
+            $ordre->setFactura($factura);
 
-        $form = $this->createForm(FacturaType::class, $factura);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            $form = $this->createForm(FacturaType::class, $factura);
+            $form->handleRequest($request);
 
-            $noves_linies = $request->request->get('new_linia');
-            $facturaManager->saveFactura($factura, $noves_linies);
-            $this->save($ordre);
-            $this->addFlash('success', 'factura.success-add');
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->redirectToRoute('llistar_factures', array("id" => $factura->getId()));
+                $noves_linies = $request->request->get('new_linia');
+                $facturaManager->saveFactura($factura, $noves_linies);
+                $this->save($ordre);
+                $this->addFlash('success', 'factura.success-add');
+
+                return $this->redirectToRoute('llistar_factures', array("id" => $factura->getId()));
+            }
+
+            return $this->render('factura/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);
+        } else {
+            return $this->redirectToRoute('llistar_factures');
         }
-
-        return $this->render('factura/afegir.html.twig', ['form' => $form->createView(), 'articles' => $articles]);
     }
 
     /**
@@ -164,5 +189,24 @@ class FacturaController extends BaseController
             $pdf->getOutputFromHtml($html),
             $nomFitxer
         );
+    }
+
+    /**
+     * @Route("factures/modificar/{id}", name="modificar_factura")
+     */
+    public function modificarFactura(Request $request, Factura $factura, FacturaManager $facturaManager): Response
+    {
+
+        $form = $this->createForm(FacturaType::class, $factura);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $noves_linies = $request->request->get('new_linia');
+            $facturaManager->saveFactura($factura, $noves_linies);
+            $this->addFlash('success', 'factura.success-edit');
+            return $this->redirectToRoute('llistar_factures');
+        }
+
+        return $this->render('factura/modificar_factura.html.twig', ['form' => $form->createView(), 'factura' => $factura]);
     }
 }

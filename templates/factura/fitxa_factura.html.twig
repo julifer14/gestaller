@@ -5,9 +5,52 @@
 {% endblock %}
 {% block title_block %}
   {{ 'factura.facturaNum'|trans }} {{ factura.id }}
+  
 {% endblock %}
 
 {% block body %}
+<!-- Modal pagar factura -->
+<div class="modal fade" id="modalPagar" tabindex="-1" role="dialog" aria-labelledby="modalPagarLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalPagarLabel">{{ 'factura.pagar'|trans }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+    
+          <div class="form-group col-sm">
+              <label>{{ 'factura.pagament'|trans }}</label>
+              <select class="form-control" id="tipusPagament" />
+                  
+                      <option value="0">{{ 'factura.efectiu'|trans }}</option>
+                      <option value="1">{{ 'factura.targeta'|trans }}</option>
+                      <option value="2">{{ 'factura.xec'|trans }}</option>
+
+                  
+              </select>   
+          </div>   
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-id-factura="{{ factura.id }}" class="btn btn-primary pagarFactura">Pagar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% if not factura.estat %}
+          <a  data-toggle="modal" data-target="#modalPagar"   data-id-factura="  {{ factura.id }} " class="text-rigth badge badge-info p-2 m-1">Pagar</a>
+        
+        {% endif %}
+
+  
+
+
   <div class="pt-2">
     <div class="row">
       <div class="col card border-dark">
@@ -172,7 +215,7 @@
         </div>
         <div class="col">
           <p>
-            {{ 'factura.iva'|trans }}
+            {{ 'factura.IVA'|trans }}
           </p>
         </div>
         <div class="col text-right">

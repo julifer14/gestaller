@@ -175,8 +175,11 @@ ordre:
   
 
 factura:
+  error-pagar: "Error al realitzar el pagament de la factura"
+  pagar: "Pagar factura"
   list: "Llistat de factures"
   add: "Crear factura"
+  edit: "Editar factura"
   success-add: "Factura creada correctament"
   facturaNum: "Factura Número: "
   observacions: "Observacions"
@@ -187,7 +190,7 @@ factura:
   efectiu: "Efectiu"
   legal: "Aquesta reparació queda garantida d'acord amb el que preveuen la Llei 23/03 i el Decret 298/1993, a excepció dels materials de desgast, que es garantiran d'acord amb le seu ús i/o quilometratge. Aquesta garantia s'entén solament aplicable als béns i consumidors definits a l'article 1 de la Llei 23/03. La resta s'emparan amb la legislació vigent que li sigui d'aplicació."
   baseImposable: "Base imposable"
-  IVA: IVA
+  IVA: "IVA"
   total: "Total"
   rgpd: " Responsable fitxer: {{ empresa.nom }} NIF: {{ empresa.nif }} Dir. postal:
           {{ empresa.direccio }} {{ empresa.codipostal }} {{ empresa.ciutat }}

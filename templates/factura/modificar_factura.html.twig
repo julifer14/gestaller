@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'factura.edit'|trans }}
+{% endblock %}
+{% block title_block %}
+  {{ 'factura.edit'|trans }}
+{% endblock %}
+
+{% block body %}
+  <div class="container mt-4">
+    <div class="pt-2">
+      {{ form_start(form) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.any) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.data) }}
+        </div>
+      </div>
+      {{ form_row(form.tasca) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.quilometres) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.iva) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.vehicle) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.treballador) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.estat) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.formaPagament) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.observacions) }}
+        </div>
+      </div>
+
+      <div id="linias" clas="row">
+        {{ form_row(form.liniaFacturas) }}
+        <button class="btn btn-primary add_linia_fac"
+          data-id-factura="{{ form.vars.data.id }}">
+          Afegir linia
+        </button>
+      </div>
+      <div ></div>
+
+      {{ form_rest(form) }}
+
+      <div class="w-100 text-center">
+        <button type="submit" class="btn btn-outline-primary">
+          <i class="fa fa-paper-plane"></i>Guardar
+        </button>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}
