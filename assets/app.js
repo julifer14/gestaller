@@ -35,77 +35,81 @@ import 'bootstrap-select/dist/js/i18n/defaults-es_ES.min'
 var total_linia_pre = 0
 var total_linia_fac = 0
 
-//$(document).ready(function () {
-$('select').selectpicker({ language: 'ES', liveSearch: true })
+$(document).ready(function () {
+  $('select').selectpicker({ language: 'ES', liveSearch: true })
 
-//add_linia
-total_linia_pre = $('#pressupost_totalLinies').val()
+  //add_linia
+  total_linia_pre = $('#pressupost_totalLinies').val()
 
-$('.add_linia').click(function (e) {
-  e.preventDefault()
-  e.stopPropagation()
+  $('.add_linia').click(function (e) {
+    e.preventDefault()
+    e.stopPropagation()
 
-  var id = $(this).attr('data-id-pressupost')
+    var id = $(this).attr('data-id-pressupost')
 
-  $.ajax({
-    // la URL para la petición
-    url: '/pressupostos/afegirLinia',
-    data: { id: id, total_linia: total_linia_pre },
-    type: 'POST',
-    dataType: 'html',
-    success: function (result) {
-      $('#linias').append(result)
-      total_linia_pre = total_linia_pre + 1
-    },
+    $.ajax({
+      // la URL para la petición
+      url: '/pressupostos/afegirLinia',
+      data: { id: id, total_linia: total_linia_pre },
+      type: 'POST',
+      dataType: 'html',
+      success: function (result) {
+        $('#linias').append(result)
+        total_linia_pre = total_linia_pre + 1
+      },
+    })
   })
-})
 
-total_linia_fac = $('#factura_totalLinies').val()
+  total_linia_fac = $('#factura_totalLinies').val()
 
-$('.add_linia_fac').click(function (e) {
-  e.preventDefault()
-  e.stopPropagation()
+  $('.add_linia_fac').click(function (e) {
+    e.preventDefault()
+    e.stopPropagation()
 
-  var id = $(this).attr('data-id-factura')
+    var id = $(this).attr('data-id-factura')
 
-  $.ajax({
-    // la URL para la petición
-    url: '/factures/afegirLinia',
-    data: { id: id, total_linia: total_linia_fac },
-    type: 'POST',
-    dataType: 'html',
-    success: function (result) {
-      $('#linias').append(result)
-      total_linia_fac = total_linia_fac + 1
-    },
+    $.ajax({
+      // la URL para la petición
+      url: '/factures/afegirLinia',
+      data: { id: id, total_linia: total_linia_fac },
+      type: 'POST',
+      dataType: 'html',
+      success: function (result) {
+        $('#linias').append(result)
+        total_linia_fac = total_linia_fac + 1
+      },
+    })
   })
-})
 
+  $('.pagarFactura').click(function (e) {
+    console.log('pagar')
+    e.preventDefault()
+    e.stopPropagation()
 
+    var id = $(this).attr('data-id-factura')
+    var tipusPagament = $('#tipusPagament :selected').val()
+    var url = '/factures/' + id + '/pagar'
+    $.ajax({
+      // la URL para la petición
+      url: url,
+      data: { tipusPagament: tipusPagament },
+      type: 'POST',
+      dataType: 'html',
+      success: function (data, textStatus, xhr) {
+        console.log(xhr.status)
 
-$('.pagarFactura').click(function (e) {
-  console.log('pagar')
-  e.preventDefault()
-  e.stopPropagation()
-
-  var id = $(this).attr('data-id-factura')
-  var tipusPagament = $('#tipusPagament :selected').val()
-  var url = '/factures/' + id + '/pagar'
-  $.ajax({
-    // la URL para la petición
-    url: url,
-    data: { tipusPagament: tipusPagament },
-    type: 'POST',
-    dataType: 'html',
-    success: function (data, textStatus, xhr) {
-      console.log(xhr.status)
-
-      if (xhr.status == 200) {
-        
-        $('#modalPagar').modal('hide')
-        window.location.href = "/factures/"+id+ '/pdf'
-      }
-    },
+        if (xhr.status == 200) {
+          $('#modalPagar').modal('hide')
+          window.location.href = '/factures/' + id + '/pdf'
+        }
+      },
+    })
   })
+
+  if ( window.location.pathname.indexOf('?pagar') >= 0 )
+  {
+    console.log("patata");
+   alert("invt");
+  }
+
 })
-//})

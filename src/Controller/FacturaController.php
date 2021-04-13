@@ -132,6 +132,8 @@ class FacturaController extends BaseController
             $factura->setTasca($ordre->getTasca());
             $factura->setQuilometres($ordre->getQuilometres());
             $factura->setVehicle($ordre->getVehicle());
+            //$factura->setEstat(False);
+            //$factura->setFormaPagament(NULL);
             $ordre->setFactura($factura);
 
 

@@ -59,12 +59,18 @@
       </div>
       <div id="linias"></div>
 
-      {{ form_rest(form) }}
+     <!-- {{ form_rest(form) }}-->
 
       <div class="w-100 text-center">
         <button type="submit" class="btn btn-outline-primary">
           <i class="fa fa-paper-plane"></i>Guardar
         </button>
+        <!--<a href="/factures/?pagar" class="btn btn-outline-secondary">Pagar</a>-->
+        <!--<button type="submit" id="pagarFactura" data-id-factura="{{ form.vars.data.id }}" class="btn btn-outline-secondary">
+          <i class="fa fa-paper-plane"></i>Pagar
+        </button>-->
+
+        
       </div>
 
       {{ form_end(form) }}

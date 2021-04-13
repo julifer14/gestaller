@@ -63,9 +63,17 @@ class User implements UserInterface
      */
     private $dni;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Agenda::class, mappedBy="treballador")
+     */
+    private $agendas;
+
+   
+
     public function __construct()
     {
         $this->pressuposts = new ArrayCollection();
+        $this->agendas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,4 +250,40 @@ class User implements UserInterface
     {
         return "[".$this->id."] ".$this->nom." ".$this->cognom;
     }
+
+    /**
+     * @return Collection|Agenda[]
+     */
+    public function getAgendas(): Collection
+    {
+        return $this->agendas;
+    }
+
+    public function addAgenda(Agenda $agenda): self
+    {
+        if (!$this->agendas->contains($agenda)) {
+            $this->agendas[] = $agenda;
+            $agenda->setTreballador($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgenda(Agenda $agenda): self
+    {
+        if ($this->agendas->removeElement($agenda)) {
+            // set the owning side to null (unless already changed)
+            if ($agenda->getTreballador() === $this) {
+                $agenda->setTreballador(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
+
+  
+
+    
 }

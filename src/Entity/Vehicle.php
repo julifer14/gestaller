@@ -57,11 +57,19 @@ class Vehicle
      */
     private $facturas;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Agenda::class, mappedBy="vehicle")
+     */
+    private $agendas;
+
+    
+
     public function __construct()
     {
         $this->pressuposts = new ArrayCollection();
         $this->ordreReparacios = new ArrayCollection();
         $this->facturas = new ArrayCollection();
+        $this->agendas = new ArrayCollection();
     }
 
    
@@ -220,6 +228,42 @@ class Vehicle
 
         return $this;
     }
+
+    /**
+     * @return Collection|Agenda[]
+     */
+    public function getAgendas(): Collection
+    {
+        return $this->agendas;
+    }
+
+    public function addAgenda(Agenda $agenda): self
+    {
+        if (!$this->agendas->contains($agenda)) {
+            $this->agendas[] = $agenda;
+            $agenda->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgenda(Agenda $agenda): self
+    {
+        if ($this->agendas->removeElement($agenda)) {
+            // set the owning side to null (unless already changed)
+            if ($agenda->getVehicle() === $this) {
+                $agenda->setVehicle(null);
+            }
+        }
+
+        return $this;
+    }
+
+  
+
+   
+
+  
 
     
    
