@@ -203,3 +203,13 @@ factura:
           rectificació, cancel·lació i oposició, limitació del tractament, portabilitat
           de les dades i a no ser objecte de decisions individualitzades automatitzades
           mitjançant el correu electrònic: {{ empresa.email }}"
+        
+agenda:
+  agenda: "Agenda"
+  events: "Events"
+  add: "Afegir event"
+
+tasca:
+  tasca: "Tasca"
+  add: "Afegir tasca"
+  success-add: "Tasca afegida correctament"

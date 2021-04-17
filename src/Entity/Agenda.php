@@ -40,6 +40,11 @@ class Agenda
      */
     private $tasca;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $estat;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +94,18 @@ class Agenda
     public function setTasca(?Tasca $tasca): self
     {
         $this->tasca = $tasca;
+
+        return $this;
+    }
+
+    public function getEstat(): ?int
+    {
+        return $this->estat;
+    }
+
+    public function setEstat(?int $estat): self
+    {
+        $this->estat = $estat;
 
         return $this;
     }

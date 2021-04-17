@@ -41,5 +41,7 @@ security:
         - { path: ^/models, roles: ROLE_DIRECTOR }
         - { path: ^/articles, roles: ROLE_DIRECTOR }
         - { path: ^/categories, roles: ROLE_DIRECTOR }
+        - { path: ^/agenda/events, roles: ROLE_DIRECTOR }
+        - { path: ^/tasques, roles: ROLE_DIRECTOR }
 
         - { path: ^/, roles: ROLE_USER }

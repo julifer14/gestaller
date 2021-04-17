@@ -24,6 +24,9 @@
     <meta name="theme-color" content="#ffffff" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block stylesheets2 %}
+      
+    {% endblock %}
     {% block stylesheets %}
       {# 'app' must match the first argument to addEntry() in webpack.config.js #}
       {{ encore_entry_link_tags('app') }}
@@ -69,6 +72,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="/factures">Factura</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/agenda">Agenda</a>
+              </li>
             {% endif %}
           </ul>
 
@@ -97,6 +103,13 @@
                   </a>
                   <a class="dropdown-item" href="/models">
                     Gestió models vehicles
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/tasques">
+                    Gestió tasques
+                  </a>
+                  <a class="dropdown-item" href="/agenda/events">
+                    Gestió events
                   </a>
                 </div>
               </li>
