@@ -37,7 +37,6 @@ var total_linia_fac = 0
 
 $(document).ready(function () {
   $('select').selectpicker({ language: 'ES', liveSearch: true })
-  $(".form_datetime").datetimepicker();
 
  // $(".datetimepicker").datepicker($.datepicker.regional['es']);
 
@@ -115,10 +114,6 @@ $(document).ready(function () {
     })
   })
 
-  if ( window.location.pathname.indexOf('?pagar') >= 0 )
-  {
-    console.log("patata");
-   alert("invt");
-  }
+  
 
 })

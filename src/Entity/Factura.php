@@ -78,7 +78,7 @@ class Factura
     private $observacions;
 
     /**
-     * @ORM\OneToOne(targetEntity=OrdreReparacio::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=OrdreReparacio::class, mappedBy="factura", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $ordre;

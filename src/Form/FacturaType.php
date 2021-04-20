@@ -95,6 +95,7 @@ class FacturaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
             'data_class' => Factura::class,
             'allow_extra_fields' => true
         ]);

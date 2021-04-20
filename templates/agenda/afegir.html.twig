@@ -9,21 +9,35 @@
 {% block body %}
   <div class="pt-2">
     {{ form_start(form) }}
-		{{ form_row(form.tasca) }}
-		{{ form_row(form.dataHora) }}
-		{{ form_row(form.vehicle) }}
-		{{ form_row(form.treballador) }}
-		{{ form_row(form.estat) }}
-		
-		{{ form_rest(form) }}
+    {{ form_row(form.tasca) }}
+    {{ form_row(form.dataHora) }}
+    {{ form_row(form.vehicle) }}
+    {{ form_row(form.treballador) }}
+    {{ form_row(form.estat) }}
 
-		<div class="w-100 text-center">
-			<button type="submit" class="btn btn-outline-primary">
-				<i class="fa fa-paper-plane"></i> Enviar
-			</button>
-		</div>
+    {{ form_rest(form) }}
+
+    <div class="w-100 text-center">
+      <button type="submit" class="btn btn-outline-primary">
+        <i class="fa fa-paper-plane"></i> Enviar
+      </button>
+    </div>
 
     {{ form_end(form) }}
   </div>
 {% endblock %}
 
+{% block javascripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"
+    integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ=="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript"
+    src="/build/bootstrap-datetimepicker.es.js"
+    charset="UTF-8"></script>
+
+  <script src="/build/bootstrap-datetimepicker.min.js"></script>
+  <script>
+    $(document).ready(function () { $(".form_datetime").datetimepicker({
+    language: 'es' }); })
+  </script>
+{% endblock %}

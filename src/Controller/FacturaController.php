@@ -141,7 +141,7 @@ class FacturaController extends BaseController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
+               
                 $noves_linies = $request->request->get('new_linia');
                 $facturaManager->saveFactura($factura, $noves_linies);
                 $this->save($ordre);
