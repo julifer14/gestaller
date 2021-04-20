@@ -37,6 +37,15 @@ var total_linia_fac = 0
 
 $(document).ready(function () {
   $('select').selectpicker({ language: 'ES', liveSearch: true })
+  $(".form_datetime").datetimepicker();
+
+ // $(".datetimepicker").datepicker($.datepicker.regional['es']);
+
+ /* $('.datetimepicker').datepicker({'language' : 'ES'});
+  $('.datetimepicker').datepicker({
+    uiLibrary: 'bootstrap4',
+    locale: 'es-es',
+  });*/
 
   //add_linia
   total_linia_pre = $('#pressupost_totalLinies').val()
