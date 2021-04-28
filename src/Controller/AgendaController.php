@@ -9,12 +9,19 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\{Agenda, Article, Factura, Empresa, OrdreReparacio};
 use App\Form\AgendaType;
 
-use Omines\DataTablesBundle\Column\{TextColumn,DateTimeColumn};
+use Omines\DataTablesBundle\Column\{TextColumn, DateTimeColumn};
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Controller\BaseController;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class AgendaController extends BaseController
 {
@@ -28,7 +35,7 @@ class AgendaController extends BaseController
         ]);
     }
 
-
+  
 
     /**
      * @Route("/agenda/events", name="llistar_events")
@@ -66,7 +73,7 @@ class AgendaController extends BaseController
                             <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
                             <a href="/factures/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
                         </div>';
-               
+
 
                 return $action;
             }])
@@ -81,6 +88,39 @@ class AgendaController extends BaseController
         }
 
         return $this->render('agenda/llistar.html.twig', ['datatable' => $table]);
+    }
+
+
+    /**
+     * @Route("/agenda/getEvents",name="get_events")
+     */
+    public function getEvents(Request $request, SerializerInterface $serializer): Response
+    {
+        /*$start = $request->query->get('start');
+        dump($start);
+        //$start = new DateTime($start);
+        //$start = DateTime::createFromFormat(DateTime::ISO8601,date($start));
+        date(DATE_ISO8601,$start);
+        dump($start);
+        $end = $request->query->get('end');
+        dump($end);
+        exit;*/
+
+
+        $events = $this->getDoctrine()
+            ->getRepository(Agenda::class)
+            ->findAll();
+
+        $arrayCollection = array();
+
+        foreach ($events as $e) {
+            $arrayCollection[] = array(
+                'title' => $e->getVehicle()->getMatricula() . " - " . $e->getTasca()->getNom(),
+
+                'start' => $e->getDataHora(),
+            );
+        }
+        return  new JsonResponse($arrayCollection);
     }
 
 
@@ -102,5 +142,15 @@ class AgendaController extends BaseController
         }
 
         return $this->render('agenda/afegir.html.twig', ['form' => $form->createView()]);
+    }
+
+      /**
+     * @Route("/agenda/{id}",name="agenda_show")
+     */
+    public function show(Agenda $agenda):Response{
+        return $this->render('agenda/fitxa_agenda.html.twig', [
+            'controller_name' => 'AgendaController',
+            'agenda' => $agenda,
+        ]);
     }
 }

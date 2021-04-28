@@ -24,8 +24,8 @@ class Vehicle
      */
     private $Matricula;
 
-   
-   
+
+
 
     /**
      * @ORM\Column(type="float")
@@ -62,7 +62,7 @@ class Vehicle
      */
     private $agendas;
 
-    
+
 
     public function __construct()
     {
@@ -72,9 +72,9 @@ class Vehicle
         $this->agendas = new ArrayCollection();
     }
 
-   
 
-    
+
+
 
     public function getId(): ?int
     {
@@ -93,10 +93,10 @@ class Vehicle
         return $this;
     }
 
-   
 
-   
-   
+
+
+
 
     public function getKilometres(): ?float
     {
@@ -259,14 +259,15 @@ class Vehicle
         return $this;
     }
 
-  
-
-   
-
-  
-
-    
-   
-
-    
+    /**
+     * String representation of object
+     * @return string the string representation of the object or null
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->Matricula,
+        ]);
+    }
 }

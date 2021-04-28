@@ -17,9 +17,19 @@ class AgendaType extends AbstractType
     {
         $builder
             //->add('dataHora', DateTimeType::class, ['label' => 'Data/Hora ','widget' => 'choice',])
-            ->add('dataHora', TextType::class, [
+            ->add('dataHoraInici', TextType::class, [
                 'required' => true,
-                'label' => 'Data/Hora',
+                'label' => 'Inici',
+                //'translation_domain' => 'AppBundle',
+                'attr' => [
+                    'class' => 'form-control input-inline form_datetime',
+                    'data-provide' => 'datetimepicker',
+                    'data-format' => 'dd-mm-yyyy HH:ii',
+                ],
+            ])
+            ->add('dataHoraFi', TextType::class, [
+                'required' => true,
+                'label' => 'Fi',
                 //'translation_domain' => 'AppBundle',
                 'attr' => [
                     'class' => 'form-control input-inline form_datetime',
@@ -43,9 +53,13 @@ class AgendaType extends AbstractType
             ])
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $e = $event->getData();
-                $data = $e['dataHora'];
-                $dataOk = new DateTime($data);
-                $e['dataHora'] = $dataOk;
+                $dataIni = $e['dataHoraInici'];
+                $dataIniOk = new DateTime($dataIni);
+                $e['dataHoraInici'] = $dataIniOk;
+
+                $dataFi = $e['dataHoraFi'];
+                $dataFiOk = new DateTime($dataFi);
+                $e['dataHoraFi'] = $dataFiOk;
                 $event->setData($e);
                 
             });;

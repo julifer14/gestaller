@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fitxa Agenda{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+		<h1>Article</h1>	 	
+			
+			<div class="card">
+				<div class="card-header">
+					<span>Codi article: </span>{{ agenda.id }} 
+				</div>
+				<div class="card-body">
+					<b>Tasca:</b>
+					<p class="card-text">
+						<span>{{ agenda.tasca }}</span>
+					</p>
+					
+			</div>
+			
+			
+
+	</div>
+{% endblock %}
+

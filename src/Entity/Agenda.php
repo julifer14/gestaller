@@ -20,7 +20,7 @@ class Agenda
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dataHora;
+    private $dataHoraInici;
 
     /**
      * @ORM\ManyToOne(targetEntity=Vehicle::class, inversedBy="agendas")
@@ -45,19 +45,24 @@ class Agenda
      */
     private $estat;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dataHoraFi;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDataHora(): ?\DateTimeInterface
+    public function getdataHoraInici(): ?\DateTimeInterface
     {
-        return $this->dataHora;
+        return $this->dataHoraInici;
     }
 
-    public function setDataHora(\DateTimeInterface $dataHora): self
+    public function setdataHoraInici(\DateTimeInterface $dataHoraInici): self
     {
-        $this->dataHora = $dataHora;
+        $this->dataHoraInici = $dataHoraInici;
 
         return $this;
     }
@@ -106,6 +111,22 @@ class Agenda
     public function setEstat(?int $estat): self
     {
         $this->estat = $estat;
+
+        return $this;
+    }
+
+    public function getTitol():string{
+        return $this->getTasca()->getNom();
+    }
+
+    public function getDataHoraFi(): ?\DateTimeInterface
+    {
+        return $this->dataHoraFi;
+    }
+
+    public function setDataHoraFi(\DateTimeInterface $dataHoraFi): self
+    {
+        $this->dataHoraFi = $dataHoraFi;
 
         return $this;
     }
