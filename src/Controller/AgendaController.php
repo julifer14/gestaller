@@ -138,7 +138,7 @@ class AgendaController extends BaseController
 
             $this->save($agenda);
             $this->addFlash('success', 'agenda.success-add');
-            return $this->redirectToRoute('llistar_events');
+            return $this->redirectToRoute('agenda');
         }
 
         return $this->render('agenda/afegir.html.twig', ['form' => $form->createView()]);

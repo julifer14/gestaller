@@ -209,6 +209,7 @@ agenda:
   events: "Events"
   add: "Afegir event"
   success-add: "Event creat correctament"
+  llistat: "Llistat d'events"
 
 tasca:
   tasca: "Tasca"

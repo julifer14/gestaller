@@ -13,14 +13,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class CalendarSubscriber implements EventSubscriberInterface
 {
     protected $em;
-    private $bookingRepository;
+    private $agendaRepository;
     private $router;
 
-    public function __construct(
-        AgendaRepository $agendaRepository,
-        UrlGeneratorInterface $router,
-        EntityManagerInterface $em
-    ) {
+    public function __construct(AgendaRepository $agendaRepository, UrlGeneratorInterface $router, EntityManagerInterface $em) {
         $this->em = $em;
         $this->agendaRepository = $agendaRepository;
         $this->router = $router;
@@ -40,12 +36,20 @@ class CalendarSubscriber implements EventSubscriberInterface
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
 
-        if(!empty($start) and !empty($end)){
+        /*if(!empty($start) and !empty($end)){
+            $this->getReposi
             $agendas = $this->em->getRepository(Agenda::class)->findBetweenDates($start, $end);
 
         }else{
             $agendas = $this->em->getRepository(Agenda::class)->findAll();
-        }
+        }*/
+        $agendas = $this->agendaRepository
+            ->createQueryBuilder('agenda')
+            ->where('agenda.dataHoraInici BETWEEN :start and :end OR agenda.dataHoraFi BETWEEN :start and :end')
+            ->setParameter('start', $start->format('Y-m-d H:i:s'))
+            ->setParameter('end', $end->format('Y-m-d H:i:s'))
+            ->getQuery()
+            ->getResult();
 
         foreach ($agendas as $agenda) {
             $event = new Event(
@@ -54,13 +58,14 @@ class CalendarSubscriber implements EventSubscriberInterface
                 $agenda->getDataHoraFi(),
             );
             
-            /*$event->addOption(
+           
+            $event->addOption(
                 'url',
-                $this->router->generate('agenda.show', [
+                $this->router->generate('agenda_show', [
                     'id' => $agenda->getId(),
                     'titol' => urlencode($agenda->getTitol())
                 ])
-            );*/
+            );
 
             $calendar->addEvent($event);
         }

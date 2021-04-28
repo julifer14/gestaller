@@ -116,7 +116,7 @@ class Agenda
     }
 
     public function getTitol():string{
-        return $this->getTasca()->getNom();
+        return $this->getVehicle()->getMatricula()." - ".$this->getTasca()->getNom();
     }
 
     public function getDataHoraFi(): ?\DateTimeInterface
