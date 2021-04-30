@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\{Agenda, Article, Factura, Empresa, OrdreReparacio};
+use App\Entity\{Agenda, User, Factura, Empresa, OrdreReparacio};
 use App\Form\AgendaType;
 
 use Omines\DataTablesBundle\Column\{TextColumn, DateTimeColumn};
@@ -25,17 +25,12 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class AgendaController extends BaseController
 {
-    /**
-     * @Route("/agenda", name="agenda")
-     */
-    public function index(): Response
-    {
-        return $this->render('agenda/index.html.twig', [
-            'controller_name' => 'AgendaController',
-        ]);
-    }
 
-  
+
+
+
+
+
 
     /**
      * @Route("/agenda/events", name="llistar_events")
@@ -94,17 +89,9 @@ class AgendaController extends BaseController
     /**
      * @Route("/agenda/getEvents",name="get_events")
      */
-    public function getEvents(Request $request, SerializerInterface $serializer): Response
+    /* public function getEvents(Request $request, SerializerInterface $serializer): Response
     {
-        /*$start = $request->query->get('start');
-        dump($start);
-        //$start = new DateTime($start);
-        //$start = DateTime::createFromFormat(DateTime::ISO8601,date($start));
-        date(DATE_ISO8601,$start);
-        dump($start);
-        $end = $request->query->get('end');
-        dump($end);
-        exit;*/
+       
 
 
         $events = $this->getDoctrine()
@@ -121,7 +108,7 @@ class AgendaController extends BaseController
             );
         }
         return  new JsonResponse($arrayCollection);
-    }
+    }*/
 
 
     /**
@@ -129,7 +116,11 @@ class AgendaController extends BaseController
      */
     public function createTasca(Request $request, ValidatorInterface $validator): Response
     {
+        
+        $usuari_id =$request->query->get('usuari');
+        $usuari = $this->getDoctrine()->getRepository(User::class)->find($usuari_id);
         $agenda = new Agenda();
+        $agenda->setTreballador($usuari);
 
         $form = $this->createForm(AgendaType::class, $agenda);
         $form->handleRequest($request);
@@ -144,10 +135,34 @@ class AgendaController extends BaseController
         return $this->render('agenda/afegir.html.twig', ['form' => $form->createView()]);
     }
 
-      /**
-     * @Route("/agenda/{id}",name="agenda_show")
+
+
+    /**
+     * @Route("/agenda/{id}", defaults={"id"=-1}, name="agenda")
      */
-    public function show(Agenda $agenda):Response{
+    public function index(User $user = null): Response
+    {
+        if ($user) {
+            return $this->render('agenda/agenda.html.twig', [
+                'controller_name' => 'AgendaController',
+                'user' => $user
+            ]);
+        } else {
+
+            $usuaris = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+            return $this->render('agenda/index.html.twig', [
+                'usuaris' => $usuaris
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/agenda/event/{id}",name="agenda_show")
+     */
+    public function show(Agenda $agenda): Response
+    {
         return $this->render('agenda/fitxa_agenda.html.twig', [
             'controller_name' => 'AgendaController',
             'agenda' => $agenda,

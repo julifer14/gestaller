@@ -46,9 +46,19 @@ class Agenda
     private $estat;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $dataHoraFi;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $allDay;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $observacions;
 
     public function getId(): ?int
     {
@@ -127,6 +137,30 @@ class Agenda
     public function setDataHoraFi(\DateTimeInterface $dataHoraFi): self
     {
         $this->dataHoraFi = $dataHoraFi;
+
+        return $this;
+    }
+
+    public function getAllDay(): ?bool
+    {
+        return $this->allDay;
+    }
+
+    public function setAllDay(?bool $allDay): self
+    {
+        $this->allDay = $allDay;
+
+        return $this;
+    }
+
+    public function getObservacions(): ?string
+    {
+        return $this->observacions;
+    }
+
+    public function setObservacions(?string $observacions): self
+    {
+        $this->observacions = $observacions;
 
         return $this;
     }

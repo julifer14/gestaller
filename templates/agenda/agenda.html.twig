@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'agenda.agenda'|trans }}: {{ user.nom }}
+{% endblock %}
+{% block title_block %}
+  {{ 'agenda.agenda'|trans }}: {{ user.nom }}
+{% endblock %}
+
+{% block stylesheets2 %}
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap/main.min.css">
+
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css' rel='stylesheet' />
+	<link href='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css' rel='stylesheet' />
+	<link href='https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap/main.css' rel='stylesheet' />
+
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core/locales/es.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap/main.min.js"></script> -->
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css" />
+
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet' />
+<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+{% endblock %}
+
+{% block body %}
+  <div class="row">
+  <div class="col">
+    <a href="/agenda/afegir?usuari={{user.id}}" class="btn btn-primary mb-3" role="button">
+      {{ 'agenda.add'|trans }}
+    </a>
+    
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col" id="calendar-holder"></div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => { 
+      var calendarEl = document.getElementById('calendar-holder');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, { 
+      defaultView: 'dayGridWeek', 
+      editable: false,
+      eventSources: [ 
+        { 
+          url: "{{path('fc_load_events')}}", 
+          method: "POST", 
+          extraParams: { filters: JSON.stringify({"user_id":{{ user.id }}}) }, 
+          failure: () => { 
+            // alert("There was an error while fetching FullCalendar!"); 
+          }, 
+        },
+      ], 
+      header: 
+      { 
+        left: 'prev,next today', 
+        center: 'title', 
+        right: 'dayGridMonth,timeGridWeek,timeGridDay', 
+      }, 
+      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ], // https://fullcalendar.io/docs/plugin-index
+      timeZone: 'Europe/Madrid', 
+      firstDay: 1,
+      locale: 'es',
+      themeSystem: 'bootstrap'
+      }); 
+      calendar.render(); 
+    });
+  </script>
+{% endblock %}

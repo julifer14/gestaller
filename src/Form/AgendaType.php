@@ -28,7 +28,7 @@ class AgendaType extends AbstractType
                 ],
             ])
             ->add('dataHoraFi', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Fi',
                 //'translation_domain' => 'AppBundle',
                 'attr' => [
@@ -38,8 +38,13 @@ class AgendaType extends AbstractType
                 ],
             ])
             ->add('vehicle')
-            ->add('treballador')
+            ->add('treballador',TextType::class, [
+                'disabled' => true,
+                
+            ])
+            ->add('allDay')
             ->add('tasca')
+            ->add('observacions')
             ->add('estat', ChoiceType::class, [
 
                 'choices' => [

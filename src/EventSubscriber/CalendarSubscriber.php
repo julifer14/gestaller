@@ -16,7 +16,8 @@ class CalendarSubscriber implements EventSubscriberInterface
     private $agendaRepository;
     private $router;
 
-    public function __construct(AgendaRepository $agendaRepository, UrlGeneratorInterface $router, EntityManagerInterface $em) {
+    public function __construct(AgendaRepository $agendaRepository, UrlGeneratorInterface $router, EntityManagerInterface $em)
+    {
         $this->em = $em;
         $this->agendaRepository = $agendaRepository;
         $this->router = $router;
@@ -31,10 +32,12 @@ class CalendarSubscriber implements EventSubscriberInterface
 
     public function onCalendarSetData(CalendarEvent $calendar)
     {
-        
+
         $filters = $calendar->getFilters();
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
+
+        $usuari = $filters['user_id'];
 
         /*if(!empty($start) and !empty($end)){
             $this->getReposi
@@ -45,9 +48,10 @@ class CalendarSubscriber implements EventSubscriberInterface
         }*/
         $agendas = $this->agendaRepository
             ->createQueryBuilder('agenda')
-            ->where('agenda.dataHoraInici BETWEEN :start and :end OR agenda.dataHoraFi BETWEEN :start and :end')
+            ->where('(agenda.treballador = :usuari) and (agenda.dataHoraInici BETWEEN :start and :end OR agenda.dataHoraFi BETWEEN :start and :end)  ')
             ->setParameter('start', $start->format('Y-m-d H:i:s'))
             ->setParameter('end', $end->format('Y-m-d H:i:s'))
+            ->setParameter('usuari', $usuari)
             ->getQuery()
             ->getResult();
 
@@ -56,9 +60,12 @@ class CalendarSubscriber implements EventSubscriberInterface
                 $agenda->getTitol(),
                 $agenda->getDataHoraInici(),
                 $agenda->getDataHoraFi(),
+
             );
-            
-           
+            if ($agenda->getallDay()) {
+                $event->setAllDay($agenda->getallDay());
+            }
+
             $event->addOption(
                 'url',
                 $this->router->generate('agenda_show', [
@@ -69,10 +76,9 @@ class CalendarSubscriber implements EventSubscriberInterface
 
             $calendar->addEvent($event);
         }
-
     }
 
-   /* public function onCalendarSetData(CalendarEvent $calendar)
+    /* public function onCalendarSetData(CalendarEvent $calendar)
     {
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
@@ -113,5 +119,4 @@ class CalendarSubscriber implements EventSubscriberInterface
             // finally, add the event to the CalendarEvent to fill the calendar
             $calendar->addEvent($bookingEvent);
         }*/
-    
 }
