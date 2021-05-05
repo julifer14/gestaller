@@ -1,0 +1,106 @@
+{% block navbar %}
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            {% if app.user %}
+              <li class="nav-item">
+                <a class="nav-link" href="/clients">Clients</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/vehicles">Vehicles</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/pressupostos">Pressupost</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/ordres">Ordre reparació</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/factures">Factura</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/agenda">Agendes</a>
+              </li>
+            {% endif %}
+          </ul>
+
+        </div>
+            
+            {% if is_granted('ROLE_DIRECTOR') %}
+             <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"
+                  href="#"
+                  id="gestio"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                  Gestió
+                </a>
+                <div class="dropdown-menu" aria-labelledby="gestio">
+                  <a class="dropdown-item" href="/categories">
+                    Gestió categories article
+                  </a>
+                  <a class="dropdown-item" href="/articles">Gestió articles</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/marques">
+                    Gestió marques vehicles
+                  </a>
+                  <a class="dropdown-item" href="/models">
+                    Gestió models vehicles
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="/tasques">
+                    Gestió tasques
+                  </a>
+                  <a class="dropdown-item" href="/agenda/events">
+                    Gestió events
+                  </a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"
+                  href="#"
+                  id="direccio"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                  Direcció
+                </a>
+                <div class="dropdown-menu" aria-labelledby="direccio">
+                  <a class="dropdown-item" href="/register">Registrar usuari</a>
+                  <a class="dropdown-item" href="/llistarUsuaris">
+                    Llistar usuaris
+                  </a>
+                  <a class="dropdown-item" href="/empresa">Conf. empresa</a>
+                </div>
+              </li>
+              </ul>
+            {% endif %}
+            {% if app.user %}
+            <div class="navbar-nav d-flex">
+              <li class="d-flex">
+                <a class="nav-link" href="/user/{{ app.user.id }}"> {{ app.user.nom }}</a>
+              </li>
+              <li class="d-flex">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+            {% endif %}
+            </div>
+            
+      </nav>
+    {% endblock %}
+
+   

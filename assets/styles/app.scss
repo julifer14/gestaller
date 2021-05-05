@@ -5,8 +5,14 @@ body {
 $primary: darken(#428bca, 20%);
 // the ~ allows you to reference things in node_modules
 
-@import "~bootstrap/scss/bootstrap";
+//@import "~bootstrap/scss/bootstrap";
+//@import "~admin-lte/node_modules/bootstrap/dist/css/bootstrap";
+@import "~admin-lte/dist/css/adminlte";
 
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 //@import 'startbootstrap-sb-admin/scss/sb-admin.scss';
 
 @import "~bootstrap-select/dist/css/bootstrap-select";

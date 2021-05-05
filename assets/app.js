@@ -8,15 +8,15 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss'
 
-import $ from 'jquery'
-global.$ = global.jQuery = $
+
 
 import '../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js'
 
 //import 'cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
-
+import $ from 'jquery'
+global.$ = global.jQuery = $
 //console.log('Hello Webpack Encore! Edit me in assets/app.js')
 
 // loads the jquery package from node_modules
@@ -26,9 +26,14 @@ import greet from './greet'
 import 'bootstrap'
 import 'bootstrap/dist/js/bootstrap.min'
 //require('bootstrap')
+import 'admin-lte/dist/js/adminlte'
+
+//import "../node_modules/admin-lte/node_modules/bootstrap/dist/js/bootstrap.js";
 import 'bootstrap-select'
 import 'bootstrap-datepicker'
 import 'bootstrap-datepicker/'
+import 'admin-lte'
+
 
 import 'bootstrap-select/dist/js/i18n/defaults-es_ES.min'
 
