@@ -1,157 +1,159 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4 small">
   <a href="/" class="brand-link">Gestaller</a>
-  <div class="sidebar">
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img src="https://openclipart.org/image/400px/122107"
-          class=""
-          alt="User Image" />
+  {% if app.user %}
+    <div class="sidebar">
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="https://openclipart.org/image/400px/122107"
+            class=""
+            alt="User Image" />
+        </div>
+        <div class="pull-left info mt-1">
+          <a class="nav-link" href="/user/{{ app.user.id }}">
+            {{ app.user.nom }}
+          </a>
+        </div>
       </div>
-      <div class="pull-left info mt-1">
-        <a class="nav-link" href="/user/{{ app.user.id }}">
-          {{ app.user.nom }}
-        </a>
-      </div>
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column"
+          data-widget="treeview"
+          role="menu">
+          <li class="nav-item">
+            <a href="/" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              Home
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-user nav-icon"></i>
+              Clients<i class="right fas fa-angle-left"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/clients" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  Llistar clients
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/clients/afegir" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  Afegir client
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-car nav-icon"></i>
+              Vehicles<i class="right fas fa-angle-left"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/clients" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  Llistar vehicles
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/vehicles/afegir" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  Afegir vehicle
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-calculator nav-icon"></i>
+              Pressupostos<i class="right fas fa-angle-left"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/pressupostos" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  Llistar pressupostos
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/pressupostos/afegir" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  Afegir pressupost
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-tools nav-icon"></i>
+              Ordre de reparació<i class="right fas fa-angle-left"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/ordres" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  Llistar ordres
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/ordres/afegir" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  Afegir ordre
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-receipt nav-icon"></i>
+              Factures<i class="right fas fa-angle-left"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/factures" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  Llistar factures
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/factures/afegir" class="nav-link">
+                  <i class="fas fa-plus nav-icon"></i>
+                  Afegir factura
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="fas fa-calendar-alt nav-icon"></i>
+              Agendes<i class="right fas fa-angle-left"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/agenda" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  Llista d'agendes
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/agenda/4" class="nav-link">
+                  <i class="fas fa-calendar-alt nav-icon"></i>
+                  Agenda director
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column"
-        data-widget="treeview"
-        role="menu">
-        <li class="nav-item">
-          <a href="/" class="nav-link">
-            <i class="nav-icon fas fa-home"></i>
-            Home
-          </a>
-        </li>
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="far fa-user nav-icon"></i>
-            Clients<i class="right fas fa-angle-left"></i>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/clients" class="nav-link">
-                <i class="fas fa-list nav-icon"></i>
-                Llistar clients
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/clients/afegir" class="nav-link">
-                <i class="fas fa-plus nav-icon"></i>
-                Afegir client
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="fas fa-car nav-icon"></i>
-            Vehicles<i class="right fas fa-angle-left"></i>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/clients" class="nav-link">
-                <i class="fas fa-list nav-icon"></i>
-                Llistar vehicles
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="/vehicles/afegir" class="nav-link">
-                <i class="fas fa-plus nav-icon"></i>
-                Afegir vehicle
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="fas fa-calculator nav-icon"></i>
-            Pressupostos<i class="right fas fa-angle-left"></i>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/pressupostos" class="nav-link">
-                <i class="fas fa-list nav-icon"></i>
-                Llistar pressupostos
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="/pressupostos/afegir" class="nav-link">
-                <i class="fas fa-plus nav-icon"></i>
-                Afegir pressupost
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="fas fa-tools nav-icon"></i>
-            Ordre de reparació<i class="right fas fa-angle-left"></i>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/ordres" class="nav-link">
-                <i class="fas fa-list nav-icon"></i>
-                Llistar ordres
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="/ordres/afegir" class="nav-link">
-                <i class="fas fa-plus nav-icon"></i>
-                Afegir ordre
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="fas fa-receipt nav-icon"></i>
-            Factures<i class="right fas fa-angle-left"></i>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/factures" class="nav-link">
-                <i class="fas fa-list nav-icon"></i>
-                Llistar factures
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="/factures/afegir" class="nav-link">
-                <i class="fas fa-plus nav-icon"></i>
-                Afegir factura
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="fas fa-calendar-alt nav-icon"></i>
-            Agendes<i class="right fas fa-angle-left"></i>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/agenda" class="nav-link">
-                <i class="fas fa-list nav-icon"></i>
-                Llista d'agendes
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/agenda/4" class="nav-link">
-                <i class="fas fa-calendar-alt nav-icon"></i>
-                Agenda director
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </div>
+  {% endif %}
 </aside>
