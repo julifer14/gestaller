@@ -1,20 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fitxa Agenda{% endblock %}
+{% block title %}{{ 'agenda.fitxa'|trans }}{% endblock %}
+{% block title_block %}
+ {{ 'agenda.fitxa'|trans }}
+{% endblock %}
+
 
 {% block body %}
 <div class="container mt-4">
-		<h1>Article</h1>	 	
 			
 			<div class="card">
 				<div class="card-header">
-					<span>Codi article: </span>{{ agenda.id }} 
+					<span>{{ 'agenda.codi'|trans }}</span>{{ agenda.id }} 
 				</div>
 				<div class="card-body">
-					<b>Tasca:</b>
 					<p class="card-text">
+						<b>{{ 'agenda.vehicle'|trans }}</b>
+						<span>{{ agenda.vehicle }}</span>
+						<span>({{ agenda.vehicle.model }})</span>
+					</p>
+					<p class="card-text">
+					<b>{{ 'agenda.tasca'|trans }}</b>
 						<span>{{ agenda.tasca }}</span>
 					</p>
+
+
+					
+					<p class="card-text">
+					<b>{{ 'agenda.dataInici'|trans }}</b>
+						<span>{{ agenda.dataHoraInici|format_datetime('full', 'full', locale='es') }}</span>
+					</p>
+					
+					<p class="card-text">
+						<b>{{ 'agenda.dataFi'|trans }}</b>
+						<span>{{ agenda.dataHoraFi|format_datetime('full', 'full', locale='es') }}</span>
+					</p>
+
+					<p class="card-text">
+						<b>{{ 'agenda.treballador'|trans }}</b>
+						<span>{{ agenda.treballador }}</span>
+					</p>
+					<p class="card-text">
+						<b>{{ 'agenda.estat'|trans }}</b>
+						{% if agenda.estat == 0 %}
+						<span>Pendent</span>
+						{% elseif agenda.estat == 1 %}
+						<span>Completada</span>
+						{% else %}
+						<span>Anulada</span>
+						{% endif %}
+					</p>
+					
 					
 			</div>
 			

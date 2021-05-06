@@ -150,8 +150,85 @@
                   Agenda director
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="/events" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  Llistat events
+                </a>
+              </li>
             </ul>
           </li>
+
+          {% if is_granted('ROLE_DIRECTOR') %}
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+               <i class="fas fa-tools nav-icon"></i>
+                Gestió<i class="right fas fa-angle-left"></i>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/categories" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Gestió categories d'articles
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/articles" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Gestió d'articles
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/marques" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Gestió marques de vehicles
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/models" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Gestió models de vehicles
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/tasques" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Gestió tasques
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="fas fa-user-tie nav-icon"></i>
+                Direcció<i class="right fas fa-angle-left"></i>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/register" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Registrar usuari
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/llistarUsuaris" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Llistat d'usuaris
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/empresa" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    Inf. de  l'empresa
+                  </a>
+                </li>
+                
+              </ul>
+            </li>
+          {% endif %}
         </ul>
       </nav>
     </div>

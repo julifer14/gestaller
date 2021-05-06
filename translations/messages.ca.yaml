@@ -211,8 +211,19 @@ agenda:
   success-add: "Event creat correctament"
   llistat: "Llistat d'events"
   agendes: "Agendes"
+  fitxa: "Fitxa event"
+  codi: "Codi event: "
+  tasca: "Tasca: "
+  dataInici: "Inici event: "
+  dataFi: "Fi event: "
+  vehicle: "Vehicle: "
+  treballador: "Treballador: "
+  estat: "Estat: "
+
 
 tasca:
   tasca: "Tasca"
   add: "Afegir tasca"
   success-add: "Tasca afegida correctament"
+ 
+
