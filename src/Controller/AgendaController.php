@@ -27,7 +27,26 @@ class AgendaController extends BaseController
 {
 
 
+    /**
+     * @Route("agenda/event/modificar/{id}", name="modificar_event")
+     */
+    public function modificarEvent(Request $request, Agenda $agenda): Response
+    {
 
+
+        $form = $this->createForm(AgendaType::class, $agenda);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'agenda.success-edit');
+            $this->save($agenda);
+
+
+            return $this->redirectToRoute('agenda',['id'=>$agenda->getId()]);
+        }
+
+        return $this->render('agenda/modificar_agenda.html.twig', ['form' => $form->createView(), 'agenda' => $agenda]);
+    }
 
 
 
@@ -116,8 +135,8 @@ class AgendaController extends BaseController
      */
     public function createTasca(Request $request, ValidatorInterface $validator): Response
     {
-        
-        $usuari_id =$request->query->get('usuari');
+
+        $usuari_id = $request->query->get('usuari');
         $usuari = $this->getDoctrine()->getRepository(User::class)->find($usuari_id);
         $agenda = new Agenda();
         $agenda->setTreballador($usuari);
@@ -126,7 +145,8 @@ class AgendaController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            dump($agenda);
+            exit;
             $this->save($agenda);
             $this->addFlash('success', 'agenda.success-add');
             return $this->redirectToRoute('agenda');
@@ -150,8 +170,8 @@ class AgendaController extends BaseController
         } else {
 
             $usuaris = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findAll();
+                ->getRepository(User::class)
+                ->findAll();
             return $this->render('agenda/index.html.twig', [
                 'usuaris' => $usuaris
             ]);

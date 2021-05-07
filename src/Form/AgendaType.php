@@ -10,6 +10,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\{CollectionType, TextType, NumberType, DateTimeType, ChoiceType, TextareaType};
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\{Vehicle, User};
+
+
 
 class AgendaType extends AbstractType
 {
@@ -18,6 +22,7 @@ class AgendaType extends AbstractType
         $builder
             //->add('dataHora', DateTimeType::class, ['label' => 'Data/Hora ','widget' => 'choice',])
             ->add('dataHoraInici', TextType::class, [
+
                 'required' => true,
                 'label' => 'Inici',
                 //'translation_domain' => 'AppBundle',
@@ -28,6 +33,7 @@ class AgendaType extends AbstractType
                 ],
             ])
             ->add('dataHoraFi', TextType::class, [
+
                 'required' => false,
                 'label' => 'Fi',
                 //'translation_domain' => 'AppBundle',
@@ -37,10 +43,18 @@ class AgendaType extends AbstractType
                     'data-format' => 'dd-mm-yyyy HH:ii',
                 ],
             ])
-            ->add('vehicle')
-            ->add('treballador',TextType::class, [
+            ->add(
+                'vehicle',
+                EntityType::class,
+                [
+                    'label' => 'Vehicle',
+                    'class' => Vehicle::class,
+
+                ]
+            )
+            ->add('treballador', TextType::class, [
                 'disabled' => true,
-                
+
             ])
             ->add('allDay')
             ->add('tasca')
@@ -56,6 +70,19 @@ class AgendaType extends AbstractType
                 'label' => 'Tasca',
 
             ])
+            ->addEventListener(FormEvents::POST_SET_DATA,function(FormEvent $event){
+                $form = $event->getForm();
+                $agenda= $event->getData();
+
+                if($agenda==null || $agenda->getId() ==null){
+                    return;
+                }
+                if($agenda instanceof Agenda){
+                    $form->get('dataHoraInici')->setData($agenda->getdataHoraInici()->format('Y-m-d G:i'));
+                    $form->get('dataHoraFi')->setData($agenda->getdataHoraFi()->format('Y-m-d G:i'));
+                }
+
+            })
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $e = $event->getData();
                 $dataIni = $e['dataHoraInici'];
@@ -66,8 +93,7 @@ class AgendaType extends AbstractType
                 $dataFiOk = new DateTime($dataFi);
                 $e['dataHoraFi'] = $dataFiOk;
                 $event->setData($e);
-                
-            });;
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

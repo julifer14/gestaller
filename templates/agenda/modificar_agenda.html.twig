@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  {{ 'agenda.add'|trans }}
+  {{ 'agenda.edit'|trans }}
 {% endblock %}
 {% block title_block %}
-  {{ 'agenda.add'|trans }}
+  {{ 'agenda.edit'|trans }}
 {% endblock %}
-
-
 {% block body %}
   <div class="pt-2">
     {{ form_start(form) }}
@@ -34,13 +32,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"
     integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ=="
     crossorigin="anonymous"></script>
-  <script src="/build/bootstrap-datetimepicker.min.js"></script>
+    <script src="/build/bootstrap-datetimepicker.min.js"></script>
   <script type="text/javascript"
     src="/build/bootstrap-datetimepicker.es.js"
     charset="UTF-8"></script>
 
+  
   <script>
     $(document).ready(function () { $(".form_datetime").datetimepicker({
-    language: 'ES' }); })
+    language: 'es' }); })
   </script>
 {% endblock %}

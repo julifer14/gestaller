@@ -209,6 +209,7 @@ agenda:
   events: "Events"
   add: "Afegir event"
   success-add: "Event creat correctament"
+  success-edit: "Event modificat correctament"
   llistat: "Llistat d'events"
   agendes: "Agendes"
   fitxa: "Fitxa event"
@@ -219,6 +220,7 @@ agenda:
   vehicle: "Vehicle: "
   treballador: "Treballador: "
   estat: "Estat: "
+  edit: "Editar event"
 
 
 tasca:
