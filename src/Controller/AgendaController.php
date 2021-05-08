@@ -42,7 +42,7 @@ class AgendaController extends BaseController
             $this->save($agenda);
 
 
-            return $this->redirectToRoute('agenda',['id'=>$agenda->getId()]);
+            return $this->redirectToRoute('agenda',['id'=>$agenda->getTreballador()->getId()]);
         }
 
         return $this->render('agenda/modificar_agenda.html.twig', ['form' => $form->createView(), 'agenda' => $agenda]);

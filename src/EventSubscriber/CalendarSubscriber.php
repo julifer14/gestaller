@@ -65,6 +65,28 @@ class CalendarSubscriber implements EventSubscriberInterface
             if ($agenda->getallDay()) {
                 $event->setAllDay($agenda->getallDay());
             }
+            if($agenda->getEstat()==0){
+                //Pendent vermell
+                $event->setOptions([
+                    'backgroundColor'=> '#F08080',
+                    'borderColor'=>'#F08080',
+                    'textColor'=>'black'
+                ]);
+            }else if($agenda->getEstat()==1){
+                //Completada verd
+                $event->setOptions([
+                    'backgroundColor'=> '#90EE90',
+                    'borderColor'=>'#90EE90',
+                    'textColor'=>'black'
+                ]);
+            }else{
+                //rebutjada gris
+                $event->setOptions([
+                    'backgroundColor'=> '#D3D3D3',
+                    'borderColor'=>'#D3D3D3',
+                    'textColor'=>'black'
+                ]);
+            }
 
             $event->addOption(
                 'url',
