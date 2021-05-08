@@ -221,6 +221,9 @@ agenda:
   treballador: "Treballador: "
   estat: "Estat: "
   edit: "Editar event"
+  del: "Esborrar event"
+  success-del: "Event eliminar correctament"
+  error-del: "ERROR al eliminar l'event"
 
 
 tasca:

@@ -48,6 +48,20 @@ class AgendaController extends BaseController
         return $this->render('agenda/modificar_agenda.html.twig', ['form' => $form->createView(), 'agenda' => $agenda]);
     }
 
+    /**
+     * @Route("/agenda/event/esborrar/{id}",name="esborrar_event")
+     */
+    public function esborrarEvent(Request $request, Agenda $agenda):Response{
+        $agendaUsuari = $agenda->getTreballador();
+        $resultat = $this->esborrar($agenda);
+
+
+        if (!$resultat) {
+            $this->addFlash('error', 'agenda.error-del');
+        }
+        $this->addFlash('success', 'agenda.success-del');
+        return $this->redirectToRoute('agenda',['id'=>$agendaUsuari->getId()]);
+    }
 
 
 

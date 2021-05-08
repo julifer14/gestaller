@@ -7,8 +7,14 @@
 
 
 {% block body %}
-<div class="container mt-4">
-			
+	<div class="row">
+    	<a href="/agenda/event/modificar/{{ agenda.id }}" class="btn btn-secondary m-3" role="button">
+      		{{ 'agenda.edit'|trans }}
+		</a>
+		<a href="/agenda/event/esborrar/{{ agenda.id }}" class="btn btn-danger m-3" role="button">
+      		{{ 'agenda.del'|trans }}
+		</a>
+	</div> 
 			<div class="card">
 				<div class="card-header">
 					<span>{{ 'agenda.codi'|trans }}</span>{{ agenda.id }} 
@@ -56,6 +62,5 @@
 			
 			
 
-	</div>
 {% endblock %}
 
