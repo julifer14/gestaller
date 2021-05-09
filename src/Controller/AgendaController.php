@@ -159,8 +159,7 @@ class AgendaController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($agenda);
-            exit;
+           
             $this->save($agenda);
             $this->addFlash('success', 'agenda.success-add');
             return $this->redirectToRoute('agenda');
