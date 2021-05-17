@@ -68,6 +68,11 @@ class User implements UserInterface
      */
     private $agendas;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ResetCode;
+
    
 
     public function __construct()
@@ -277,6 +282,18 @@ class User implements UserInterface
                 $agenda->setTreballador(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetCode(): ?string
+    {
+        return $this->ResetCode;
+    }
+
+    public function setResetCode(?string $ResetCode): self
+    {
+        $this->ResetCode = $ResetCode;
 
         return $this;
     }

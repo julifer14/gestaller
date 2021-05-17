@@ -2,6 +2,19 @@
 
 namespace App\Controller;
 
+
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\SwiftmailerBundle;
+use App\Services\Mailer;
+use App\Form\Inscription\{ClientProInscriptionType, ClientParticulierInscriptionType};
+use App\Manager\ClientManager;
+
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,13 +22,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\{UserType, ForgotPassType, ResetPassType};
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bundle\SwiftmailerBundle\Swift_Message;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Doctrine\ORM\QueryBuilder;
+use Swift_Mailer;
+use Swift_SmtpTransport;
 
 class SecurityController extends BaseController
 {
@@ -119,5 +136,103 @@ class SecurityController extends BaseController
         }
 
         return $this->render('security/modificar_user.html.twig', ['form' => $form->createView(), 'usuari' => $user]);
+    }
+
+    /**
+     * @Route("/forgot-password", name="forgot_password", defaults={"email=null"})
+     */
+    public function forgotpass(Request $request,\Swift_Mailer $mailer)
+    {
+        $form = $this->createForm(ForgotPassType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->getData();
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('email' => $email['email']));
+
+            if (!empty($user)) {
+                $identifier = substr(md5(random_bytes(10)), 15);
+
+                $user->setResetCode($identifier);
+                $this->save($user);
+
+                $url = $this->generateUrl('reset_password', array('email' => $email['email'], 'identifier' => $identifier));
+
+
+                $to = $user->getEmail();
+                $subject = "Restaurar contrasenya -  Gestaller";
+
+                $defaultMessage = $this->renderView('email/regenerar_acces.html.twig', [
+                    'url' => $url,
+                ]);
+
+                /*$transport = (new Swift_SmtpTransport('ssl0.ovh.net',465))
+                    ->setUsername('gestaller@fernandezjulian.com')
+                    ->setPassword('N2usiCPdrknUmrL');
+                $mailer = new Swift_Mailer($transport);*/
+
+
+
+                $message = (new \Swift_Message($subject))
+                    ->setFrom('gestaller@fernandezjulian.com')
+                    ->setTo($to)
+                    ->setBody($defaultMessage, 'text/html');
+                
+
+                $failures = "";
+
+                
+                
+
+                $mailer->send($message);
+            }
+
+            $this->addFlash("success", "S'ha enviat un correu electronic per a resetar la contrasenya.");
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('/security/forgot_password.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/reset-password/{email}/{identifier}", name="reset_password", defaults={"email=null"})
+     */
+    public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, $email, $identifier)
+    {
+
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneByEmail($email);
+
+        if ($identifier != $user->getResetCode()) {
+            return $this->redirect($this->generateUrl('app_client_login'));
+        }
+
+        $form = $this->createForm(ResetPassType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $p1 = $form->get('plainPassword')->getData();
+            $p2 = $form->get('plainPassword2')->getData();
+
+            if ($p1 == $p2) {
+
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+
+                $user->setResetCode(null);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash("success", "Contrasenya modificada correctament");
+
+                return $this->redirect($this->generateUrl('app_login'));
+            } else {
+                $form->get('plainPassword')->addError(new FormError('Les contrasenyes eren iguals'));
+            }
+        }
+
+        return $this->render('security/reset_password.html.twig', ['form' => $form->createView()]);
     }
 }

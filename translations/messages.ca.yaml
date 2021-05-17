@@ -128,6 +128,13 @@ user:
   rols:
     list: "Llistat de rols de l'usuari"
   success-edit: "Usuari modificat correctament"  
+  restaurar: "Restaurar contrasenya"
+  passOblidada: "Heu oblidat la contrasenya?"
+  enviarEmailPass: "Introdueixi el seu email per rebre un correu per restaurar la contrasenya"
+  botoResetPass: "Resetejar contrasenya"
+  novaPas: "Nova contrasenya"
+  reNovaPas: "Repeteix la nova contrasenya"
+  modifPas: "Modificar contrasenya"
 
   info:
     codi: "Codi usuari"
