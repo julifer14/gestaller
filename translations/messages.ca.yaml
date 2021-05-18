@@ -118,6 +118,8 @@ login:
   inicisessio: "Siusplau inicia sessió"
   benvingut: "Benvingut"
   login: "Iniciar Sessió"
+  oblidada: "He oblidat la contrasenya"
+  jaLogin: "Heu entrat com a "
 
 user:
   llistar: "Llistar usuaris"
