@@ -46,10 +46,8 @@ class FacturaController extends BaseController
 
 
                 $action = "";
-                if ($value < 10) {
-                    $action = '0';
-                }
-                $action = $action . $value . ' 
+                
+                $action = $action .' 
                         <div class="btn-group">
                             <a href="/factures/' . $value . '" class="badge badge-secondary p-2 m-1">Veure factura</a>
                             <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>

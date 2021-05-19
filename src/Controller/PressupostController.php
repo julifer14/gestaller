@@ -36,7 +36,7 @@ class PressupostController extends BaseController
             'pressupost' => $pressupost,
             'empresa' => $empresa,
         ]);
-        $nomFitxer = "pressupost" . $pressupost->getId().".pdf";
+        $nomFitxer = "pressupost" . $pressupost->getId() . ".pdf";
         return new PdfResponse(
             $pdf->getOutputFromHtml($html),
             $nomFitxer
@@ -60,7 +60,7 @@ class PressupostController extends BaseController
                     //$action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar</a>';
                 } else {
                     $action = '<span class="dot-red"></span>';
-                   // $action =  $action . '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
+                    // $action =  $action . '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar</a>';
                 }
                 return $action;
             }])
@@ -72,10 +72,8 @@ class PressupostController extends BaseController
 
 
                 $action = "";
-                if ($value < 10) {
-                    $action = '0';
-                }
-                $action = $action . $value . ' 
+                
+                $action = $action . ' 
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>

@@ -68,10 +68,8 @@ class OrdreReparacioController extends BaseController
 
 
                 $action = "";
-                if ($value < 10) {
-                    $action = '0';
-                }
-                $action = $action . $value . ' 
+                
+                $action = $action . ' 
                         <div class="btn-group">
                             <a href="/ordres/' . $value . '" class="badge badge-secondary p-2 m-1">Veure ordre</a>
                             <a href="/ordres/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar ordre</a>
