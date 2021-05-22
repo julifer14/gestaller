@@ -190,6 +190,8 @@ factura:
   add: "Crear factura"
   edit: "Editar factura"
   success-add: "Factura creada correctament"
+  success-edit: "Factura editada correctament"
+  error-edit: "Factura ja tancada, no es pot editar"
   facturaNum: "Factura Número: "
   observacions: "Observacions"
   pagament: "Forma de pagament"

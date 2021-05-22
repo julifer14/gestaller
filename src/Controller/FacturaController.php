@@ -196,6 +196,7 @@ class FacturaController extends BaseController
      */
     public function modificarFactura(Request $request, Factura $factura, FacturaManager $facturaManager): Response
     {
+        if($factura->getEstat()==0){
 
         $form = $this->createForm(FacturaType::class, $factura);
         $form->handleRequest($request);
@@ -208,5 +209,9 @@ class FacturaController extends BaseController
         }
 
         return $this->render('factura/modificar_factura.html.twig', ['form' => $form->createView(), 'factura' => $factura]);
+    }else{
+        $this->addFlash('danger', 'factura.error-edit');
+        return $this->redirectToRoute('llistar_factures');
     }
+}
 }
