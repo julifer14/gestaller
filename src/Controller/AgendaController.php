@@ -74,7 +74,7 @@ class AgendaController extends BaseController
     {
         $table = $dataTableFactory->create()
 
-            ->add('tasca', TextColumn::class, ['label' => 'Tasca', 'searchable' => True, 'field' => 'tasca.nom'])
+            ->add('feina', TextColumn::class, ['label' => 'Tasca',  ])
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
             ->add('dataHoraInici', DateTimeColumn::class, ['label' => 'Data/hora', ])
             ->add('dataHoraFi', DateTimeColumn::class, ['label' => 'Data/hora',])
@@ -122,30 +122,7 @@ class AgendaController extends BaseController
     }
 
 
-    /**
-     * @Route("/agenda/getEvents",name="get_events")
-     */
-    /* public function getEvents(Request $request, SerializerInterface $serializer): Response
-    {
-       
-
-
-        $events = $this->getDoctrine()
-            ->getRepository(Agenda::class)
-            ->findAll();
-
-        $arrayCollection = array();
-
-        foreach ($events as $e) {
-            $arrayCollection[] = array(
-                'title' => $e->getVehicle()->getMatricula() . " - " . $e->getTasca()->getNom(),
-
-                'start' => $e->getDataHora(),
-            );
-        }
-        return  new JsonResponse($arrayCollection);
-    }*/
-
+    
 
     /**
      * @Route("/agenda/afegir",name="afegir_event")

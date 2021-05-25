@@ -34,11 +34,7 @@ class Agenda
      */
     private $treballador;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Tasca::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $tasca;
+    
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -59,6 +55,11 @@ class Agenda
      * @ORM\Column(type="text", nullable=true)
      */
     private $observacions;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $feina;
 
     public function getId(): ?int
     {
@@ -101,17 +102,7 @@ class Agenda
         return $this;
     }
 
-    public function getTasca(): ?Tasca
-    {
-        return $this->tasca;
-    }
-
-    public function setTasca(?Tasca $tasca): self
-    {
-        $this->tasca = $tasca;
-
-        return $this;
-    }
+   
 
     public function getEstat(): ?int
     {
@@ -126,7 +117,7 @@ class Agenda
     }
 
     public function getTitol():string{
-        return $this->getVehicle()->getMatricula()." - ".$this->getTasca()->getNom();
+        return $this->getVehicle()->getMatricula()." - ".$this->getFeina();
     }
 
     public function getDataHoraFi(): ?\DateTimeInterface
@@ -161,6 +152,18 @@ class Agenda
     public function setObservacions(?string $observacions): self
     {
         $this->observacions = $observacions;
+
+        return $this;
+    }
+
+    public function getFeina(): ?string
+    {
+        return $this->feina;
+    }
+
+    public function setFeina(string $feina): self
+    {
+        $this->feina = $feina;
 
         return $this;
     }

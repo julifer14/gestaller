@@ -57,7 +57,7 @@ class AgendaType extends AbstractType
 
             ])
             ->add('allDay')
-            ->add('tasca')
+            ->add('feina')
             ->add('observacions')
             ->add('estat', ChoiceType::class, [
 
