@@ -217,7 +217,7 @@ factura:
         
 agenda:
   agenda: "Agenda"
-  events: "Events"
+  events: "Llistat d'events"
   add: "Afegir event"
   success-add: "Event creat correctament"
   success-edit: "Event modificat correctament"

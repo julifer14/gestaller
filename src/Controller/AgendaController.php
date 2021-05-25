@@ -14,6 +14,8 @@ use Omines\DataTablesBundle\DataTableFactory;
 use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Controller\BaseController;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -74,7 +76,8 @@ class AgendaController extends BaseController
 
             ->add('tasca', TextColumn::class, ['label' => 'Tasca', 'searchable' => True, 'field' => 'tasca.nom'])
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
-            ->add('dataHora', DateTimeColumn::class, ['label' => 'Data/hora', 'searchable' => True,])
+            ->add('dataHoraInici', DateTimeColumn::class, ['label' => 'Data/hora', ])
+            ->add('dataHoraFi', DateTimeColumn::class, ['label' => 'Data/hora',])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
             ->add('estat', TextColumn::class, ["visible" => false, 'label' => 'Estat pagament', 'render' => function ($value, $context) {
                 $action = "";
@@ -97,9 +100,9 @@ class AgendaController extends BaseController
                 }
                 $action = $action . $value . ' 
                         <div class="btn-group">
-                            <a href="/factures/' . $value . '" class="badge badge-secondary p-2 m-1">Veure factura</a>
-                            <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
-                            <a href="/factures/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
+                            <a href="/agenda/events/' . $value . '" class="badge badge-secondary p-2 m-1">Veure event</a>
+                            <a href="/agenda/event/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar event</a>
+                            <a href="/agenda/event/esborrar/' . $value . '/pdf" class="badge badge-danger p-2 m-1">Eliminar event</a>
                         </div>';
 
 
@@ -172,16 +175,23 @@ class AgendaController extends BaseController
 
     /**
      * @Route("/agenda/{id}", defaults={"id"=-1}, name="agenda")
+     * @Route("/",  name="agenda_home")
      */
-    public function index(User $user = null): Response
+    public function index(Request $request, User $user = null, UserInterface $userActual): Response
     {
+        $routeName = $request->attributes->get('_route');
+
+        if($routeName == "agenda_home"){
+                $user = $userActual;
+        }
+
         if ($user) {
             return $this->render('agenda/agenda.html.twig', [
                 'controller_name' => 'AgendaController',
                 'user' => $user
             ]);
         } else {
-
+            
             $usuaris = $this->getDoctrine()
                 ->getRepository(User::class)
                 ->findAll();
