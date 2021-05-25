@@ -71,7 +71,7 @@ class OrdreReparacioController extends BaseController
                 
                 $action = $action . ' 
                         <div class="btn-group">
-                            <a href="/ordres/' . $value . '" class="badge badge-secondary p-2 m-1">Veure ordre</a>
+                            <a href="/ordres/' . $value . '" class="badge badge-info p-2 m-1">Veure ordre</a>
                             <a href="/ordres/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar ordre</a>
                             <a href="/ordres/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
                             
@@ -79,14 +79,14 @@ class OrdreReparacioController extends BaseController
                 if ($context->esFacturable()) {
                     //Pressupost esta acceptat
                     // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                    $action = $action . '<a href="/factures/afegir/' . $context->getId() . '" class="badge badge-info p-2 m-1">Crear factura</a>';
+                    $action = $action . '<a href="/factures/afegir/' . $context->getId() . '" class="badge badge-warning p-2 m-1">Crear factura</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
                 }
                 if ($context->getFactura()) {
 
-                    $action = $action . '<a href="/factures/' . $context->getFactura()->getId() . '" class="badge badge-danger p-2 m-1">Veure factura</a>';
+                    $action = $action . '<a href="/factures/' . $context->getFactura()->getId() . '" class="badge badge-primary p-2 m-1">Veure factura</a>';
                 }
 
                 return $action;

@@ -49,12 +49,12 @@ class FacturaController extends BaseController
                 
                 $action = $action .' 
                         <div class="btn-group">
-                            <a href="/factures/' . $value . '" class="badge badge-secondary p-2 m-1">Veure factura</a>
+                            <a href="/factures/' . $value . '" class="badge badge-info p-2 m-1">Veure factura</a>
                             <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
                             <a href="/factures/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
                         </div>';
                 if (!$context->getEstat()) {
-                    $action = $action . '<a  data-toggle="modal" data-target="#modalPagar"   data-id-factura="' . $value . '" class="botoModelPagar badge badge-info p-2 m-1">Pagar</a>';
+                    $action = $action . '<a  data-toggle="modal" data-target="#modalPagar"   data-id-factura="' . $value . '" class="botoModelPagar badge badge-primary p-2 m-1">Pagar</a>';
                 } 
 
                 return $action;

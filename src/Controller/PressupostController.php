@@ -75,7 +75,7 @@ class PressupostController extends BaseController
                 
                 $action = $action . ' 
                         <div class="btn-group">
-                            <a href="/pressupostos/' . $value . '" class="badge badge-secondary p-2 m-1">Veure pressupost</a>
+                            <a href="/pressupostos/' . $value . '" class="badge badge-info p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
                             <a href="/pressupostos/' . $value . '/pdf" class="badge badge-success p-2 m-1">Generar pdf</a>
                             <!--<a href="/pressupostos/' . $value . '/acceptat" class="badge badge-light p-2 m-1">✅</a>
@@ -84,7 +84,7 @@ class PressupostController extends BaseController
                 if ($context->getEstat() && !$context->getOrdreReparacio()) {
                     //Pressupost esta acceptat
                     // $action = $action . ' <a href="/pressupostos/' . $context . '/rebutjat" class="badge badge-danger p-2 m-1">Rebutjar pressupost</a>';
-                    $action = $action . '<a href="/ordres/afegir/' . $context . '" class="badge badge-info p-2 m-1">Crear Ordre Reparació</a>';
+                    $action = $action . '<a href="/ordres/afegir/' . $context . '" class="badge badge-primary p-2 m-1">Crear Ordre Reparació</a>';
                 } else {
                     //Pressupost esta rebutjat
                     //$action = $action .  '<a href="/pressupostos/' . $context . '/acceptat" class="badge badge-success p-2 m-1">Acceptar pressupost</a>';
