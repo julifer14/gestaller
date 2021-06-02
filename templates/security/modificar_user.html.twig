@@ -11,9 +11,15 @@
     </h2>
     <div class="pt-2">
       {{ form_start(form) }}
-     
 
-      {{ form_rest(form) }}
+      {{ form_row(form.nom) }} 
+      {{ form_row(form.cognom) }} 
+      {{ form_row(form.dni) }} 
+      {{ form_row(form.telefon) }} 
+      {{ form_row(form.email) }} 
+      {% if is_granted('ROLE_DIRECTOR') %}
+        {{ form_row(form.roles) }}
+      {% endif %}
 
       <div class="w-100 text-center">
         <button type="submit" class="btn btn-outline-primary">
@@ -21,7 +27,7 @@
         </button>
       </div>
 
-      {{ form_end(form) }}
+      {{ form_end(form, {'render_rest': false})  }}
     </div>
   </div>
 {% endblock %}

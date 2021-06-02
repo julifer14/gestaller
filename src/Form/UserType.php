@@ -33,6 +33,7 @@ class UserType extends AbstractType
             ],])*/
             
             ->add('roles', CollectionType::class, [
+                'label' => 'Rols',
                 'entry_type'   => ChoiceType::class,
                 'entry_options'  => [
                     'choices'  => [
