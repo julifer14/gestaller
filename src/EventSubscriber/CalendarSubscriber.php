@@ -32,20 +32,11 @@ class CalendarSubscriber implements EventSubscriberInterface
 
     public function onCalendarSetData(CalendarEvent $calendar)
     {
-
         $filters = $calendar->getFilters();
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
-
         $usuari = $filters['user_id'];
 
-        /*if(!empty($start) and !empty($end)){
-            $this->getReposi
-            $agendas = $this->em->getRepository(Agenda::class)->findBetweenDates($start, $end);
-
-        }else{
-            $agendas = $this->em->getRepository(Agenda::class)->findAll();
-        }*/
         $agendas = $this->agendaRepository
             ->createQueryBuilder('agenda')
             ->where('(agenda.treballador = :usuari) and (agenda.dataHoraInici BETWEEN :start and :end OR agenda.dataHoraFi BETWEEN :start and :end)  ')
@@ -100,45 +91,4 @@ class CalendarSubscriber implements EventSubscriberInterface
         }
     }
 
-    /* public function onCalendarSetData(CalendarEvent $calendar)
-    {
-        $start = $calendar->getStart();
-        $end = $calendar->getEnd();
-        $filters = $calendar->getFilters();
-
-        // Modify the query to fit to your entity and needs
-        // Change booking.beginAt by your start date property
-        $agendas = $this->agendaRepository
-            ->createQueryBuilder('agenda')
-            ->where('agenda.beginAt BETWEEN :start and :end OR booking.endAt BETWEEN :start and :end')
-            ->setParameter('start', $start->format('Y-m-d H:i:s'))
-            ->setParameter('end', $end->format('Y-m-d H:i:s'))
-            ->getQuery()
-            ->getResult()
-        ;
-
-        foreach ($bookings as $booking) {
-            // this create the events with your data (here booking data) to fill calendar
-            $bookingEvent = new Event(
-                $booking->getTitle(),
-                $booking->getBeginAt(),
-                $booking->getEndAt() // If the end date is null or not defined, a all day event is created.
-            );
-
-       
-
-            $bookingEvent->setOptions([
-                'backgroundColor' => 'red',
-                'borderColor' => 'red',
-            ]);
-            $bookingEvent->addOption(
-                'url',
-                $this->router->generate('booking_show', [
-                    'id' => $booking->getId(),
-                ])
-            );
-
-            // finally, add the event to the CalendarEvent to fill the calendar
-            $calendar->addEvent($bookingEvent);
-        }*/
 }
