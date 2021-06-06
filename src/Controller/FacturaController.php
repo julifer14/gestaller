@@ -33,7 +33,7 @@ class FacturaController extends BaseController
             ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'client.DNI'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
             ->add('ordre', TextColumn::class, ['label' => 'Ordre de reparació', 'searchable' => True, 'field' => 'ordre.id'])
-            ->add('estat', TextColumn::class, ["visible"=>false,'label' => 'Estat pagament', 'render' => function ($value, $context) {
+            ->add('estat', TextColumn::class, ["visible" => false, 'label' => 'Estat pagament', 'render' => function ($value, $context) {
                 $action = "";
                 if ($value == 0) {
                     $action = "<p class='text-danger'>No pagada</p>";
@@ -47,11 +47,11 @@ class FacturaController extends BaseController
 
 
                 $action = "";
-                if($value<=9){
-                    $value = '0'.$value;
+                if ($value <= 9) {
+                    $value = '0' . $value;
                 }
-                
-                $action = $action . '<span class="badge bg-light text-dark mr-2">'.$value.'</span>'. ' 
+
+                $action = $action . '<span class="badge bg-light text-dark mr-2">' . $value . '</span>' . ' 
                         <div class="btn-group">
                             <a href="/factures/' . $value . '" class="badge badge-info p-2 m-1">Veure factura</a>
                             <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
@@ -59,7 +59,7 @@ class FacturaController extends BaseController
                         </div>';
                 if (!$context->getEstat()) {
                     $action = $action . '<a  data-toggle="modal" data-target="#modalPagar"   data-id-factura="' . $value . '" class="botoModelPagar badge badge-primary p-2 m-1">Pagar</a>';
-                } 
+                }
 
                 return $action;
             }])
@@ -71,11 +71,10 @@ class FacturaController extends BaseController
                         ->select('factura')
                         ->from(Factura::class, 'factura')
                         ->leftJoin('factura.vehicle', 'vehicle')
-                        ->leftJoin('vehicle.client','client')
-                        ->leftJoin('factura.ordre','ordre')
-                        ->leftJoin('factura.treballador','treballador')
+                        ->leftJoin('vehicle.client', 'client')
+                        ->leftJoin('factura.ordre', 'ordre')
+                        ->leftJoin('factura.treballador', 'treballador')
                         ->distinct('factura');
-                        
                 }
             ])
             ->handleRequest($request);
@@ -111,15 +110,23 @@ class FacturaController extends BaseController
         $tipus_pagament = $request->request->get('tipusPagament');
 
         //$factura = $this->getDoctrine()->getRepository(Factura::class)->findOneBy(['id' => $id_factura]);
-        if ($factura->getEstat()==0 && !is_null($tipus_pagament)) {
+        if ($factura->getEstat() == 0 && !is_null($tipus_pagament)) {
             $factura->pagar($tipus_pagament);
             $this->save($factura);
             return new Response("ok", Response::HTTP_OK);
         }
         return new Response("ko", Response::HTTP_FORBIDDEN);
-        
     }
-
+    /**
+     * @Route("factures/estadistiques", name="estad_factures")
+     */
+    public function estadistiques(): Response
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository(Factura::class);
+        $dades = $repository->topClient();
+        return $this->render('factura/estadistiques.html.twig', ['dades'=>$dades]);
+    }
 
     /**
      * @Route("/factures/afegir/{ordre}",name="afegir_factura")
@@ -154,7 +161,7 @@ class FacturaController extends BaseController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-               
+
                 $noves_linies = $request->request->get('new_linia');
                 $facturaManager->saveFactura($factura, $noves_linies);
                 $this->save($ordre);
@@ -211,22 +218,22 @@ class FacturaController extends BaseController
      */
     public function modificarFactura(Request $request, Factura $factura, FacturaManager $facturaManager): Response
     {
-        if($factura->getEstat()==0){
+        if ($factura->getEstat() == 0) {
 
-        $form = $this->createForm(FacturaType::class, $factura);
-        $form->handleRequest($request);
+            $form = $this->createForm(FacturaType::class, $factura);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $noves_linies = $request->request->get('new_linia');
-            $facturaManager->saveFactura($factura, $noves_linies);
-            $this->addFlash('success', 'factura.success-edit');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $noves_linies = $request->request->get('new_linia');
+                $facturaManager->saveFactura($factura, $noves_linies);
+                $this->addFlash('success', 'factura.success-edit');
+                return $this->redirectToRoute('llistar_factures');
+            }
+
+            return $this->render('factura/modificar_factura.html.twig', ['form' => $form->createView(), 'factura' => $factura]);
+        } else {
+            $this->addFlash('danger', 'factura.error-edit');
             return $this->redirectToRoute('llistar_factures');
         }
-
-        return $this->render('factura/modificar_factura.html.twig', ['form' => $form->createView(), 'factura' => $factura]);
-    }else{
-        $this->addFlash('danger', 'factura.error-edit');
-        return $this->redirectToRoute('llistar_factures');
     }
-}
 }

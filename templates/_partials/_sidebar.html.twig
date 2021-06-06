@@ -2,7 +2,7 @@
   <a href="/" class="brand-link">Gestaller</a>
   {% if app.user %}
     <div class="sidebar">
-      <div class="user-panel">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="pull-left image">
           <img src="https://openclipart.org/image/400px/122107"
             class=""
@@ -18,7 +18,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column"
           data-widget="treeview"
           role="menu">
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="/" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               Home
@@ -122,8 +122,12 @@
                   Llistar factures
                 </a>
               </li>
-
-              
+              <li class="nav-item">
+                <a href="/factures/estadistiques" class="nav-link">
+                  <i class="fas fa-chart-line nav-icon"></i>
+                  Estadistiques
+                </a>
+              </li>
             </ul>
           </li>
 
@@ -139,7 +143,6 @@
                   Llista d'agendes
                 </a>
               </li>
-              
 
               <li class="nav-item">
                 <a href="/agenda/events" class="nav-link">
@@ -153,7 +156,7 @@
           {% if is_granted('ROLE_DIRECTOR') %}
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-               <i class="fas fa-tools nav-icon"></i>
+                <i class="fas fa-tools nav-icon"></i>
                 Gestió<i class="right fas fa-angle-left"></i>
               </a>
               <ul class="nav nav-treeview">
@@ -181,10 +184,8 @@
                     Gestió models de vehicles
                   </a>
                 </li>
-               
               </ul>
             </li>
-
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
@@ -207,10 +208,9 @@
                 <li class="nav-item">
                   <a href="/empresa" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    Inf. de  l'empresa
+                    Inf. de l'empresa
                   </a>
                 </li>
-                
               </ul>
             </li>
           {% endif %}

@@ -47,4 +47,19 @@ class FacturaRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function topClient()
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('count(factura)')
+        ->addSelect('vehicle.Matricula')
+            ->from(Factura::class, 'factura')
+            ->leftJoin('factura.vehicle', 'vehicle')
+            ->groupBy('vehicle');
+
+        $result = $qb->getQuery()->getResult();
+        
+        return $result;
+    }
 }
