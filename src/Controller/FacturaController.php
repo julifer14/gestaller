@@ -10,6 +10,7 @@ use App\Entity\{Pressupost, Article, Factura, Empresa, OrdreReparacio};
 use App\Manager\FacturaManager;
 use App\Form\{FacturaType, LiniaFacturaType};
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\QueryBuilder;
 
 use Omines\DataTablesBundle\Column\TextColumn;
 use Omines\DataTablesBundle\DataTableFactory;
@@ -29,7 +30,7 @@ class FacturaController extends BaseController
         $table = $dataTableFactory->create()
 
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
-            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
+            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'client.DNI'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
             ->add('ordre', TextColumn::class, ['label' => 'Ordre de reparació', 'searchable' => True, 'field' => 'ordre.id'])
             ->add('estat', TextColumn::class, ["visible"=>false,'label' => 'Estat pagament', 'render' => function ($value, $context) {
@@ -42,12 +43,15 @@ class FacturaController extends BaseController
 
                 return $action;
             }])
-            ->add('id', TextColumn::class, ['label' => '', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
+            ->add('id', TextColumn::class, ['label' => 'ID', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";
+                if($value<=9){
+                    $value = '0'.$value;
+                }
                 
-                $action = $action .' 
+                $action = $action . '<span class="badge bg-light text-dark mr-2">'.$value.'</span>'. ' 
                         <div class="btn-group">
                             <a href="/factures/' . $value . '" class="badge badge-info p-2 m-1">Veure factura</a>
                             <a href="/factures/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar factura</a>
@@ -62,6 +66,17 @@ class FacturaController extends BaseController
             ->addOrderBy(5, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Factura::class,
+                'query' => function (QueryBuilder $builder) {
+                    $builder
+                        ->select('factura')
+                        ->from(Factura::class, 'factura')
+                        ->leftJoin('factura.vehicle', 'vehicle')
+                        ->leftJoin('vehicle.client','client')
+                        ->leftJoin('factura.ordre','ordre')
+                        ->leftJoin('factura.treballador','treballador')
+                        ->distinct('factura');
+                        
+                }
             ])
             ->handleRequest($request);
 

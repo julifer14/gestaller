@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\QueryBuilder;
 
 use Omines\DataTablesBundle\Adapter\ArrayAdapter;
 use Omines\DataTablesBundle\Column\{BoolColumn, TextColumn, DateTimeColumn};
@@ -30,22 +31,11 @@ class OrdreReparacioController extends BaseController
         $ordres = $this->getDoctrine()->getRepository(OrdreReparacio::class)->findAll();
         $table = $dataTableFactory->create()
 
-            ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', /*'searchable' => True,*/ 'field' => 'vehicle.Matricula'])
-            ->add('client', TextColumn::class, ['label' => 'Client',/* 'searchable' => True,*/ 'field' => 'vehicle.client'])
-            /* ->add('pressupost', TextColumn::class, ['label' => 'Pressupost', 'field' => 'pressupost.id', 'render' => function ($value, $context) {
-
-                if ($value) {
-                    return $value . 'patata';
-                } else {
-                    return '';
-                }
-
-                if(is_null($context->getPressupost())) return 'sense res';
-                return $context->getPressupost()->__toString()."patata";
-            }])*/
-
-            ->add('dataEntrada', DateTimeColumn::class, ['label' => 'Data d\'entrada', 'format' => 'd-m-Y'])
-            ->add('estat', BoolColumn::class, ['label' => 'Tancada?', 'render' => function ($value, $context) {
+            ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
+            ->add('client', TextColumn::class, ['label' => 'Client DNI', 'searchable' => True, 'field' => 'client.DNI'])
+           
+            ->add('dataEntrada', DateTimeColumn::class, ['label' => 'Data d\'entrada', 'searchable' => False,'format' => 'd-m-Y'])
+            ->add('estat', BoolColumn::class, ['label' => 'Tancada?', 'searchable' => False,'render' => function ($value, $context) {
                 $action = "";
                 if ($value == "true") {
                     $action = "<span class='text-success text-center'>SI</span>";
@@ -55,7 +45,7 @@ class OrdreReparacioController extends BaseController
                 return $action;
             }])
 
-            ->add('autoritzacio', BoolColumn::class, ['label' => 'Autoritzada?', 'render' => function ($value, $context) {
+            ->add('autoritzacio', BoolColumn::class, ['label' => 'Autoritzada?','searchable' => False, 'render' => function ($value, $context) {
                 $action = "";
                 if ($value == "true") {
                     $action = "<span class='text-success text-center'>SI</span>";
@@ -64,12 +54,15 @@ class OrdreReparacioController extends BaseController
                 }
                 return $action;
             }])
-            ->add('id', TextColumn::class, ['label' => '', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
+            ->add('id', TextColumn::class, ['label' => 'ID',  'orderable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";
+                if($value<=9){
+                    $value = '0'.$value;
+                }
                 
-                $action = $action . ' 
+                $action = $action . '<span class="badge bg-light text-dark mr-2">'.$value.'</span>'. ' 
                         <div class="btn-group">
                             <a href="/ordres/' . $value . '" class="badge badge-info p-2 m-1">Veure ordre</a>
                             <a href="/ordres/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar ordre</a>
@@ -94,6 +87,15 @@ class OrdreReparacioController extends BaseController
             ->addOrderBy(5, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => OrdreReparacio::class,
+                'query' => function (QueryBuilder $builder) {
+                    $builder
+                        ->select('OrdreReparacio')
+                        ->from(OrdreReparacio::class, 'OrdreReparacio')
+                        ->leftJoin('OrdreReparacio.vehicle', 'vehicle')
+                        ->leftJoin('vehicle.client','client')
+                        ->distinct('OrdreReparacio');
+                        
+                }
             ])
             ->handleRequest($request);
 

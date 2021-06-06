@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\{Pressupost, Article, LiniaPressupost, Empresa};
 use App\Form\{PressupostType, LiniaPressupostType};
 use App\Manager\PressupostManager;
+use Doctrine\ORM\QueryBuilder;
+
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -66,14 +68,18 @@ class PressupostController extends BaseController
             }])
             //->add('id', TextColumn::class, ['label' => 'Codi pressupost','searchable'=> True]) 
             ->add('vehicle', TextColumn::class, ['label' => 'Vehicle', 'searchable' => True, 'field' => 'vehicle.Matricula'])
-            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'vehicle.client'])
+            ->add('client', TextColumn::class, ['label' => 'Client', 'searchable' => True, 'field' => 'client.DNI'])
             ->add('treballador', TextColumn::class, ['label' => 'Treballador', 'field' => 'treballador.nom'])
-            ->add('id', TextColumn::class, ['label' => '', 'searchable' => True, 'orderable' => True, 'render' => function ($value, $context) {
+            ->add('id', TextColumn::class, ['label' => 'ID',  'orderable' => True, 'render' => function ($value, $context) {
 
 
                 $action = "";
                 
-                $action = $action . ' 
+                if($value<=9){
+                    $value = '0'.$value;
+                }
+                
+                $action = $action . '<span class="badge bg-light text-dark mr-2">'.$value.'</span>'. ' 
                         <div class="btn-group">
                             <a href="/pressupostos/' . $value . '" class="badge badge-info p-2 m-1">Veure pressupost</a>
                             <a href="/pressupostos/modificar/' . $value . '" class="badge badge-secondary p-2 m-1">Modificar pressupost</a>
@@ -95,6 +101,16 @@ class PressupostController extends BaseController
             ->addOrderBy(4, 'desc')
             ->createAdapter(ORMAdapter::class, [
                 'entity' => Pressupost::class,
+                'query' => function (QueryBuilder $builder) {
+                    $builder
+                        ->select('pressupost')
+                        ->from(Pressupost::class, 'pressupost')
+                        ->leftJoin('pressupost.vehicle', 'vehicle')
+                        ->leftJoin('vehicle.client','client')
+                        ->leftJoin('pressupost.treballador','treballador')
+                        ->distinct('pressupost');
+                        
+                }
             ])
             ->handleRequest($request);
 
