@@ -191,4 +191,8 @@ class Article
 
         return $this;
     }
+
+    public function venda(int $qtat){
+        $this->setStock($this->getStock()-$qtat);
+    }
 }

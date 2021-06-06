@@ -104,4 +104,8 @@ class LiniaPressupost
 
         return $this;
     }
+
+    public function getTotalLinia(){
+        return ($this->getPreu()*$this->getQuantitat());
+    }
 }

@@ -50,14 +50,16 @@ class FacturaManager extends BaseManager
                 $linia->setQuantitat($l['qtat']);
                 if ($l['descompte']) {
                     $linia->setDescompte($l['descompte']);
-                    $this->totalAcum = ($this->totalAcum + (($article->getPreu() * $l['qtat']) -  (($article->getPreu() * $l['qtat']) * ($l['descompte'] / 100) * 1)));
+                    $this->totalAcum = ($this->totalAcum + (($l['preu'] * $l['qtat']) -  (($l['preu'] * $l['qtat']) * ($l['descompte'] / 100) * 1)));
                 } else {
                     $linia->setDescompte(0);
-                    $this->totalAcum = ($this->totalAcum + ($article->getPreu() * $l['qtat']) );
+                    $this->totalAcum = ($this->totalAcum + ($l['preu'] * $l['qtat']) );
                 }
-                $linia->setPreu($article->getPreu());
+                $linia->setPreu($l['preu']);
                 $linia->setFactura($factura);
-                
+                $article->setPreu($l['preu']);
+                $article->venda($l['qtat']);
+
 
                 $this->save($linia);
             }

@@ -42,21 +42,30 @@ class PressupostManager extends BaseManager
     
     public function savePressupost(Pressupost $pressupost, $linies){
         $this->save($pressupost);
+        $liniasAntigues= $pressupost->getLiniaPressuposts();
         $this->totalAcum = 0;
+        
+        foreach($liniasAntigues as $l){
+            $this->totalAcum = ($this->totalAcum + $l->getTotalLinia);
+        }
+        
         if(!empty($linies)){
             foreach($linies as $l){
                 $linia = new LiniaPressupost();
                 $article = $this->getRepository("App:Article")->findOneBy(['id'=>$l['article']]);
                 $linia->setArticle($article);
                 $linia->setQuantitat($l['qtat']);
-                $linia->setPreu($article->getPreu());
+                $linia->setPreu($l['preu']);
                 $linia->setPressupost($pressupost);
-                $this->totalAcum = ($this->totalAcum + ($article->getPreu()*$l['qtat']));
+                $this->totalAcum = ($this->totalAcum + ($l['preu']*$l['qtat']));
+                $article->setPreu($l['preu']);
                 
+                $this->save($article);
                 $this->save($linia);
             }
             $pressupost->setTotal($this->totalAcum);
             $this->save($pressupost);
         } 
+        
     }
 }
