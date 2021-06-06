@@ -33,6 +33,7 @@ use Omines\DataTablesBundle\Adapter\Doctrine\ORMAdapter;
 use Doctrine\ORM\QueryBuilder;
 use Swift_Mailer;
 use Swift_SmtpTransport;
+use Symfony\Bridge\Twig\Node\RenderBlockNode;
 
 class SecurityController extends BaseController
 {
@@ -136,6 +137,18 @@ class SecurityController extends BaseController
         }
 
         return $this->render('security/modificar_user.html.twig', ['form' => $form->createView(), 'usuari' => $user]);
+    }
+
+    /**
+     * @Route("user/esborrar/{id}",name="esborrar_user")
+     */
+    public function esborrarUser(Request $request, User $user): Response{
+        $resultat = $this->esborrar($user);
+        if (!$resultat) {
+            $this->addFlash('error', 'user.error-del');
+        }
+        $this->addFlash('success', 'user.success-del');
+        return $this->redirectToRoute('llistar_usuaris');
     }
 
     /**

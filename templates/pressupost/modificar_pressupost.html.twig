@@ -1,36 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "pressupost.edit"|trans }}{% endblock %}
-
-{% block body %}
-<div class="container mt-4">
-		<h2>{{ "pressupost.edit"|trans }}</h2>	 	
-		<div class="pt-2">
-			
-
-			{{ form_start(form) }}
-				{{ form_row(form.any) }}
-				{{ form_row(form.data) }}
-				{{ form_row(form.tasca) }}
-				{{ form_row(form.iva) }}
-				{{ form_row(form.estat) }}
-				{{ form_row(form.vehicle) }}
-				{{ form_row(form.treballador) }}
-				{{ form_row(form.liniaPressuposts) }} <button data-id-pressupost="{{ form.vars.data.id }}" class="add_linia">Afegir linia</button>
-				
-				<div id="linias">
-				</div>
-
-				{{ form_rest(form) }}
-
-
-             
-				<div class="w-100 text-center">
-					<button type="submit" class="btn btn-outline-primary"><i class="fa fa-paper-plane"></i> {{ "actions.send"|trans }}</button>
-				</div>
-
-			{{ form_end(form) }}
-		</div>
-
-	</div>
+{% block title %}
+  {{ 'pressupost.edit'|trans }}
 {% endblock %}
+{% block title_block %}
+  {{ 'pressupost.edit'|trans }}
+{% endblock %}
+{% block body %}
+  <div class="container mt-4">
+    
+    <div class="pt-2">
+      {{ form_start(form) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.any) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.data) }}
+        </div>
+      </div>
+      {{ form_row(form.tasca) }}
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.iva) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.estat) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ form_row(form.vehicle) }}
+        </div>
+        <div class="col">
+          {{ form_row(form.treballador) }}
+        </div>
+      </div>
+	
+
+      <div clas="row">
+        {{ form_row(form.liniaPressuposts) }}
+        <button class="btn btn-primary add_linia"
+          data-id-pressupost="{{ form.vars.data.id }}">
+          Afegir linia
+        </button>
+      </div>
+      <div id="linias"></div>
+
+      {{ form_rest(form) }}
+
+      <div class="w-100 text-center">
+        <button type="submit" class="btn btn-outline-primary">
+          <i class="fa fa-paper-plane"></i>Guardar
+        </button>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}
+
